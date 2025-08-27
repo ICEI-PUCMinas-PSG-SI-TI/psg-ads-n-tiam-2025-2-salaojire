@@ -1,23 +1,27 @@
-# TÍTULO DO PROJETO
+# Salão Jiré
 
-`CURSO`
+`CURSO`: ANÁLISE E DESENVOLVIMENTO DE SISTEMAS
 
-`DISCIPLINA`
+`DISCIPLINA`: Trabalho Interdisciplinar: Aplicação Móvel
 
-`SEMESTRE`
+`SEMESTRE`: 2/2025
 
-Descrever resumidamente, em um ou dois parágrafos, o projeto que está sendo desenvolvido.
+Este projeto tem como objetivo criar uma solução digital para um salão de festas, chamado Jiré Festas e Eventos, construindo um site que possibilita a visualização daquilo que é oferecido pelo salão e também a realização de agendamentos e atendimentos com os clientes interessados.
+
+Além disso, busca-se construir um aplicativo móvel que permite a gestão do salão, para que a administração fique mais organizada, possibilitando através do aplicativo o gerenciamento de agendamentos, aluguéis e clientes, além da geração de relatórios que promovem uma visão geral do negócio.
 
 ## Integrantes
 
-* Nome completo do aluno 1
-* Nome completo do aluno 2
-* Nome completo do aluno 3
-* Nome completo do aluno 4
+* Isaque Caetano Nascimento
+* Felipe de Oliveira Pereira
+* João Pedro Ferreira Bonifácio
+* Washington Junio Lima Pereira
+* Henrique Gonçalves Sousa
+* Gabriel Assis Melo Noronha
 
 ## Orientador
 
-* Nome completo do professor 1
+* Pedro Felipe Alves de Oliveira
 
 ## Instruções de utilização
 
