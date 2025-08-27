@@ -1,36 +1,32 @@
 # Introdução
 
-Texto descritivo com a visão geral do projeto abordado. Inclui o contexto, o problema, os objetivos, a justificativa e o público-alvo do projeto.
+Este projeto busca criar para um salão de festas chamado Jiré Festas e Eventos, um site para os clientes e um aplicativo para a administração. O salão enfrenta dificuldes em se expor e a gerência dos agendamentos e do atendimento é um desafio. Por isso buscamos criar uma presença online mais forte e uma boa ferramenta de gestão, organizar melhor o dia a dia do salão, fazê-lo ficar mais conhecido e facilitar a vida de quem quer agendar um evento, alugar algum item ou visualizar o que o salão tem a oferecer.
+
 
 ## Problema
-Nesse momento você deve apresentar o problema que a sua aplicação deve  resolver. No entanto, não é a hora de comentar sobre a aplicação.
 
-Descreva também o contexto em que essa aplicação será usada, se  houver: empresa, tecnologias, etc. Novamente, descreva apenas o que de  fato existir, pois ainda não é a hora de apresentar requisitos  detalhados ou projetos.
-
-Nesse momento, o grupo pode optar por fazer uso  de ferramentas como Design Thinking, que permite um olhar de ponta a ponta para o problema.
-
-> **Links Úteis**:
-> - [Objetivos, Problema de pesquisa e Justificativa](https://medium.com/@versioparole/objetivos-problema-de-pesquisa-e-justificativa-c98c8233b9c3)
-> - [Matriz Certezas, Suposições e Dúvidas](https://medium.com/educa%C3%A7%C3%A3o-fora-da-caixa/matriz-certezas-suposi%C3%A7%C3%B5es-e-d%C3%BAvidas-fa2263633655)
-> - [Brainstorming](https://www.euax.com.br/2018/09/brainstorming/)
+Nos dias de hoje, a divulgação do salão depende muito do "boca a boca" e de posts no Instagram. Esses caminhos são bons, porém não conseguem de um jeito profissional mostrar tudo que o espaço oferece de verdade. Como não existe um site para expor o salão e tornar mais fácil o atendimento, ele perde a chance de alcançar mais pessoas. Além disso a ausência de um aplicativo para a gerência e administração faz com que o atendimento ao cliente, a organização dos pedidos e da agenda fique bem complicada e exija maior tempo e dedicação.
 
 ## Objetivos
 
-Aqui você deve descrever os objetivos do trabalho indicando que o objetivo geral é desenvolver um software para solucionar o problema apresentado acima. 
+### Objetivo Geral:
+Criar uma plataforma web moderna e intuitiva, com duas frentes: um website atraente e fácil de usar para o público desenvolvido com React, e um aplicativo móvel de gestão para o administrador, desenvolvido com React Native, ambos unidos com o banco de dados Firebase. Através do site os clientes conseguirão conhecer o espaço, ver os itens para alugar e iniciar o contato para um agendamento. Já o aplicativo será a ferramenta de trabalho do administrador, feita para organizar de um jeito simples o controle dos clientes, das festas e dos pagamentos.
 
-Apresente também alguns (pelo menos 2) objetivos específicos dependendo de onde você vai querer concentrar a sua prática investigativa, ou como você vai aprofundar no seu trabalho.
- 
-> **Links Úteis**:
-> - [Objetivo geral e objetivo específico: como fazer e quais verbos utilizar](https://blog.mettzer.com/diferenca-entre-objetivo-geral-e-objetivo-especifico/)
+### Objetivos Específicos:
+* Desenvolver um site com React, que funcione bem em qualquer tela, com um visual atraente e divertido, e que seja fácil de mexer, pensando principalmente em pessoas que não têm muita intimidade com tecnologia.
+* Construir uma estrutura de backend segura que conecte o site e o aplicativo, processando as informações de usuários, itens e agendamentos sem problemas.
+* Utilizar o banco de dados Firebase para guardar de forma organizada as informações dos clientes, a lista de itens para aluguel e o histórico dos eventos, incluindo detalhes e recordações como fotos e vídeos.
+* Desenvolver um aplicativo móvel com React Native para o administrador conseguir gerenciar as festas, cadastrar e pesquisar clientes, acompanhar os pagamentos e gerar relatórios básicos sobre o negócio.
+* Tornar bem fácil o contato entre os clientes e o salão, de forma que os clientes consigam facilmente selecionar o que desejam e realizarem o contato ao salão de forma mais rápida e simples possível. 
 
 ## Justificativa
 
-Descreva a importância ou a motivação para trabalhar com esta aplicação que você escolheu. Indique as razões pelas quais você escolheu seus objetivos específicos ou as razões para aprofundar em certos aspectos do software.
+Muitas pessoas que estão atrás de um lugar para alugar uma festa ou itens acabam perdidas, tendo que juntar informações de fotos espalhadas em redes sociais ou ligando para saber o que está sendo oferecido. Para o salão, não ter um lugar único para mostrar tudo é um desafio, tanto para a divulgação quanto para a organização interna. Um site profissional ajuda a passar mais credibilidade e também já organiza o primeiro contato com o cliente.
 
-O grupo de trabalho pode fazer uso de questionários, entrevistas e dados estatísticos, que podem ser apresentados, com o objetivo de esclarecer detalhes do problema que será abordado pelo grupo.
+Além disso, atualmente, o controle de agendamentos, o histórico de cada cliente e o acompanhamento dos pagamentos são processos manuais, que tomam tempo e abrem espaço para erros. O aplicativo de gestão surge para isso, centralizando todas as informações importantes. Com ele, a administração se torna mais fácil, ágil e segura, ajudando o negócio a crescer de forma organizada.
 
-> **Links Úteis**:
-> - [Como montar a justificativa](https://guiadamonografia.com.br/como-montar-justificativa-do-tcc/)
+Por conta disso é que este projeto está sendo criado, para oferecer uma vitrine completa e atraente para os clientes e, ao mesmo tempo, uma ferramenta de gestão que ajuda a organizar a casa, com o objetivo de fazer o negócio crescer.
+
 
 ## Público-Alvo
 
