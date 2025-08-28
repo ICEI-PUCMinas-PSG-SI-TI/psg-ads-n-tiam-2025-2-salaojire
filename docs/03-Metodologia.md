@@ -112,7 +112,7 @@ O grupo adotará o framework Scrum para a gestão do desenvolvimento do projeto,
 
 ### Ferramentas
 
-#### As ferramentas selecionadas para o desenvolvimento do projeto foram definidas considerando praticidade, integração, suporte à equipe e alinhamento com os objetivos da aplicação.
+As ferramentas selecionadas para o desenvolvimento do projeto foram definidas considerando praticidade, integração, suporte à equipe e alinhamento com os objetivos da aplicação.
 
 #### Editor de Código – Visual Studio Code (VS Code):
 O Visual Studio Code foi escolhido por ser um editor moderno, leve e amplamente utilizado no desenvolvimento web e mobile. Ele possui integração nativa com sistemas de versionamento (como Git/GitHub), oferece uma grande variedade de extensões úteis (lint, debug, snippets) e facilita a colaboração entre os membros da equipe.
