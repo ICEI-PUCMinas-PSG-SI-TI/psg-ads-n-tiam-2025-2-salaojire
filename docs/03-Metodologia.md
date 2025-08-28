@@ -73,42 +73,42 @@ Exemplificação: A equipe utiliza metodologias ágeis, tendo escolhido o Scrum 
 
 O grupo adotará o framework Scrum para a gestão do desenvolvimento do projeto, com adaptações para o contexto acadêmico. O objetivo é garantir maior organização, transparência e acompanhamento contínuo do progresso.
 
-Papéis no Scrum:
+#### Papéis no Scrum:
 
-Product Owner (PO): Responsável por priorizar o backlog, garantir que as entregas estejam alinhadas com os objetivos do projeto e manter o contato com o cliente para entender as necessidades e expectativas.
+- Product Owner (PO): Responsável por priorizar o backlog, garantir que as entregas estejam alinhadas com os objetivos do projeto e manter o contato com o cliente para entender as necessidades e expectativas.
 
-Scrum Master: Facilita o processo, garante que os rituais aconteçam e remove impedimentos.
+- Scrum Master: Facilita o processo, garante que os rituais aconteçam e remove impedimentos.
 
-Time de Desenvolvimento: Responsável por implementar as funcionalidades, realizar testes e documentar o código.
+- Time de Desenvolvimento: Responsável por implementar as funcionalidades, realizar testes e documentar o código.
 
-Rituais definidos:
+#### Rituais definidos:
 
-Sprint Planning: Definição das tarefas que farão parte da sprint.
+- Sprint Planning: Definição das tarefas que farão parte da sprint.
 
-Daily Meeting (curta, remota pelo Teams): Compartilhamento do progresso e dificuldades.
+- Daily Meeting (curta, remota pelo Teams): Compartilhamento do progresso e dificuldades.
 
-Sprint Review: Apresentação das entregas feitas.
+- Sprint Review: Apresentação das entregas feitas.
 
-Sprint Retrospective: Discussão sobre o que funcionou bem e o que pode melhorar.
+- Sprint Retrospective: Discussão sobre o que funcionou bem e o que pode melhorar.
 
-Ferramenta de gerenciamento – GitHub Projects:
-O grupo utilizará os quadros de projeto do GitHub (Kanban) para gerenciar o backlog, as tarefas em andamento e as concluídas.
+#### Ferramenta de gerenciamento – GitHub Projects:
+- O grupo utilizará os quadros de projeto do GitHub (Kanban) para gerenciar o backlog, as tarefas em andamento e as concluídas.
 
-O Product Backlog será representado pela coluna "To Do", onde ficam listadas todas as histórias e funcionalidades desejadas.
+- O Product Backlog será representado pela coluna "To Do", onde ficam listadas todas as histórias e funcionalidades desejadas.
 
-As tarefas em desenvolvimento ficam na coluna "In Progress".
+- As tarefas em desenvolvimento ficam na coluna "In Progress".
 
-As entregues são movidas para "Done", facilitando a visualização do status do projeto.
+- As entregues são movidas para "Done", facilitando a visualização do status do projeto.
 
-Cada tarefa estará vinculada a uma issue no GitHub, permitindo rastreabilidade e histórico.
+- Cada tarefa estará vinculada a uma issue no GitHub, permitindo rastreabilidade e histórico.
 
-Ferramentas de apoio:
+#### Ferramentas de apoio:
 
-Microsoft Teams: será usado para reuniões, e acompanhamento das decisões de grupo.
+- Microsoft Teams: será usado para reuniões, e acompanhamento das decisões de grupo.
 
-GitHub Projects: centraliza o gerenciamento das tarefas e andamento do desenvolvimento.
+- GitHub Projects: centraliza o gerenciamento das tarefas e andamento do desenvolvimento.
 
-Visual Studio Code + Git: editor principal de código, integrado ao versionamento.
+- Visual Studio Code + Git: editor principal de código, integrado ao versionamento.
 
 ### Ferramentas
 
