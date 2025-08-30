@@ -39,7 +39,7 @@ Além dessas, o grupo definiu a criação de branches específicas para cada fun
 
 - `commits`: seguem mensagens claras e padronizadas, descrevendo a alteração de forma objetiva (ex.: `feat: adicionar tela de login`, `fix: corrigir bug no cadastro de usuário`)  
 - `merges`: são realizados sempre por *pull request*, garantindo que outro integrante do grupo revise o código antes da integração. O fluxo segue: `feature → dev → testing → main`  
-- `tags`: são utilizadas para marcar versões específicas e estáveis do projeto, principalmente em entregas parciais ou finais. Por exemplo: `v1.0.0` representa a primeira versão estável do aplicativo  
+- `tags`: são utilizadas para marcar versões específicas e estáveis do projeto, principalmente em entregas parciais ou finais.
 
 ### Gerência de Issues
 
