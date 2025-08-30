@@ -31,19 +31,37 @@ Por conta disso é que este projeto está sendo criado, para oferecer uma vitrin
 ## Público-Alvo
 
 1. Clientes
-Perfil: Adultos, em sua maioria interessados em conhecer os serviços do salão.
-Conhecimento prévio de tecnologia: Variado, podendo incluir pessoas sem familiaridade com sistemas digitais. Muitos acessam o site a partir da página do salão no Google.
-Relação com a aplicação: Uso voltado ao acesso de informações sobre serviços e acompanhamento de históricos de festas agendadas (ex.: status de pagamento, detalhes do evento).
+
+Perfil: Adultos interessados em conhecer os serviços do salão.
+
+Conhecimento prévio de tecnologia: Variado, podendo incluir pessoas com pouca familiaridade digital. Muitos acessam o site por meio do Google.
+
+Relação com a aplicação:
+
+Consultar informações sobre os serviços.
+
+Acompanhar histórico de festas agendadas.
+
+Visualizar detalhes de eventos, como status de pagamento.
+
 Hierarquia: Usuários finais, sem poder administrativo sobre a aplicação.
 
 2. Administrador / Gerência do Salão
-Perfil: Responsável pela gestão das festas e dos clientes.
-Conhecimento prévio de tecnologia: Usuário que necessita de uma interface simples e prática para organizar o trabalho, sem exigência de conhecimentos técnicos avançados.
-Relação com a aplicação: Principal usuário do aplicativo móvel. Utiliza-o para:
-Agendar festas.
-Registrar informações dos eventos.
+
+Perfil: Responsável pela gestão dos eventos e do relacionamento com clientes.
+
+Conhecimento prévio de tecnologia: Intermediário. Necessita de uma interface simples e prática, sem exigir conhecimentos técnicos avançados.
+
+Relação com a aplicação:
+
+Agendar festas e registrar informações dos eventos.
+
 Atualizar status de pagamentos.
+
 Consultar e pesquisar informações de clientes.
+
+Utilizar o aplicativo móvel como ferramenta principal de gestão.
+
 Hierarquia: Usuário administrativo, com permissões ampliadas de gerenciamento.
 
 MAPA STAKEHOLDERS:
