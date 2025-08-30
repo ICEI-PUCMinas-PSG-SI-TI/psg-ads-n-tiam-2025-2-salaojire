@@ -27,7 +27,6 @@ Além disso, atualmente, o controle de agendamentos, o histórico de cada client
 
 Por conta disso é que este projeto está sendo criado, para oferecer uma vitrine completa e atraente para os clientes e, ao mesmo tempo, uma ferramenta de gestão que ajuda a organizar a casa, com o objetivo de fazer o negócio crescer.
 
-
 ## Público-Alvo
 
 1. Clientes
@@ -56,6 +55,7 @@ Relação com a aplicação:
 - Utilizar o aplicativo móvel como ferramenta principal de gestão.
 
 Hierarquia: Usuário administrativo, com permissões ampliadas de gerenciamento.
+
 
 MAPA STAKEHOLDERS:
 <img width="1026" height="721" alt="Captura de tela 2025-08-29 211033" src="https://github.com/user-attachments/assets/f66ed631-2785-499b-baab-941b9d5cfc8a" />

@@ -27,30 +27,31 @@ A ferramenta de controle de versão adotada no projeto foi o
 [Git](https://git-scm.com/), sendo que o [Github](https://github.com)
 foi utilizado para hospedagem do repositório.
 
-O projeto segue a seguinte convenção para o nome de branches:
+### Estrutura de Branches
 
-- `main`: versão estável já testada do software
-- `unstable`: versão já testada do software, porém instável
-- `testing`: versão em testes do software
-- `dev`: versão de desenvolvimento do software
+- `main`: mantém a versão estável e validada do software  
+- `dev`: reúne as funcionalidades em desenvolvimento que já foram concluídas e estão prontas para integração  
+- `testing`: concentra versões em fase de testes antes de serem promovidas para a `main`  
 
-Quanto à gerência de issues, o projeto adota a seguinte convenção para
-etiquetas:
+Além dessas, o grupo definiu a criação de branches específicas para cada funcionalidade (`feature/...`), que são derivadas da `dev`. Após o desenvolvimento e testes locais, essas branches são submetidas a *pull requests* e, depois de revisadas, são integradas à `dev`.
 
-- `documentation`: melhorias ou acréscimos à documentação
-- `bug`: uma funcionalidade encontra-se com problemas
-- `enhancement`: uma funcionalidade precisa ser melhorada
-- `feature`: uma nova funcionalidade precisa ser introduzida
+### Gerência de Commits, Tags e Merges
 
-Discuta como a configuração do projeto foi feita na ferramenta de versionamento escolhida. Exponha como a gerência de tags, merges, commits e branchs é realizada. Discuta como a gerência de issues foi realizada.
+- `commits`: seguem mensagens claras e padronizadas, descrevendo a alteração de forma objetiva (ex.: `feat: adicionar tela de login`, `fix: corrigir bug no cadastro de usuário`)  
+- `merges`: são realizados sempre por *pull request*, garantindo que outro integrante do grupo revise o código antes da integração. O fluxo segue: `feature → dev → testing → main`  
+- `tags`: são utilizadas para marcar versões específicas e estáveis do projeto, principalmente em entregas parciais ou finais.
 
-> **Links Úteis**:
-> - [Microfundamento: Gerência de Configuração](https://pucminas.instructure.com/courses/87878/)
-> - [Tutorial GitHub](https://guides.github.com/activities/hello-world/)
-> - [Git e Github](https://www.youtube.com/playlist?list=PLHz_AreHm4dm7ZULPAmadvNhH6vk9oNZA)
->  - [Comparando fluxos de trabalho](https://www.atlassian.com/br/git/tutorials/comparing-workflows)
-> - [Understanding the GitHub flow](https://guides.github.com/introduction/flow/)
-> - [The gitflow workflow - in less than 5 mins](https://www.youtube.com/watch?v=1SXpE08hvGs)
+### Gerência de Issues
+
+A gerência de issues é feita diretamente no GitHub, utilizando etiquetas pré-definidas para facilitar o acompanhamento:  
+
+- `documentation`: ajustes e adições na documentação do projeto  
+- `bug`: erros ou problemas identificados no software  
+- `enhancement`: melhorias de funcionalidades já existentes  
+- `feature`: novas funcionalidades a serem desenvolvidas  
+
+Cada `issue` é vinculada a uma branch e a um responsável, permitindo rastreabilidade desde a identificação do problema ou requisito até a entrega da solução.
+
 
 ## Gerenciamento de Projeto
 
