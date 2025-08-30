@@ -8,19 +8,17 @@ Apresente uma visão geral do que será abordado nesta parte do documento, enume
 
 ## Personas
 
-Pedro Paulo tem 26 anos, é arquiteto recém-formado e autônomo. Pensa em se desenvolver profissionalmente através de um mestrado fora do país, pois adora viajar, é solteiro e sempre quis fazer um intercâmbio. Está buscando uma agência que o ajude a encontrar universidades na Europa que aceitem alunos estrangeiros.
+Persona 1 – Visitante do Site
 
-Enumere e detalhe as personas da sua solução. Para tanto, baseie-se tanto nos documentos disponibilizados na disciplina e/ou nos seguintes links:
+Ana Cláudia tem 29 anos, é Promotora de vendas e trabalha em horário comercial. No pouco tempo livre que tem, costuma pesquisar pelo celular opções de salões de festas para organizar eventos da família. Ela valoriza sites que tragam fotos e vídeos reais, pois gosta de visualizar como seria o espaço decorado para o seu evento. Também prefere encontrar tudo de forma prática, como catálogo de itens para aluguel e localização no mapa. Muitas vezes chega ao site do salão a partir de uma busca no Google, já que não tem paciência para navegar em redes sociais ou aplicativos complicados.
 
-> **Links Úteis**:
-> - [Rock Content](https://rockcontent.com/blog/personas/)
-> - [Hotmart](https://blog.hotmart.com/pt-br/como-criar-persona-negocio/)
-> - [O que é persona?](https://resultadosdigitais.com.br/blog/persona-o-que-e/)
-> - [Persona x Público-alvo](https://flammo.com.br/blog/persona-e-publico-alvo-qual-a-diferenca/)
-> - [Mapa de Empatia](https://resultadosdigitais.com.br/blog/mapa-da-empatia/)
-> - [Mapa de Stalkeholders](https://www.racecomunicacao.com.br/blog/como-fazer-o-mapeamento-de-stakeholders/)
->
-Lembre-se que você deve ser enumerar e descrever precisamente e personalizada todos os clientes ideais que sua solução almeja.
+Persona 2 – Cliente
+
+Roberto Silva tem 35 anos, é motorista de aplicativo e pai de uma menina de 7 anos. Está planejando uma festa de aniversário para a filha e precisa de um processo simples, já que sua rotina é corrida e seu tempo, limitado. Ele busca praticidade para solicitar orçamentos, agendar a festa, acompanhar a data e horário e também status do pagamento em caso de esquecimento. Roberto valoriza poder salvar seus dados no sistema para não ter que preencher tudo novamente em cada contato, para ele, o mais importante é ter clareza e rapidez em cada etapa da contratação, garantindo que tudo esteja organizado sem precisar perder tempo com burocracias.
+
+Persona 3 – Administrador/Gerente do Salão
+
+Carlos Mendes tem 40 anos, é proprietário do salão de festas e responsável por toda a gestão do negócio. Apesar de não ser especialista em tecnologia, usa aplicativos em seu dia a dia e procura soluções simples e objetivas. Carlos precisa de uma ferramenta que facilite o controle de agendamentos, cadastros de clientes, atualização do catálogo e acompanhamento financeiro. Ele se sente sobrecarregado quando precisa organizar tudo manualmente em planilhas e anotações. Por isso, deseja um sistema que centralize todas as informações, permita gerar relatórios rápidos e ajude a manter o salão funcionando de forma organizada e profissional.
 
 ## Histórias de Usuários
 
