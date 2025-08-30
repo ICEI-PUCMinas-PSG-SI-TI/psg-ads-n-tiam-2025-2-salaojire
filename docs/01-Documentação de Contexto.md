@@ -40,3 +40,35 @@ Adicione informações sobre o público-alvo por meio de uma descrição textual
 > - [Como definir o público alvo](https://exame.com/pme/5-dicas-essenciais-para-definir-o-publico-alvo-do-seu-negocio/)
 > - [Público-alvo: o que é, tipos, como definir seu público e exemplos](https://klickpages.com.br/blog/publico-alvo-o-que-e/)
 > - [Qual a diferença entre público-alvo e persona?](https://rockcontent.com/blog/diferenca-publico-alvo-e-persona/)
+
+*area alterada* 
+(1. Clientes
+
+Perfil: Adultos, em sua maioria interessados em conhecer os serviços do salão.
+
+Conhecimento prévio de tecnologia: Variado, podendo incluir pessoas sem familiaridade com sistemas digitais. Muitos acessam o site a partir da página do salão no Google.
+
+Relação com a aplicação: Uso voltado ao acesso de informações sobre serviços e acompanhamento de históricos de festas agendadas (ex.: status de pagamento, detalhes do evento).
+
+Hierarquia: Usuários finais, sem poder administrativo sobre a aplicação.
+
+2. Administrador / Gerência do Salão
+
+Perfil: Responsável pela gestão das festas e dos clientes.
+
+Conhecimento prévio de tecnologia: Usuário que necessita de uma interface simples e prática para organizar o trabalho, sem exigência de conhecimentos técnicos avançados.
+
+Relação com a aplicação: Principal usuário do aplicativo móvel. Utiliza-o para:
+
+Agendar festas.
+
+Registrar informações dos eventos.
+
+Atualizar status de pagamentos.
+
+Consultar e pesquisar informações de clientes.
+
+Hierarquia: Usuário administrativo, com permissões ampliadas de gerenciamento.
+
+MAPA STAKEHOLDERS:
+<img width="1026" height="721" alt="Captura de tela 2025-08-29 211033" src="https://github.com/user-attachments/assets/f66ed631-2785-499b-baab-941b9d5cfc8a" />
