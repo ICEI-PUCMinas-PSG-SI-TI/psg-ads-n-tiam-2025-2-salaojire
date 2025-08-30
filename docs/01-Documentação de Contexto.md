@@ -37,12 +37,9 @@ Perfil: Adultos interessados em conhecer os serviços do salão.
 Conhecimento prévio de tecnologia: Variado, podendo incluir pessoas com pouca familiaridade digital. Muitos acessam o site por meio do Google.
 
 Relação com a aplicação:
-
-Consultar informações sobre os serviços.
-
-Acompanhar histórico de festas agendadas.
-
-Visualizar detalhes de eventos, como status de pagamento.
+- Consultar informações sobre os serviços.
+- Acompanhar histórico de festas agendadas.
+- Visualizar detalhes de eventos, como status de pagamento.
 
 Hierarquia: Usuários finais, sem poder administrativo sobre a aplicação.
 
@@ -53,14 +50,10 @@ Perfil: Responsável pela gestão dos eventos e do relacionamento com clientes.
 Conhecimento prévio de tecnologia: Intermediário. Necessita de uma interface simples e prática, sem exigir conhecimentos técnicos avançados.
 
 Relação com a aplicação:
-
-Agendar festas e registrar informações dos eventos.
-
-Atualizar status de pagamentos.
-
-Consultar e pesquisar informações de clientes.
-
-Utilizar o aplicativo móvel como ferramenta principal de gestão.
+- Agendar festas e registrar informações dos eventos.
+- Atualizar status de pagamentos.
+- Consultar e pesquisar informações de clientes.
+- Utilizar o aplicativo móvel como ferramenta principal de gestão.
 
 Hierarquia: Usuário administrativo, com permissões ampliadas de gerenciamento.
 
