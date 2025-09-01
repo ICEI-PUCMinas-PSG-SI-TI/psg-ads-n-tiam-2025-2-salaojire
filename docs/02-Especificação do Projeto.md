@@ -78,17 +78,17 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |ID    | Descrição do Requisito  | Prioridade |
 |------|-----------------------------------------|----|
 |RF-001| Permitir que o visitante visualize fotos e vídeos do salão e eventos anteriores | ALTA | 
-|RF-002| Exibir catálogo de itens disponíveis para aluguel (com descrição e preço)  | ALTA |
-|RF-003| Permitir que o visitante veja a localização do salão em um mapa integrado   | MÉDIA |
-|RF-004| Possibilitar cadastro e login simples para clientes (nome, telefone, e-mail e senha)   | ALTA |
+|RF-002| Exibir catálogo de itens disponíveis para aluguel  | ALTA |
+|RF-003| Permitir que o visitante veja a localização do salão em um mapa integrado  | MÉDIA |
+|RF-004| Possibilitar cadastro e login simples para clientes   | ALTA |
 |RF-005| Permitir que clientes selecionem itens e solicitem contato/agendamento   | ALTA |
 |RF-006| Enviar solicitação de contato/agendamento ao administrador com dados do cliente   | ALTA |
-|RF-007| Permitir que clientes visualizem histórico de pedidos e festas anteriores   | MÉDIA |
+|RF-007| Permitir que clientes visualizem histórico de pedidos e festas anteriores  | MÉDIA |
 |RF-008| Permitir ao administrador cadastrar, editar e excluir itens disponíveis para aluguel   | ALTA |
 |RF-009| Permitir ao administrador gerenciar agendamentos de festas (criar, alterar status, cancelar)   | ALTA |
 |RF-010| Permitir ao administrador visualizar informações completas dos clientes   | ALTA |
-|RF-011| Possibilitar upload de fotos e vídeos para registro de festas no histórico do cliente   | MÉDIA |
-|RF-012| Gerar relatórios simples para administrador (ex.: festas do mês, valores pendentes, status de pagamentos)  | MÉDIA |
+|RF-011| Possibilitar upload de fotos e vídeos para registro de festas no histórico do cliente  | MÉDIA |
+|RF-012| Gerar relatórios simples para administrador   | MÉDIA |
 |RF-012| Permitir busca de clientes, festas e itens cadastrados  | MÉDIA |
 
 
