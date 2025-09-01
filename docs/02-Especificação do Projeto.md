@@ -22,21 +22,21 @@ Carlos Mendes tem 40 anos, é proprietário do salão de festas e responsável p
 
 ## Histórias de Usuários
 
-Com base na análise das personas forma identificadas as seguintes histórias de usuários:
-
 |EU COMO... `PERSONA`| QUERO/PRECISO ... `FUNCIONALIDADE` |PARA ... `MOTIVO/VALOR`                 |
 |--------------------|------------------------------------|----------------------------------------|
-|Usuário do sistema  | Registrar minhas tarefas           | Não esquecer de fazê-las               |
-|Administrador       | Alterar permissões                 | Permitir que possam administrar contas |
-
-Apresente aqui as histórias de usuário que são relevantes para o projeto de sua solução. As Histórias de Usuário consistem em uma ferramenta poderosa para a compreensão e elicitação dos requisitos funcionais e não funcionais da sua aplicação. Se possível, agrupe as histórias de usuário por contexto, para facilitar consultas recorrentes à essa parte do documento.
-
-> **Links Úteis**:
-> - [Histórias de usuários com exemplos e template](https://www.atlassian.com/br/agile/project-management/user-stories)
-> - [Como escrever boas histórias de usuário (User Stories)](https://medium.com/vertice/como-escrever-boas-users-stories-hist%C3%B3rias-de-usu%C3%A1rios-b29c75043fac)
-> - [User Stories: requisitos que humanos entendem](https://www.luiztools.com.br/post/user-stories-descricao-de-requisitos-que-humanos-entendem/)
-> - [Histórias de Usuários: mais exemplos](https://www.reqview.com/doc/user-stories-example.html)
-> - [9 Common User Story Mistakes](https://airfocus.com/blog/user-story-mistakes/)
+| Visitante do site | Visualizar fotos e vídeos que expõem o salão | Conhecer o espaço e ter uma ideia de como meu evento poderia ser |
+| Visitante do site | Ver um catálogo com os itens disponíveis para aluguel | Saber tudo que o salão oferece para a minha festa |
+| Visitante do site | Ver a localização do salão em um mapa | Saber como chegar ao local facilmente |
+| Cliente | Realizar um cadastro e login rápidos | Salvar minhas informações para solicitar um agendamento e ver meu histórico |
+| Cliente | Enviar um formulário de contato | Entrar em contato com o salão fácilmente |
+| Cliente | Selecionar itens de interesse e agregá-los ao formulário de contato | Solicitar um orçamento ou agendamento de forma rápida |
+| Cliente | Acessar um histórico dos meus alugueis passados | Relembrar os detalhes, itens contratados e ver as recordações das festas |
+| Administrador | Gerenciar os itens disponíveis para aluguel pelo aplicativo | Manter o catálogo do site sempre atualizado |
+| Administrador | Receber as solicitações de contato/agendamento feitas pelo site | Organizar e responder aos potenciais clientes de forma eficiente |
+| Administrador | Cadastrar e consultar as informações dos meus clientes | Ter um controle de quem são meus clientes e seus contatos |
+| Administrador | Gerenciar os agendamentos das festas (confirmar, alterar status, etc.) | Manter a agenda do salão organizada e sob controle |
+| Administrador | Registrar informações das festas, como status de pagamento | Fazer a gestão financeira de cada evento |
+| Administrador | Gerar relatórios simples (ex: festas do mês, valores pendentes) | Ter uma visão geral da saúde financeira e operacional do negócio |
 
 ## Modelagem do Processo de Negócio 
 
