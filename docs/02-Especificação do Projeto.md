@@ -77,15 +77,33 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 |ID    | Descrição do Requisito  | Prioridade |
 |------|-----------------------------------------|----|
-|RF-001| Permitir que o usuário cadastre tarefas | ALTA | 
-|RF-002| Emitir um relatório de tarefas no mês   | MÉDIA |
+|RF-001| Permitir que o visitante visualize fotos e vídeos do salão e eventos anteriores | ALTA | 
+|RF-002| Exibir catálogo de itens disponíveis para aluguel (com descrição e preço)  | ALTA |
+|RF-003| Permitir que o visitante veja a localização do salão em um mapa integrado   | MÉDIA |
+|RF-004| Possibilitar cadastro e login simples para clientes (nome, telefone, e-mail e senha)   | ALTA |
+|RF-005| Permitir que clientes selecionem itens e solicitem contato/agendamento   | ALTA |
+|RF-006| Enviar solicitação de contato/agendamento ao administrador com dados do cliente   | ALTA |
+|RF-007| Permitir que clientes visualizem histórico de pedidos e festas anteriores   | MÉDIA |
+|RF-008| Permitir ao administrador cadastrar, editar e excluir itens disponíveis para aluguel   | ALTA |
+|RF-009| Permitir ao administrador gerenciar agendamentos de festas (criar, alterar status, cancelar)   | ALTA |
+|RF-010| Permitir ao administrador visualizar informações completas dos clientes   | ALTA |
+|RF-011| Possibilitar upload de fotos e vídeos para registro de festas no histórico do cliente   | MÉDIA |
+|RF-012| Gerar relatórios simples para administrador (ex.: festas do mês, valores pendentes, status de pagamentos)  | MÉDIA |
+|RF-012| Permitir busca de clientes, festas e itens cadastrados  | MÉDIA |
+
 
 ### Requisitos não Funcionais
 
 |ID     | Descrição do Requisito  |Prioridade |
 |-------|-------------------------|----|
-|RNF-001| O sistema deve ser responsivo para rodar em um dispositivos móvel | MÉDIA | 
-|RNF-002| Deve processar requisições do usuário em no máximo 3s |  BAIXA | 
+|RNF-001| O sistema deve ser responsivo, adaptando-se a desktops, tablets e smartphones | ALTA | 
+|RNF-002| O aplicativo móvel deve estar disponível para Android  | ALTA | 
+|RNF-003| O site deve ter **interface intuitiva e simples**, considerando usuários com pouca familiaridade com tecnologia | ALTA | 
+|RNF-004| As requisições do sistema devem ser processadas em até 3 segundos em condições normais de uso. | BAIXA | 
+|RNF-005| O sistema deve armazenar dados no Firebase com autenticação segura. | ALTA | 
+|RNF-006| A plataforma deve suportar múltiplos acessos simultâneos sem comprometer o desempenho | MÉDIA | 
+|RNF-007| As informações dos clientes devem estar protegidas de acordo com LGPD |  ALTA | 
+|RNF-008| O design deve seguir padrões modernos (UI/UX) para atrair e reter usuários |  MÉDIA | 
 
 Com base nas Histórias de Usuário, enumere os requisitos da sua solução. Classifique esses requisitos em dois grupos:
 
@@ -109,7 +127,10 @@ O projeto está restrito pelos itens apresentados na tabela a seguir.
 |ID| Restrição                                             |
 |--|-------------------------------------------------------|
 |01| O projeto deverá ser entregue até o final do semestre |
-|02| Não pode ser desenvolvido um módulo de backend        |
+|02| O desenvolvimento será feito exclusivamente com React e React Native.        |
+|02| O site será destinado aos clientes e o aplicativo móvel apenas para administradores/gerência.      |
+|02| A arquitetura será monolítica e simplificada  |
+
 
 Enumere as restrições à sua solução. Lembre-se de que as restrições geralmente limitam a solução candidata.
 
