@@ -89,7 +89,7 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |RF-010| Permitir ao administrador visualizar informações completas dos clientes   | ALTA |
 |RF-011| Possibilitar upload de fotos e vídeos para registro de festas no histórico do cliente  | MÉDIA |
 |RF-012| Gerar relatórios simples para administrador   | MÉDIA |
-|RF-012| Permitir busca de clientes, festas e itens cadastrados  | MÉDIA |
+
 
 
 ### Requisitos não Funcionais
@@ -128,8 +128,8 @@ O projeto está restrito pelos itens apresentados na tabela a seguir.
 |--|-------------------------------------------------------|
 |01| O projeto deverá ser entregue até o final do semestre |
 |02| O desenvolvimento será feito exclusivamente com React e React Native.        |
-|02| O site será destinado aos clientes e o aplicativo móvel apenas para administradores/gerência.      |
-|02| A arquitetura será monolítica e simplificada  |
+|03| O site será destinado aos clientes e o aplicativo móvel apenas para administradores/gerência.      |
+|04| A arquitetura será monolítica e simplificada  |
 
 
 Enumere as restrições à sua solução. Lembre-se de que as restrições geralmente limitam a solução candidata.
