@@ -29,33 +29,14 @@ Por conta disso é que este projeto está sendo criado, para oferecer uma vitrin
 
 ## Público-Alvo
 
-1. Clientes
+1. Clientes do Salão
 
-Perfil: Adultos interessados em conhecer os serviços do salão.
+O público que vai usar o site é formado principalmente por adultos que estão planejando algum realizar um evento ou fazer um aluguel. A familiaridade deles com a tecnologia varia bastante, então o site precisa ser fácil de entender para todo mundo, desde quem usa a internet o tempo todo até quem não tem muito costume. O que eles buscam na plataforma é um jeito simples de consultar as informações do salão, ver o histórico de festas que já fizeram e, claro, entrar em contato com o administrador sem complicação. Eles são os usuários finais do site
 
-Conhecimento prévio de tecnologia: Variado, podendo incluir pessoas com pouca familiaridade digital. Muitos acessam o site por meio do Google.
+2. Administrador do Salão
 
-Relação com a aplicação:
-- Consultar informações sobre os serviços.
-- Acompanhar histórico de festas agendadas.
-- Visualizar detalhes de eventos, como status de pagamento.
-
-Hierarquia: Usuários finais, sem poder administrativo sobre a aplicação.
-
-2. Administrador / Gerência do Salão
-
-Perfil: Responsável pela gestão dos eventos e do relacionamento com clientes.
-
-Conhecimento prévio de tecnologia: Intermediário. Necessita de uma interface simples e prática, sem exigir conhecimentos técnicos avançados.
-
-Relação com a aplicação:
-- Agendar festas e registrar informações dos eventos.
-- Atualizar status de pagamentos.
-- Consultar e pesquisar informações de clientes.
-- Utilizar o aplicativo móvel como ferramenta principal de gestão.
-
-Hierarquia: Usuário administrativo, com permissões ampliadas de gerenciamento.
+Do outro lado, temos o administrador, a pessoa responsável por gerenciar o negócio e o relacionamento com os clientes. Ele tem um conhecimento intermediário de tecnologia e, por isso, precisa que o aplicativo de gestão seja prático e direto ao ponto, sem exigir conhecimento técnico. Pelo aplicativo móvel, ele irá agendar as festas, registrar os detalhes dos eventos, atualizar o que está disponível para aluguel, consultar informações dos clientes e usar o app como sua principal ferramenta para organizar o dia a dia. Ele terá o controle total sobre as informações do sistema.
 
 
 MAPA STAKEHOLDERS:
-<img width="1026" height="721" alt="Captura de tela 2025-08-29 211033" src="https://github.com/user-attachments/assets/f66ed631-2785-499b-baab-941b9d5cfc8a" />
+![Mapa de Stakeholders](img/Mapa%20de%20Stakeholders.png)
