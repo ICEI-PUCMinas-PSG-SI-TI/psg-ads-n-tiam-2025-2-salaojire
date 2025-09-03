@@ -44,37 +44,39 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 ### Requisitos Funcionais
 
-|ID    | Descrição do Requisito  | Prioridade |
-|------|-----------------------------------------|----|
-|RF-001| O sistema deve permitir que o visitante visualize fotos e vídeos do salão e eventos anteriores | ALTA | 
-|RF-002| O sistema deve exibir catálogo de itens disponíveis para aluguel  | ALTA |
-|RF-003| O sistema deve permitir que o visitante veja a localização do salão em um mapa integrado  | MÉDIA |
-|RF-004| O sistema deve possibilitar cadastro e login simples para clientes   | ALTA |
-|RF-005| O sistema deve permitir que clientes selecionem itens para alugar | ALTA |
-|RF-006| O sistema deve notificar o administrador sobre novas solicitações de contato/orçamento   | ALTA |
-|RF-007| O sistema deve enviar solicitação de contato/agendamento ao administrador com dados do cliente   | ALTA |
-|RF-008| O sistema deve permitir que clientes visualizem histórico de pedidos e festas anteriores  | MÉDIA |
-|RF-009| O sistema deve permitir ao administrador cadastrar, editar e excluir itens disponíveis para aluguel   | ALTA |
-|RF-010| O sistema deve permitir ao administrador gerenciar agendamentos de festas (criar, alterar status, cancelar)   | ALTA |
-|RF-011| O sistema deve permitir ao administrador visualizar informações completas dos clientes   | ALTA |
-|RF-012| O sistema deve permitir ao administrador atualizar/cadastrar dados dos clientes   | ALTA |
-|RF-013| O sistema deve possibilitar upload de fotos e vídeos para registro de festas no histórico do cliente  | MÉDIA |
-|RF-014| O sistema deve gerar relatórios simples para administrador   | MÉDIA |
+
+| ID     | Requisito Funcional                                                                                              | Prioridade |
+| ------ | ---------------------------------------------------------------------------------------------------------------- | ---------- |
+| RF-001 | O sistema deve permitir que o visitante visualize fotos e vídeos do salão e de eventos anteriores.               | ALTA       |
+| RF-002 | O sistema deve exibir o catálogo de itens disponíveis para aluguel.                                              | ALTA       |
+| RF-003 | O sistema deve permitir que o visitante visualize a localização do salão em um mapa integrado.                   | MÉDIA      |
+| RF-004 | O sistema deve possibilitar cadastro e login simples para clientes.                                              | ALTA       |
+| RF-005 | O sistema deve permitir que clientes selecionem itens para aluguel.                                              | ALTA       |
+| RF-006 | O sistema deve notificar o administrador sobre novas solicitações de contato ou orçamento.                       | ALTA       |
+| RF-007 | O sistema deve enviar solicitações de contato ou agendamento ao administrador, incluindo os dados do cliente.    | ALTA       |
+| RF-008 | O sistema deve permitir que clientes visualizem o histórico de pedidos e festas anteriores.                      | MÉDIA      |
+| RF-009 | O sistema deve permitir que o administrador cadastre, edite e exclua itens disponíveis para aluguel.             | ALTA       |
+| RF-010 | O sistema deve permitir que o administrador gerencie agendamentos de festas (criar, alterar status ou cancelar). | ALTA       |
+| RF-011 | O sistema deve permitir que o administrador visualize informações completas dos clientes.                        | ALTA       |
+| RF-012 | O sistema deve permitir que o administrador atualize ou cadastre dados dos clientes.                             | ALTA       |
+| RF-013 | O sistema deve possibilitar o upload de fotos e vídeos para registro de festas no histórico do cliente.          | MÉDIA      |
+| RF-014 | O sistema deve gerar relatórios simples para o administrador.                                                    | MÉDIA      |
+
 
 
 
 ### Requisitos não Funcionais
 
-|ID     | Descrição do Requisito  |Prioridade |
-|-------|-------------------------|----|
-|RNF-001| O sistema deve ser responsivo, adaptando-se a desktops, tablets e smartphones | ALTA | 
-|RNF-002| O aplicativo móvel deve estar disponível para Android  | ALTA | 
-|RNF-003| O site deve ter **interface intuitiva e simples**, considerando usuários com pouca familiaridade com tecnologia | ALTA | 
-|RNF-004| As requisições do sistema devem ser processadas em até 3 segundos em condições normais de uso. | BAIXA | 
-|RNF-005| O sistema deve armazenar dados no Firebase com autenticação segura. | ALTA | 
-|RNF-006| A plataforma deve suportar múltiplos acessos simultâneos sem comprometer o desempenho | MÉDIA | 
-|RNF-007| As informações dos clientes devem estar protegidas de acordo com LGPD |  ALTA | 
-|RNF-008| O design deve seguir padrões modernos (UI/UX) para atrair e reter usuários |  MÉDIA | 
+| ID      | Requisito Não Funcional                                                                                             | Prioridade |
+| ------- | ------------------------------------------------------------------------------------------------------------------- | ---------- |
+| RNF-001 | O sistema deve ser responsivo, adaptando-se a desktops, tablets e smartphones.                                      | ALTA       |
+| RNF-002 | O sistema deve disponibilizar o aplicativo móvel para Android.                                                      | ALTA       |
+| RNF-003 | O sistema deve possuir interface intuitiva e simples, considerando usuários com pouca familiaridade com tecnologia. | ALTA       |
+| RNF-004 | O sistema deve processar requisições em até 3 segundos em condições normais de uso.                                 | BAIXA      |
+| RNF-005 | O sistema deve armazenar dados no Firebase com autenticação segura.                                                 | ALTA       |
+| RNF-006 | O sistema deve suportar múltiplos acessos simultâneos sem comprometer o desempenho.                                 | MÉDIA      |
+| RNF-007 | O sistema deve proteger as informações dos clientes de acordo com a LGPD.                                           | ALTA       |
+| RNF-008 | O sistema deve seguir padrões modernos de design (UI/UX) para atrair e reter usuários.                              | MÉDIA      |
 
 Com base nas Histórias de Usuário, enumere os requisitos da sua solução. Classifique esses requisitos em dois grupos:
 
