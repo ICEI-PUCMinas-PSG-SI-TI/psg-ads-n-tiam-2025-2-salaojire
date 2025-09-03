@@ -56,19 +56,29 @@ Cada `issue` é vinculada a uma branch e a um responsável, permitindo rastreabi
 ## Gerenciamento de Projeto
 
 ### Divisão de Papéis
+ A equipe utiliza metodologias ágeis, tendo escolhido o Scrum como base para definição do processo de desenvolvimento. A equipe está organizada da seguinte maneira:
 
-Apresente a divisão de papéis entre os membros do grupo.
+### Scrum Master  
+- Washington Junio  
 
-Exemplificação: A equipe utiliza metodologias ágeis, tendo escolhido o Scrum como base para definição do processo de desenvolvimento. A equipe está organizada da seguinte maneira:
-- Scrum Master: Felipe Domingos;
-- Product Owner: Rommel Carneiro;
-- Equipe de Desenvolvimento: Pedro Penna, Pedro Ivo, Rodrigo Richard;
-- Equipe de Design: Simone Nogueira.
+### Product Owner  
+- Isaque Caetano  
 
-> **Links Úteis**:
-> - [11 Passos Essenciais para Implantar Scrum no seu Projeto](https://mindmaster.com.br/scrum-11-passos/)
-> - [Scrum em 9 minutos](https://www.youtube.com/watch?v=XfvQWnRgxG0)
-> - [Os papéis do Scrum e a verdade sobre cargos nessa técnica](https://www.atlassian.com/br/agile/scrum/roles)
+### Equipe de Desenvolvimento  
+- Felipe de Oliveira  
+- Gabriel Assis  
+- Henrique Gonçalves  
+- Isaque Caetano  
+- João Pedro Ferreira  
+- Washington Junio  
+
+### Equipe de Design  
+- Felipe de Oliveira  
+- Gabriel Assis  
+- Henrique Gonçalves  
+- Isaque Caetano  
+- João Pedro Ferreira  
+- Washington Junio  
 
 ### Processo
 
