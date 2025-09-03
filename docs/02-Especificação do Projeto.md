@@ -46,18 +46,20 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 |ID    | Descrição do Requisito  | Prioridade |
 |------|-----------------------------------------|----|
-|RF-001| Permitir que o visitante visualize fotos e vídeos do salão e eventos anteriores | ALTA | 
-|RF-002| Exibir catálogo de itens disponíveis para aluguel  | ALTA |
-|RF-003| Permitir que o visitante veja a localização do salão em um mapa integrado  | MÉDIA |
-|RF-004| Possibilitar cadastro e login simples para clientes   | ALTA |
-|RF-005| Permitir que clientes selecionem itens e solicitem contato/agendamento   | ALTA |
-|RF-006| Enviar solicitação de contato/agendamento ao administrador com dados do cliente   | ALTA |
-|RF-007| Permitir que clientes visualizem histórico de pedidos e festas anteriores  | MÉDIA |
-|RF-008| Permitir ao administrador cadastrar, editar e excluir itens disponíveis para aluguel   | ALTA |
-|RF-009| Permitir ao administrador gerenciar agendamentos de festas (criar, alterar status, cancelar)   | ALTA |
-|RF-010| Permitir ao administrador visualizar informações completas dos clientes   | ALTA |
-|RF-011| Possibilitar upload de fotos e vídeos para registro de festas no histórico do cliente  | MÉDIA |
-|RF-012| Gerar relatórios simples para administrador   | MÉDIA |
+|RF-001| O sistema deve permitir que o visitante visualize fotos e vídeos do salão e eventos anteriores | ALTA | 
+|RF-002| O sistema deve exibir catálogo de itens disponíveis para aluguel  | ALTA |
+|RF-003| O sistema deve permitir que o visitante veja a localização do salão em um mapa integrado  | MÉDIA |
+|RF-004| O sistema deve possibilitar cadastro e login simples para clientes   | ALTA |
+|RF-005| O sistema deve permitir que clientes selecionem itens para alugar | ALTA |
+|RF-006| O sistema deve notificar o administrador sobre novas solicitações de contato/orçamento   | ALTA |
+|RF-007| O sistema deve enviar solicitação de contato/agendamento ao administrador com dados do cliente   | ALTA |
+|RF-008| O sistema deve permitir que clientes visualizem histórico de pedidos e festas anteriores  | MÉDIA |
+|RF-009| O sistema deve permitir ao administrador cadastrar, editar e excluir itens disponíveis para aluguel   | ALTA |
+|RF-010| O sistema deve permitir ao administrador gerenciar agendamentos de festas (criar, alterar status, cancelar)   | ALTA |
+|RF-011| O sistema deve permitir ao administrador visualizar informações completas dos clientes   | ALTA |
+|RF-012| O sistema deve permitir ao administrador atualizar/cadastrar dados dos clientes   | ALTA |
+|RF-013| O sistema deve possibilitar upload de fotos e vídeos para registro de festas no histórico do cliente  | MÉDIA |
+|RF-014| O sistema deve gerar relatórios simples para administrador   | MÉDIA |
 
 
 
