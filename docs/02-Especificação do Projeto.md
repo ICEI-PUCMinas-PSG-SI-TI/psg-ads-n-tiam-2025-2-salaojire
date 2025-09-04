@@ -44,23 +44,25 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 ### Requisitos Funcionais
 
-
 | ID     | Requisito Funcional                                                                                              | Prioridade |
 | ------ | ---------------------------------------------------------------------------------------------------------------- | ---------- |
 | RF-001 | O sistema deve permitir que o visitante visualize fotos e vídeos do salão e de eventos anteriores.               | ALTA       |
 | RF-002 | O sistema deve exibir o catálogo de itens disponíveis para aluguel.                                              | ALTA       |
 | RF-003 | O sistema deve permitir que o visitante visualize a localização do salão em um mapa integrado.                   | MÉDIA      |
 | RF-004 | O sistema deve possibilitar cadastro e login simples para clientes.                                              | ALTA       |
-| RF-005 | O sistema deve permitir que clientes selecionem itens para aluguel.                                              | ALTA       |
-| RF-006 | O sistema deve notificar o administrador sobre novas solicitações de contato ou orçamento.                       | ALTA       |
-| RF-007 | O sistema deve enviar solicitações de contato ou agendamento ao administrador, incluindo os dados do cliente.    | ALTA       |
+| RF-005 | O sistema deve permitir que clientes selecionem itens para aluguel e solicitem o orçamento deles.                | ALTA       |
+| RF-006 | O sistema deve permitir que o cliente envie um formulário de contato simples, sem a necessidade de selecionar itens.  | ALTA       |
+| RF-007 | O sistema deve notificar o administrador sobre novas solicitações de contato e de orçamento recebido    | ALTA       |
 | RF-008 | O sistema deve permitir que clientes visualizem o histórico de pedidos e festas anteriores.                      | MÉDIA      |
 | RF-009 | O sistema deve permitir que o administrador cadastre, edite e exclua itens disponíveis para aluguel.             | ALTA       |
 | RF-010 | O sistema deve permitir que o administrador gerencie agendamentos de festas (criar, alterar status ou cancelar). | ALTA       |
 | RF-011 | O sistema deve permitir que o administrador visualize informações completas dos clientes.                        | ALTA       |
 | RF-012 | O sistema deve permitir que o administrador atualize ou cadastre dados dos clientes.                             | ALTA       |
 | RF-013 | O sistema deve possibilitar o upload de fotos e vídeos para registro de festas no histórico do cliente.          | MÉDIA      |
-| RF-014 | O sistema deve gerar relatórios simples para o administrador.                                                    | MÉDIA      |
+| RF-014 | O sistema deve permitir a emissão de um relatório com o resumo mensal de eventos, contendo o número total de festas, o valor total faturado e o valor total pendente  | MÉDIA |
+| RF-015 | O sistema deve permitir a visualização de todos os eventos agendados em um determinado período      | MÉDIA      |
+| RF-016 | O sistema deve enviar uma notificação para o cliente para informar que o evento está chegando       | BAIXA      |
+
 
 
 
