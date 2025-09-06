@@ -105,6 +105,7 @@ O projeto está restrito pelos itens apresentados na tabela a seguir.
 |02| O desenvolvimento será feito exclusivamente com React e React Native.        |
 |03| O site será destinado aos clientes e o aplicativo móvel apenas para administradores/gerência.      |
 |04| A arquitetura será monolítica e simplificada  |
+|05| O sistema deverá utilizar exclusivamente o Firebase para banco de dados e autenticação.  |
 
 
 Enumere as restrições à sua solução. Lembre-se de que as restrições geralmente limitam a solução candidata.
