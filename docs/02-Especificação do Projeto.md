@@ -133,6 +133,7 @@ De acordo com o PMBoK v6 as dez áreas que constituem os pilares para gerenciar 
 ## Gerenciamento de Equipe
 
 A equipe será organizada utilizando o **Kanban do GitHub**, que permite visualizar o fluxo de trabalho e acompanhar o progresso das tarefas de forma simples e transparente.  
+[Quadro Kanban](https://github.com/orgs/ICEI-PUCMinas-PSG-SI-TI/projects/159/views/1)
 
 ### Estrutura do quadro
 - **Backlog** → **A Fazer** → **Em Progresso** → **Concluído**  
