@@ -154,4 +154,5 @@ O gerenciamento adequado de tarefas contribuirá para que o projeto alcance alto
 
 ## Gestão de Orçamento
 
-<img width="910" height="528" alt="Captura de tela 2025-09-05 230417" src="https://github.com/user-attachments/assets/a8d87085-b174-4982-9f0a-9823c7a729f3" />
+<img width="755" height="417" alt="Captura de tela 2025-09-07 151120" src="https://github.com/user-attachments/assets/44fb07f2-4ebe-49c9-9b94-2029c0d70a26" />
+
