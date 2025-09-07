@@ -120,11 +120,35 @@ Enumere as restrições à sua solução. Lembre-se de que as restrições geral
 
 # Matriz de Rastreabilidade
 
-A matriz de rastreabilidade é uma ferramenta usada para facilitar a visualização dos relacionamento entre requisitos e outros artefatos ou objetos, permitindo a rastreabilidade entre os requisitos e os objetivos de negócio. 
-
-A matriz deve contemplar todos os elementos relevantes que fazem parte do sistema, conforme a figura meramente ilustrativa apresentada a seguir.
-
-![Exemplo de matriz de rastreabilidade](img/02-matriz-rastreabilidade.png)
+| ID     | Descrição do Requisito                                                                | Tipo        | Prioridade | Relacionamentos (Casos de Uso / Restrições)                                   |
+| :----- | :------------------------------------------------------------------------------------ | :---------- | :--------- | :------------------------------------------------------------------------------ |
+| **RF-001** | O sistema deve permitir que o visitante visualize fotos e vídeos do salão.             | Funcional   | ALTA       | UC01 - Visualizar mídias / R02, R05                                             |
+| **RF-002** | O sistema deve exibir o catálogo de itens disponíveis para aluguel.                     | Funcional   | ALTA       | UC02 - Visualizar catálogo de itens / R02, R05                                  |
+| **RF-003** | O sistema deve permitir que o visitante visualize a localização do salão em um mapa.   | Funcional   | ALTA       | UC03 - Visualizar mapa do salão / R02, R05                                      |
+| **RF-004** | O sistema deve possibilitar cadastro e login simples para clientes.                   | Funcional   | ALTA       | UC04 - Autenticar (Cliente) / R02, R05                                          |
+| **RF-005** | O sistema deve permitir que os clientes selecionem itens para aluguel e solicitem orçamento. | Funcional   | ALTA       | UC05 - Selecionar itens para aluguel, UC06 - Solicitar orçamento de itens / R02, R05 |
+| **RF-006** | O sistema deve permitir que o cliente envie um formulário de contato simples.         | Funcional   | ALTA       | UC07 - Enviar formulário / R02, R05                                             |
+| **RF-007** | O sistema deve permitir que os clientes visualizem o histórico de pedidos e festas.    | Funcional   | MÉDIA      | UC08 - Visualizar histórico de alugueis / R02, R05                              |
+| **RF-008** | O sistema deve permitir que o administrador cadastre, edite e exclua itens.           | Funcional   | ALTA       | UC09 - Gerenciar itens de aluguel / R02, R05                                    |
+| **RF-009** | O sistema deve permitir que o administrador gerencie agendamentos de festas.          | Funcional   | ALTA       | UC10 - Gerenciar agendamentos / R02, R05                                        |
+| **RF-010** | O sistema deve permitir que o administrador visualize informações completas dos clientes. | Funcional   | ALTA       | UC11 - Gerenciar clientes / R02, R05                                            |
+| **RF-011** | O sistema deve permitir o upload de fotos e vídeos para registro de festas.         | Funcional   | MÉDIA      | UC12 - Registrar mídias no histórico do cliente / R02, R05                      |
+| **RF-012** | O sistema deve permitir a emissão de um relatório com resumo mensal de eventos.      | Funcional   | MÉDIA      | UC13 - Emitir relatório / R02, R05                                              |
+| **RF-013** | O sistema deve permitir a visualização de eventos agendados em um período.          | Funcional   | MÉDIA      | UC14 - Visualizar agendamentos / R02, R05                                       |
+| **RF-014** | O sistema deve enviar notificação ao cliente sobre a proximidade do evento.        | Funcional   | BAIXA      | N/A (Funcionalidade não mapeada em UC específico, mas implícita em RF-013) / R02, R05 |
+| **RNF-001**| O sistema deve ser responsivo a diferentes dispositivos.                             | Não Funcional | ALTA       | Usabilidade / R05                                                               |
+| **RNF-002**| O sistema deve disponibilizar aplicativo móvel para Android.                        | Não Funcional | ALTA       | Plataforma / R02, R03, R04, R05                                                 |
+| **RNF-003**| O sistema deve possuir interface intuitiva e simples.                               | Não Funcional | ALTA       | Usabilidade / R05                                                               |
+| **RNF-004**| O sistema deve processar requisições em até 3 segundos.                              | Não Funcional | MÉDIA      | Performance / R02, R05                                                          |
+| **RNF-005**| O sistema deve armazenar dados no Firebase com autenticação segura.                   | Não Funcional | ALTA       | Segurança / R02, R05                                                            |
+| **RNF-006**| O sistema deve suportar múltiplos acessos simultâneos.                               | Não Funcional | MÉDIA      | Confiabilidade / R02, R05                                                       |
+| **RNF-007**| O sistema deve proteger informações dos clientes de acordo com a LGPD.             | Não Funcional | ALTA       | Segurança / R02, R05                                                            |
+| **RNF-008**| O sistema deve seguir padrões modernos de design (UI/UX).                            | Não Funcional | MÉDIA      | Usabilidade / R05                                                               |
+| **R01** | O projeto deverá ser entregue até o final do semestre.                              | Restrição   | N/A        | Impacta todos os requisitos                                                     |
+| **R02** | O desenvolvimento será feito exclusivamente com React e React Native.              | Restrição   | N/A        | RF-001, RF-002, RF-003, RF-004, RF-005, RF-006, RF-007, RF-008, RF-009, RF-010, RF-011, RF-012, RF-013, RF-014, RNF-001, RNF-002, RNF-003, RNF-004, RNF-005, RNF-006, RNF-007, RNF-008 |
+| **R03** | O site será destinado a clientes e o aplicativo móvel apenas para administradores. | Restrição   | N/A        | RNF-002                                                                         |
+| **R04** | A arquitetura será monolítica e simplificada.                                       | Restrição   | N/A        | N/A (Restrição arquitetural, não diretamente ligada a um requisito específico de funcionalidade ou não funcionalidade) |
+| **R05** | O sistema deverá utilizar exclusivamente o Firebase para banco de dados e autenticação. | Restrição   | N/A        | RF-001, RF-002, RF-003, RF-004, RF-005, RF-006, RF-007, RF-008, RF-009, RF-010, RF-011, RF-012, RF-013, RF-014, RNF-001, RNF-002, RNF-003, RNF-004, RNF-005, RNF-006, RNF-007, RNF-008 |
 
 > **Links Úteis**:
 > - [Artigo Engenharia de Software 13 - Rastreabilidade](https://www.devmedia.com.br/artigo-engenharia-de-software-13-rastreabilidade/12822/)
