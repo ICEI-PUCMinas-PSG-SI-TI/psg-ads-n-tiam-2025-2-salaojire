@@ -64,9 +64,6 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 | RF-016 | O sistema deve enviar uma notificação para o cliente para informar que o evento está chegando       | BAIXA      |
 
 
-
-
-
 ### Requisitos não Funcionais
 
 | ID      | Requisito Não Funcional                                                                                             | Prioridade |
@@ -80,21 +77,6 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 | RNF-007 | O sistema deve proteger as informações dos clientes de acordo com a LGPD.                                           | ALTA       |
 | RNF-008 | O sistema deve seguir padrões modernos de design (UI/UX) para atrair e reter usuários.                              | MÉDIA      |
 
-Com base nas Histórias de Usuário, enumere os requisitos da sua solução. Classifique esses requisitos em dois grupos:
-
-- [Requisitos Funcionais
- (RF)](https://pt.wikipedia.org/wiki/Requisito_funcional):
- correspondem a uma funcionalidade que deve estar presente na
-  plataforma (ex: cadastro de usuário).
-- [Requisitos Não Funcionais
-  (RNF)](https://pt.wikipedia.org/wiki/Requisito_n%C3%A3o_funcional):
-  correspondem a uma característica técnica, seja de usabilidade,
-  desempenho, confiabilidade, segurança ou outro (ex: suporte a
-  dispositivos iOS e Android).
-Lembre-se que cada requisito deve corresponder à uma e somente uma
-característica alvo da sua solução. Além disso, certifique-se de que
-todos os aspectos capturados nas Histórias de Usuário foram cobertos.
-
 ## Restrições
 
 O projeto está restrito pelos itens apresentados na tabela a seguir.
@@ -106,13 +88,6 @@ O projeto está restrito pelos itens apresentados na tabela a seguir.
 |03| O site será destinado aos clientes e o aplicativo móvel apenas para administradores/gerência.      |
 |04| A arquitetura será monolítica e simplificada  |
 |05| O sistema deverá utilizar exclusivamente o Firebase para banco de dados e autenticação.  |
-
-
-Enumere as restrições à sua solução. Lembre-se de que as restrições geralmente limitam a solução candidata.
-
-> **Links Úteis**:
-> - [O que são Requisitos Funcionais e Requisitos Não Funcionais?](https://codificar.com.br/requisitos-funcionais-nao-funcionais/)
-> - [O que são requisitos funcionais e requisitos não funcionais?](https://analisederequisitos.com.br/requisitos-funcionais-e-requisitos-nao-funcionais-o-que-sao/)
 
 ## Diagrama de Casos de Uso
 
@@ -150,31 +125,30 @@ Enumere as restrições à sua solução. Lembre-se de que as restrições geral
 | **R04** | A arquitetura será monolítica e simplificada.                                       | Restrição   | N/A        | N/A (Restrição arquitetural, não diretamente ligada a um requisito específico de funcionalidade ou não funcionalidade) |
 | **R05** | O sistema deverá utilizar exclusivamente o Firebase para banco de dados e autenticação. | Restrição   | N/A        | RF-001, RF-002, RF-003, RF-004, RF-005, RF-006, RF-007, RF-008, RF-009, RF-010, RF-011, RF-012, RF-013, RF-014, RNF-001, RNF-002, RNF-003, RNF-004, RNF-005, RNF-006, RNF-007, RNF-008 |
 
-> **Links Úteis**:
-> - [Artigo Engenharia de Software 13 - Rastreabilidade](https://www.devmedia.com.br/artigo-engenharia-de-software-13-rastreabilidade/12822/)
-> - [Verificação da rastreabilidade de requisitos usando a integração do IBM Rational RequisitePro e do IBM ClearQuest Test Manager](https://developer.ibm.com/br/tutorials/requirementstraceabilityverificationusingrrpandcctm/)
-> - [IBM Engineering Lifecycle Optimization – Publishing](https://www.ibm.com/br-pt/products/engineering-lifecycle-optimization/publishing/)
-
 
 # Gerenciamento de Projeto
 
 De acordo com o PMBoK v6 as dez áreas que constituem os pilares para gerenciar projetos, e que caracterizam a multidisciplinaridade envolvida, são: Integração, Escopo, Cronograma (Tempo), Custos, Qualidade, Recursos, Comunicações, Riscos, Aquisições, Partes Interessadas. Para desenvolver projetos um profissional deve se preocupar em gerenciar todas essas dez áreas. Elas se complementam e se relacionam, de tal forma que não se deve apenas examinar uma área de forma estanque. É preciso considerar, por exemplo, que as áreas de Escopo, Cronograma e Custos estão muito relacionadas. Assim, se eu amplio o escopo de um projeto eu posso afetar seu cronograma e seus custos.
 
-## Gerenciamento de Tempo
-
-Com diagramas bem organizados que permitem gerenciar o tempo nos projetos, o gerente de projetos agenda e coordena tarefas dentro de um projeto para estimar o tempo necessário de conclusão.
-
-![Diagrama de rede simplificado notação francesa (método francês)](img/02-diagrama-rede-simplificado.png)
-
-O gráfico de Gantt ou diagrama de Gantt também é uma ferramenta visual utilizada para controlar e gerenciar o cronograma de atividades de um projeto. Com ele, é possível listar tudo que precisa ser feito para colocar o projeto em prática, dividir em atividades e estimar o tempo necessário para executá-las.
-
-![Gráfico de Gantt](img/02-grafico-gantt.png)
-
 ## Gerenciamento de Equipe
 
-O gerenciamento adequado de tarefas contribuirá para que o projeto alcance altos níveis de produtividade. Por isso, é fundamental que ocorra a gestão de tarefas e de pessoas, de modo que os times envolvidos no projeto possam ser facilmente gerenciados. 
+A equipe será organizada utilizando o **Kanban do GitHub**, que permite visualizar o fluxo de trabalho e acompanhar o progresso das tarefas de forma simples e transparente.  
 
-![Simple Project Timeline](img/02-project-timeline.png)
+### Estrutura do quadro
+- **Backlog** → **A Fazer** → **Em Progresso** → **Concluído**  
+- Cada tarefa será registrada como **Issue**, com descrição clara e responsável definido.  
+- **Labels** ajudarão na categorização (ex.: `feature`, `bug`, `docs`, `prioridade-alta`).  
+- **Milestones** serão usados para marcar entregas parciais ou sprints.  
+
+### Rotina da equipe
+- **Planejamento semanal:** organizar prioridades e distribuir tarefas.  
+- **Daily rápida:** atualização do andamento e identificação de bloqueios.  
+- **Revisão:** verificação das entregas e ajustes necessários.  
+
+### Boas práticas
+- Limite de tarefas em andamento (**WIP**) para evitar sobrecarga.  
+- Pull Requests com revisão obrigatória antes de concluir.  
+- Uso de métricas simples como **quantidade de tarefas concluídas** e **tempo médio de execução**.  
 
 ## Gestão de Orçamento
 
