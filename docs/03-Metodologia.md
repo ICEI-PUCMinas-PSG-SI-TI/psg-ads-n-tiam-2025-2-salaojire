@@ -1,8 +1,6 @@
 
 # Metodologia
 
-<span style="color:red">Pré-requisitos: <a href="2-Especificação do Projeto.md"> Documentação de Especificação</a></span>
-
 A metodologia adotada pelo grupo combina práticas de desenvolvimento ágil com o framework Scrum, adaptadas ao contexto acadêmico. O objetivo é garantir organização, colaboração e transparência em todas as etapas do projeto.
 
 O trabalho será desenvolvido em equipe utilizando ferramentas de colaboração, versionamento e gestão de tarefas, sempre integrando os diferentes ambientes (web, mobile e banco de dados).
