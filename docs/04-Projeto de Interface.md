@@ -1,11 +1,75 @@
 
 # Projeto de Interface
 
-<span style="color:red">Pré-requisitos: <a href="2-Especificação do Projeto.md"> Documentação de Especificação</a></span>
+## Visão Geral das Interfaces da Plataforma
 
-Visão geral da interação do usuário pelas telas do sistema e protótipo interativo das telas com as funcionalidades que fazem parte do sistema (wireframes).
+Esta seção apresenta as principais interfaces da plataforma, elaboradas com base nas **personas**, **histórias de usuário**, **requisitos funcionais e não funcionais** e **restrições do projeto**.  
+O protótipo interativo foi desenvolvido para validar os fluxos do sistema e garantir que as necessidades identificadas nas entrevistas com o cliente fossem traduzidas em soluções práticas e usáveis.
 
- Apresente as principais interfaces da plataforma. Discuta como ela foi elaborada de forma a atender os requisitos funcionais, não funcionais e histórias de usuário abordados nas <a href="2-Especificação do Projeto.md"> Documentação de Especificação</a>.
+---
+
+### Relação com Personas e Histórias de Usuário
+
+- **Visitante (Ana Cláudia)**:  
+  Telas de visualização de fotos, vídeos, catálogo de itens e localização no mapa atendem diretamente às histórias de usuário do perfil de visitante (**RF-001, RF-002, RF-003**).
+
+- **Cliente (Roberto Silva)**:  
+  Telas de cadastro/login, solicitação de orçamento, histórico de eventos e formulários de contato correspondem aos requisitos de praticidade e clareza (**RF-004, RF-005, RF-006, RF-008, RF-017**).
+
+- **Administrador (Carlos Mendes)**:  
+  Interfaces de gerenciamento de itens, agendamentos, clientes e relatórios foram pensadas para simplificar a rotina de gestão e reduzir a sobrecarga (**RF-009 a RF-014, RF-018**).
+
+---
+
+### Principais Interfaces
+
+#### Login e Recuperação de Senha
+- Garantem o acesso seguro de clientes e administradores.  
+- Atendem aos **RF-004** e **RF-017**.  
+
+#### Catálogo e Visualização do Espaço
+- Exibição de fotos, vídeos e itens disponíveis.  
+- Relacionados aos **RF-001, RF-002, RF-003**.  
+
+#### Formulários e Solicitações
+- Clientes podem enviar orçamentos ou mensagens simples.  
+- Atendem aos **RF-005, RF-006, RF-007**.  
+
+#### Histórico do Cliente
+- Registra festas anteriores e itens contratados, reforçando valor de recordação e organização.  
+- Ligado ao **RF-008** e **RF-013**.  
+
+#### Gestão do Administrador
+- Telas de cadastro/edição de clientes, gerenciamento de agendamentos, catálogo e relatórios.  
+- Atendem aos **RF-009, RF-010, RF-011, RF-012, RF-014, RF-015, RF-018**.  
+
+#### Relatórios e Dashboard
+- Geração de relatórios financeiros e operacionais.  
+- Atendem ao **RF-014** e às necessidades de tomada de decisão do administrador.  
+
+#### Calendário Interativo
+- Auxilia no controle de eventos e prazos.  
+- Atende ao **RF-010, RF-015 e RF-016**.  
+
+---
+
+### Requisitos Não Funcionais Contemplados
+
+- **Responsividade e usabilidade (RNF-001, RNF-003, RNF-008):** Telas adaptáveis e interface simples para diferentes perfis.  
+- **Disponibilidade móvel (RNF-002):** Protótipo já desenhado para uso em dispositivos Android.  
+- **Segurança e LGPD (RNF-005, RNF-007):** Telas de login, autenticação e gerenciamento de dados foram pensadas para suportar autenticação segura e privacidade.  
+- **Performance e escalabilidade (RNF-004, RNF-006):** Estrutura leve em React/React Native, integrada ao Firebase.  
+
+---
+
+### Restrições Consideradas
+
+- **Tecnologia:** Protótipo já alinhado ao uso exclusivo de React, React Native e Firebase.  
+- **Prazo:** Interfaces priorizadas para atender primeiro os requisitos de maior impacto (prioridade ALTA).  
+- **Escopo:** Diferenciação entre funcionalidades do site (clientes) e do aplicativo (administradores).  
+
+---
+
 
 ## Diagrama de Fluxo
 
