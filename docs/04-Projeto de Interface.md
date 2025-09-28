@@ -38,7 +38,8 @@ As referências abaixo irão auxiliá-lo na geração do artefato “Diagramas d
 ![Página Inicial](./img/Wireframes/Página%20Inicial.png)
 
 ### Página de Relatorios
-![Página de Relatórios](docs/img/Wireframes/Relatorios.png)
+![Página de Relatórios](docs/img/Wireframes/Relat%C3%B3rios.png)
+
 
 
 
