@@ -78,7 +78,10 @@ R04 → Arquitetura monolítica simplificada (frontend + backend Firebase).
 
 <img width="1269" height="421" alt="Fluxo" src="https://github.com/user-attachments/assets/763c9712-9cb7-451d-b3b6-b73a09c4c1db" />
 
+
 <img width="181" height="711" alt="Fluxo cliente" src="https://github.com/user-attachments/assets/a02f39dc-afca-4c63-9732-1a117ba80fa4" />
+
+
 
 <img width="182" height="602" alt="Fluxo adm" src="https://github.com/user-attachments/assets/5110c7ed-e346-4cad-a147-1299c47550f8" />
 
