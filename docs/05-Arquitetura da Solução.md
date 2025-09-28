@@ -16,27 +16,33 @@ Colocar imagem das collections no Firebase aqui
 
 ## Tecnologias Utilizadas
 
- Stack Principal
-Camada	Tecnologia	Uso no Projeto
-Web (cliente)	React	Criação de interfaces modernas e responsivas para catálogo, fotos, vídeos, contato e mapa. Atende RF-001, RF-002, RF-003, RF-006.
-Mobile (admin)	React Native	Aplicativo Android para gestão (clientes, itens, agenda, relatórios). Atende RF-008–RF-013, RNF-002.
-Auth	Firebase Authentication	Login simples e seguro. Atende RF-004, RNF-005.
-Banco de Dados	Cloud Firestore (Firebase)	Dados de clientes, itens, solicitações, agendamentos e histórico (R05).
-Arquivos de mídia	Firebase Storage	Upload/serving de fotos e vídeos de eventos (RF-013).
-Lógica/Integrações	Cloud Functions for Firebase	Notificações, relatórios, regras, validações. Suporta RF-007, RF-012, RF-014.
-Notificações	Firebase Cloud Messaging (FCM)	Push notifications (ex.: lembrete de eventos, RF-016).
-Mapa	Google Maps SDK / react-native-maps	Exibição da localização do salão (RF-003).
-Hospedagem Web / CDN	Firebase Hosting	Deploy do site com HTTPS e cache.
-Analytics/Logs (opcional)	Firebase Analytics / Crashlytics	Telemetria, estabilidade e métricas (RNF-006).
- Ferramentas de Desenvolvimento e Gestão
-Categoria	Ferramenta	Uso
-IDE	Visual Studio Code	Desenvolvimento web/mobile integrado ao Git.
-Versionamento	Git + GitHub	Monorepo com branches main, dev, testing, feature/*. PRs revisados, tags para marcos.
-Gestão	GitHub Projects (Kanban)	Backlog → To Do → In Progress → Done; issues com labels e milestones.
-Design	Figma	Wireframes e protótipos colaborativos.
-Comunicação	Microsoft Teams	Reuniões, alinhamentos e compartilhamento.
-Build Mobile	(Definir futuramente)	Geração e distribuição do app Android.
- Bibliotecas e Utilitários
+A solução é composta por um website para clientes e um aplicativo administrativo, ambos integrados a um backend serverless no Firebase.
+O desenvolvimento é feito em monorepo GitHub, com VS Code, Git e GitHub Projects (Kanban), apoiado por Figma (design) e Microsoft Teams (comunicação).
+
+| Camada                        | Tecnologia                          | Uso no Projeto                                                                                                                    |
+| ----------------------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Web (cliente)**             | React                               | Criação de interfaces modernas e responsivas para catálogo, fotos, vídeos, contato e mapa. Atende RF-001, RF-002, RF-003, RF-006. |
+| **Mobile (admin)**            | React Native                        | Aplicativo Android para gestão (clientes, itens, agenda, relatórios). Atende RF-008–RF-013, RNF-002.                              |
+| **Auth**                      | Firebase Authentication             | Login simples e seguro. Atende RF-004, RNF-005.                                                                                   |
+| **Banco de Dados**            | Cloud Firestore (Firebase)          | Dados de clientes, itens, solicitações, agendamentos e histórico (R05).                                                           |
+| **Arquivos de mídia**         | Firebase Storage                    | Upload/serving de fotos e vídeos de eventos (RF-013).                                                                             |
+| **Lógica/Integrações**        | Cloud Functions for Firebase        | Notificações, relatórios, regras, validações. Suporta RF-007, RF-012, RF-014.                                                     |
+| **Notificações**              | Firebase Cloud Messaging (FCM)      | Push notifications (ex.: lembrete de eventos, RF-016).                                                                            |
+| **Mapa**                      | Google Maps SDK / react-native-maps | Exibição da localização do salão (RF-003).                                                                                        |
+| **Hospedagem Web / CDN**      | Firebase Hosting                    | Deploy do site com HTTPS e cache.                                                                                                 |
+| **Analytics/Logs** (opcional) | Firebase Analytics / Crashlytics    | Telemetria, estabilidade e métricas (RNF-006).                                                                                    |
+
+
+| Categoria         | Ferramenta               | Uso                                                                                           |
+| ----------------- | ------------------------ | --------------------------------------------------------------------------------------------- |
+| **IDE**           | Visual Studio Code       | Desenvolvimento web/mobile integrado ao Git.                                                  |
+| **Versionamento** | Git + GitHub             | Monorepo com branches `main`, `dev`, `testing`, `feature/*`. PRs revisados, tags para marcos. |
+| **Gestão**        | GitHub Projects (Kanban) | Backlog → To Do → In Progress → Done; issues com labels e milestones.                         |
+| **Design**        | Figma                    | Wireframes e protótipos colaborativos.                                                        |
+| **Comunicação**   | Microsoft Teams          | Reuniões, alinhamentos e compartilhamento.                                                    |
+| **Build Mobile**  | (Definir futuramente)    | Geração e distribuição do app Android.                                                        |
+
+Bibliotecas e Utilitários
 
 Web (React): react-hook-form, zod, axios/fetch, tanstack-query, shadcn/ui ou MUI, google-maps-react.
 
@@ -46,7 +52,7 @@ Firebase: SDK modular (firebase), Firestore, Auth, Storage, Functions, Messaging
 
 Qualidade: ESLint, Prettier, Husky + lint-staged, Jest/RTL, Detox (mobile).
 
-Relação com Requisitos e Restrições
+🔗 Relação com Requisitos e Restrições
 
 RF-001/002/003/006 → Website React + Maps + Storage/Firestore.
 
@@ -67,6 +73,14 @@ RNF-005/007 → Segurança Firebase (Rules) + LGPD.
 R02/R05 → Exclusivamente React/React Native e Firebase.
 
 R04 → Arquitetura monolítica simplificada (frontend + backend Firebase).
+
+
+
+<img width="1269" height="421" alt="Fluxo" src="https://github.com/user-attachments/assets/763c9712-9cb7-451d-b3b6-b73a09c4c1db" />
+
+<img width="181" height="711" alt="Fluxo cliente" src="https://github.com/user-attachments/assets/a02f39dc-afca-4c63-9732-1a117ba80fa4" />
+
+<img width="182" height="602" alt="Fluxo adm" src="https://github.com/user-attachments/assets/5110c7ed-e346-4cad-a147-1299c47550f8" />
 
 ## Hospedagem
 
