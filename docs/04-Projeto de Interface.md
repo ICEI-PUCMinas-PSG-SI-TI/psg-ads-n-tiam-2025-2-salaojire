@@ -90,6 +90,21 @@ As referências abaixo irão auxiliá-lo na geração do artefato “Diagramas d
 
 <img width="390" height="798" alt="Alterar email" src="https://github.com/user-attachments/assets/058ce207-6efd-4eba-af8a-ef81cc7e81f6" />
 
+### Visualizar cliente
+![Gerenciar Clientes](./img/Wireframes/GerênciarClientesVisualizar.png)
+
+### Visualizar lista de clientes
+![Gerenciar Clientes](./img/Wireframes/GerênciarClientes.png)
+
+### Editar cliente
+![Gerenciar Clientes](./img/Wireframes/GerênciarClientesEditar.png)
+
+### Excluir cliente
+![Gerenciar Clientes](./img/Wireframes/GerênciarClientesExcluir.png)
+
+### Cadastrar cliente
+![Gerenciar Clientes](./img/Wireframes/GerênciarClientesCadastrar.png)
+
 
 
 
