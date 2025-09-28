@@ -40,6 +40,19 @@ As referências abaixo irão auxiliá-lo na geração do artefato “Diagramas d
 ### Página de Relatorios
 ![Página de Relatórios](./img/Wireframes/Relatórios.png)
 
+### Gerencia de  Admins
+![Página de Gerencia Admins](./img//Wireframes/Gerencia%20de%20Admins.png)
+
+### Gerencia de  Admins - Excluir
+![Admins - Excluir](./img//Wireframes/Gerencia%20de%20Admins_Excluir.png)
+
+### Gerencia de  Admins - Cadastrar
+![Admins - Cadastrar](./img/Wireframes/Gerencia%20de%20Admins_Cadastrar.png)
+
+### Gerencia de  Admins - Editar
+![Admins - Editar](./img/Wireframes/Gerencia%20de%20Admins_Editar.png)
+
+
 
 
 
