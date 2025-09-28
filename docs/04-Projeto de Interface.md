@@ -52,7 +52,23 @@ As referências abaixo irão auxiliá-lo na geração do artefato “Diagramas d
 ### Gerencia de  Admins - Editar
 ![Admins - Editar](./img/Wireframes/Gerencia%20de%20Admins_Editar.png)
 
+### Pagina inicial
+<img width="360" height="1152" alt="Página Inicial - Outros" src="https://github.com/user-attachments/assets/3a911bca-0f9e-4980-a0fd-0742e792f3eb" />
 
+### Calendario
+<img width="362" height="1148" alt="Calendário" src="https://github.com/user-attachments/assets/4faf91bf-d23e-417c-89db-6264e77d742e" />
+
+### Visualizar Agendamento
+<img width="357" height="1255" alt="Visualizar Agendamento" src="https://github.com/user-attachments/assets/6b82b2ed-8b8c-43ef-89f5-4fa24ea0b24d" />
+
+### Criar Agendamento
+<img width="357" height="939" alt="Criar agendamento" src="https://github.com/user-attachments/assets/6db3a0b2-3400-4dbe-b177-f3da4dc0b93c" />
+
+### Criar Agendamento - Adicionar
+<img width="357" height="939" alt="Criar agendamento_adicionar" src="https://github.com/user-attachments/assets/aa68c493-8c41-4ee1-b471-504277782c44" />
+
+
+ 
 
 
 
