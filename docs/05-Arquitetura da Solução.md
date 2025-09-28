@@ -14,14 +14,14 @@ Definição de como o software é estruturado em termos dos componentes que faze
 
 # Hierarquia estrutural
 
-* Clientes
+ Clientes
     1.1 Agendamentos
         1.1.1 Midias
         1.1.2 ItensAlugados
     1.2 Solicitacoes
         1.2.1 ItensSolicitados
-* Administradores
-* Itens
+ Administradores
+ Itens
 
 # Clientes
 
