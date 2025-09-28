@@ -58,6 +58,8 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 | RF-014 | O sistema deve permitir a emissão de um relatório com o resumo mensal de eventos, contendo o número total de festas, o valor total faturado e o valor total pendente  | MÉDIA |
 | RF-015 | O sistema deve permitir a visualização de todos os eventos agendados em um determinado período      | MÉDIA      |
 | RF-016 | O sistema deve enviar uma notificação para o cliente para informar que o evento está chegando       | BAIXA      |
+| RF-017 | O sistema deve permitir que administradores e clientes recuperem a senha esquecida. | ALTA       |
+| RF-018 | O sistema deve permitir que o proprietário gerencie os administradores do sistema.  | ALTA       |
 
 
 ### Requisitos não Funcionais
