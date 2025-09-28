@@ -12,7 +12,39 @@ Definição de como o software é estruturado em termos dos componentes que faze
 
 ## Collections NoSQL
 
-Colocar imagem das collections no Firebase aqui
+# Hierarquia estrutural
+
+* Clientes
+    1.1 Agendamentos
+        1.1.1 Midias
+        1.1.2 ItensAlugados
+    1.2 Solicitacoes
+        1.2.1 ItensSolicitados
+* Administradores
+* Itens
+
+# Clientes
+
+![Clientes](./img/DBFirebase/Cliente.png)
+
+![Clientes](./img/DBFirebase/Cliente2.png)
+
+![Clientes](./img/DBFirebase/Cliente3.png)
+
+![Clientes](./img/DBFirebase/Cliente4.png)
+
+![Clientes](./img/DBFirebase/Cliente5.png)
+
+![Clientes](./img/DBFirebase/Cliente6.png)
+
+# Administradores
+
+![Adm](./img/DBFirebase/Adm.png)
+
+# Itens
+
+![Clientes](./img/DBFirebase/Item.png)
+
 
 ## Tecnologias Utilizadas
 
