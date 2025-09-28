@@ -67,6 +67,41 @@ As referências abaixo irão auxiliá-lo na geração do artefato “Diagramas d
 ### Criar Agendamento - Adicionar
 <img width="357" height="939" alt="Criar agendamento_adicionar" src="https://github.com/user-attachments/assets/aa68c493-8c41-4ee1-b471-504277782c44" />
 
+### Solicitações
+
+<img width="360" height="720" alt="Solicitações" src="https://github.com/user-attachments/assets/fc942be6-aea5-4674-81cc-74fd726b3337" />
+
+
+### Visualizar Solicitações -
+
+<img width="357" height="1177" alt="Visualizar Solicitação" src="https://github.com/user-attachments/assets/53faa99b-896b-4165-9a75-a9f664e45fe6" />
+
+
+### Configurações -
+
+<img width="390" height="844" alt="Configurações" src="https://github.com/user-attachments/assets/83372e0a-ac56-4689-a9d0-9cefa8deb59d" />
+
+
+### Alterar Senha -
+
+<img width="390" height="799" alt="Alterar senha" src="https://github.com/user-attachments/assets/dc821218-e5b5-4b4e-ac61-895dbc904722" />
+
+### Alterar Email -
+
+<img width="390" height="798" alt="Alterar email" src="https://github.com/user-attachments/assets/058ce207-6efd-4eba-af8a-ef81cc7e81f6" />
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  
 
