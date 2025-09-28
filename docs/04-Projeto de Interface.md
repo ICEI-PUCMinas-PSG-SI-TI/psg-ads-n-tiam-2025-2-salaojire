@@ -9,16 +9,26 @@ Visão geral da interação do usuário pelas telas do sistema e protótipo inte
 
 ## Diagrama de Fluxo
 
-O diagrama apresenta o estudo do fluxo de interação do usuário com o sistema interativo e  muitas vezes sem a necessidade do desenho do design das telas da interface. Isso permite que o design das interações seja bem planejado e gere impacto na qualidade no design do wireframe interativo que será desenvolvido logo em seguida.
+## Site web
 
-O diagrama de fluxo pode ser desenvolvido com “boxes” que possuem internamente a indicação dos principais elementos de interface - tais como menus e acessos - e funcionalidades, tais como editar, pesquisar, filtrar, configurar - e a conexão entre esses boxes a partir do processo de interação. Você pode ver mais explicações e exemplos https://www.lucidchart.com/blog/how-to-make-a-user-flow-diagram.
+### Visitante explora o site
+![Fluxograma do visitante explorando o site](./img//Fluxogramas/_Fluxograma_VisitanteExploraSite.png)
 
-![Exemplo de Diagrama de Fluxo](img/diagramafluxo2.jpg)
+### Visitante realiza o cadastro
+![Fluxograma do visitante realizando o cadastro](./img/Fluxogramas/Fluxograma_ClienteCadastro.png)
 
-As referências abaixo irão auxiliá-lo na geração do artefato “Diagramas de Fluxo”.
+### Visitante realiza o login
+![Fluxograma do visitante realizando o login](./img//Fluxogramas/Fluxograma_ClienteLogin.png)
 
-> **Links Úteis**:
-> - [Fluxograma online: seis sites para fazer gráfico sem instalar nada | Produtividade | TechTudo](https://www.techtudo.com.br/listas/2019/03/fluxograma-online-seis-sites-para-fazer-grafico-sem-instalar-nada.ghtml)
+### Visitante envia solicitação de contato com itens
+![Fluxograma do cliente realizando uma solicitação de contato com itens agregados](./img//Fluxogramas/Fluxograma_ClienteEnviaSolicitacaoComItens.png)
+
+### Visitante visualiza seu histórico de agendamentos
+![Fluxograma do cliente visualizando seu histórico de agendamentos](./img//Fluxogramas/Fluxograma_ClienteHistoricoAgendamentos.png)
+
+## Aplicativo Mobile
+
+
 
 ## Wireframes
 
