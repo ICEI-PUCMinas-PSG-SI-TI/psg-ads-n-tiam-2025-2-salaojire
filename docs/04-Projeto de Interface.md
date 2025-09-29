@@ -193,13 +193,13 @@ O protótipo interativo foi desenvolvido para validar os fluxos do sistema e gar
 ![Gerenciar Itens](./img/Wireframes/GerênciarItens.png)
 
 ### Excluir Itens 
-![Gerenciar Itens](./img/Wireframes/GerênciarItens_Cadastrar.png)
+![Gerenciar Itens](./img/Wireframes/GerênciarItens_Excluir.png)
 
 ### Cadastrar Itens
-![Gerenciar Itens](./img/Wireframes/GerênciarItens_Editar.png)
+![Gerenciar Itens](./img/Wireframes/GerênciarItens_Cadastrar.png)
 
 ### Editar Itens
-![Gerenciar Itens](./img/Wireframes/GerênciarItens_Excluir.png)
+![Gerenciar Itens](./img/Wireframes/GerênciarItens_Editar.png)
 
 
 
