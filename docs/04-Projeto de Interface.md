@@ -70,8 +70,10 @@ O protótipo interativo foi desenvolvido para validar os fluxos do sistema e gar
 
 ---
 
-
 ## Diagrama de Fluxo
+
+### Usuário recupera senha
+![Fluxograma de um usuário recuperando a senha](./img/Fluxogramas/Fluxograma_UsuarioRecuperaSenha.png)
 
 ## Site web
 
@@ -85,14 +87,33 @@ O protótipo interativo foi desenvolvido para validar os fluxos do sistema e gar
 ![Fluxograma do visitante realizando o login](./img//Fluxogramas/Fluxograma_ClienteLogin.png)
 
 ### Visitante envia solicitação de contato com itens
-![Fluxograma do cliente realizando uma solicitação de contato com itens agregados](./img//Fluxogramas/Fluxograma_ClienteEnviaSolicitacaoComItens.png)
+![Fluxograma do cliente realizando uma solicitação de contato com itens agregados](./img/Fluxogramas/Fluxograma_ClienteEnviaSolicitacaoComItens.png)
 
 ### Visitante visualiza seu histórico de agendamentos
 ![Fluxograma do cliente visualizando seu histórico de agendamentos](./img//Fluxogramas/Fluxograma_ClienteHistoricoAgendamentos.png)
 
 ## Aplicativo Mobile
 
+### Admin realiza login
+![Fluxograma do admin realizando login](./img/Fluxogramas/Fluxograma_AdminLogin.png)
 
+### Admin emite um relatório
+![Fluxograma do admin emitindo um relatório](./img/Fluxogramas/Fluxograma_AdminEmiteRelatorio.png)
+
+### Admin visualiza e converte solicitação para agendamento
+![Fluxograma do admin visualizando e convertendo uma solicitação para agendamento](./img/Fluxogramas/Fluxograma_AdminSolicitacoes.png)
+
+### Admin gerência clientes
+![Fluxograma do admin gerênciando os clientes](./img/Fluxogramas/Fluxograma_AdminGerenciaClientes.png)
+
+### Admin gerência agendamentos
+![Fluxograma do admin gerênciando os agendamentos](./img/Fluxogramas/Fluxograma_AdminGerenciaAgendamentos.png)
+
+### Admin gerência itens
+![Fluxograma do admin gerênciando os itens](./img/Fluxogramas/Fluxograma_AdminGerenciaItens.png)
+
+### Propietário gerência administradores
+![Fluxograma do propietário gerênciando os admins](./img/Fluxogramas/Fluxograma_AdminGerenciarAdministradores.png)
 
 ## Wireframes
 
