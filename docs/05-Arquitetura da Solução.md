@@ -1,8 +1,6 @@
 # Arquitetura da Solução
 
-<img width="1269" height="421" alt="Fluxo" src="./img//Arquitetura.png" />
-<img width="181" height="711" alt="Fluxo cliente" src="https://github.com/user-attachments/assets/a02f39dc-afca-4c63-9732-1a117ba80fa4" />
-<img width="182" height="602" alt="Fluxo adm" src="https://github.com/user-attachments/assets/5110c7ed-e346-4cad-a147-1299c47550f8" />
+![Figura da Arquitetura resumida](./img/ArquiteturaResumida.png)
 
 ## Diagrama de Classes
 
@@ -103,6 +101,12 @@ RNF-005/007 → Segurança Firebase (Rules) + LGPD.
 R02/R05 → Exclusivamente React/React Native e Firebase.
 
 R04 → Arquitetura monolítica simplificada (frontend + backend Firebase).
+
+### Figura explicando como as tecnologias estão relacionadas
+
+<img width="1269" height="421" alt="Fluxo" src="./img//Arquitetura.png" />
+<img width="181" height="711" alt="Fluxo cliente" src="https://github.com/user-attachments/assets/a02f39dc-afca-4c63-9732-1a117ba80fa4" />
+<img width="182" height="602" alt="Fluxo adm" src="https://github.com/user-attachments/assets/5110c7ed-e346-4cad-a147-1299c47550f8" />
 
 ## Hospedagem
 
