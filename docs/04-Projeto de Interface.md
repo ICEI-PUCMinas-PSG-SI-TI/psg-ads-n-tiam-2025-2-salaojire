@@ -132,8 +132,14 @@ O protótipo interativo foi desenvolvido para validar os fluxos do sistema e gar
 ### Página Inicial
 ![Página Inicial](./img/Wireframes/Página%20Inicial.png)
 
+### Pagina inicial - Menu Outros
+<img width="360" height="1152" alt="Página Inicial - Outros" src="https://github.com/user-attachments/assets/3a911bca-0f9e-4980-a0fd-0742e792f3eb" />
+
 ### Página de Relatorios
 ![Página de Relatórios](./img/Wireframes/Relatórios.png)
+
+### Calendario
+<img width="362" height="1148" alt="Calendário" src="https://github.com/user-attachments/assets/4faf91bf-d23e-417c-89db-6264e77d742e" />
 
 ### Gerencia de  Admins
 ![Página de Gerencia Admins](./img//Wireframes/Gerencia%20de%20Admins.png)
@@ -147,42 +153,31 @@ O protótipo interativo foi desenvolvido para validar os fluxos do sistema e gar
 ### Gerencia de  Admins - Editar
 ![Admins - Editar](./img/Wireframes/Gerencia%20de%20Admins_Editar.png)
 
-### Pagina inicial
-<img width="360" height="1152" alt="Página Inicial - Outros" src="https://github.com/user-attachments/assets/3a911bca-0f9e-4980-a0fd-0742e792f3eb" />
+### Visualizar Lista de Agendamentos
+![Visualizar Lista de Agendamentos](./img/Wireframes/Agendamentos.png)
 
-### Calendario
-<img width="362" height="1148" alt="Calendário" src="https://github.com/user-attachments/assets/4faf91bf-d23e-417c-89db-6264e77d742e" />
-
-### Visualizar Agendamento
-<img width="357" height="1255" alt="Visualizar Agendamento" src="https://github.com/user-attachments/assets/6b82b2ed-8b8c-43ef-89f5-4fa24ea0b24d" />
+### Visualizar Agendamento Específico
+![Visualizar agendamento](./img/Wireframes/Visualizar%20Agendamento.png)
 
 ### Criar Agendamento
-<img width="357" height="939" alt="Criar agendamento" src="https://github.com/user-attachments/assets/6db3a0b2-3400-4dbe-b177-f3da4dc0b93c" />
+![Criar agendamentos](./img/Wireframes/Visualizar%20Agendamento_Criar.png)
 
 ### Criar Agendamento - Adicionar
 <img width="357" height="939" alt="Criar agendamento_adicionar" src="https://github.com/user-attachments/assets/aa68c493-8c41-4ee1-b471-504277782c44" />
 
 ### Solicitações
-
 <img width="360" height="720" alt="Solicitações" src="https://github.com/user-attachments/assets/fc942be6-aea5-4674-81cc-74fd726b3337" />
 
-
 ### Visualizar Solicitações -
-
 <img width="357" height="1177" alt="Visualizar Solicitação" src="https://github.com/user-attachments/assets/53faa99b-896b-4165-9a75-a9f664e45fe6" />
 
-
 ### Configurações -
-
 <img width="390" height="844" alt="Configurações" src="https://github.com/user-attachments/assets/83372e0a-ac56-4689-a9d0-9cefa8deb59d" />
 
-
 ### Alterar Senha -
-
 <img width="390" height="799" alt="Alterar senha" src="https://github.com/user-attachments/assets/dc821218-e5b5-4b4e-ac61-895dbc904722" />
 
 ### Alterar Email -
-
 <img width="390" height="798" alt="Alterar email" src="https://github.com/user-attachments/assets/058ce207-6efd-4eba-af8a-ef81cc7e81f6" />
 
 ### Visualizar cliente
