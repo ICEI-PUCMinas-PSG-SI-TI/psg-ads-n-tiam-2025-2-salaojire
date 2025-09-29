@@ -119,10 +119,41 @@ Conceituar qualidade de fato é uma tarefa complexa, mas ela pode ser vista como
 No contexto de desenvolvimento de software, qualidade pode ser entendida como um conjunto de características a serem satisfeitas, de modo que o produto de software atenda às necessidades de seus usuários. Entretanto, tal nível de satisfação nem sempre é alcançado de forma espontânea, devendo ser continuamente construído. Assim, a qualidade do produto depende fortemente do seu respectivo processo de desenvolvimento.
 
 A norma internacional ISO/IEC 25010, que é uma atualização da ISO/IEC 9126, define oito características e 30 subcaracterísticas de qualidade para produtos de software.
-Com base nessas características e nas respectivas sub-características, identifique as sub-características que sua equipe utilizará como base para nortear o desenvolvimento do projeto de software considerando-se alguns aspectos simples de qualidade. Justifique as subcaracterísticas escolhidas pelo time e elenque as métricas que permitirão a equipe avaliar os objetos de interesse.
+Com base nessas características e nas respectivas sub-características, identificamos as seguintes como base para nortear o desenvolvimento do nosso projeto:
 
-> **Links Úteis**:
->
-> - [ISO/IEC 25010:2011 - Systems and software engineering — Systems and software Quality Requirements and Evaluation (SQuaRE) — System and software quality models](https://www.iso.org/standard/35733.html/)
-> - [Análise sobre a ISO 9126 – NBR 13596](https://www.tiespecialistas.com.br/analise-sobre-iso-9126-nbr-13596/)
-> - [Qualidade de Software - Engenharia de Software 29](https://www.devmedia.com.br/qualidade-de-software-engenharia-de-software-29/18209/)
+### Usabilidade
+Sub-características Escolhidas: Aprendizibilidade, Operabilidade e Proteção contra erros de uso.
+
+Justificativa: Esta é talvez a característica mais crítica para o sucesso do projeto. O público-alvo do site inclui pessoas com variados níveis de familiaridade com tecnologia, devendo ser "fácil de mexer, pensando principalmente em pessoas que não têm muita intimidade com tecnologia". Da mesma forma, o administrador do salão, precisa de um aplicativo móvel que seja "prático e direto ao ponto, sem exigir conhecimento técnico". O requisito não funcional RNF-003 reforça a necessidade de uma "interface intuitiva e simples".
+
+Métricas de Avaliação:
+* Aprendizibilidade: Tempo (em minutos) que um novo usuário leva para completar uma tarefa chave pela primeira vez (ex: enviar uma solicitação de orçamento).
+* Operabilidade: Número de cliques necessários para executar as principais funcionalidades do sistema (ex: cadastrar um novo item).
+* Proteção contra erros: Implementação de diálogos de confirmação para ações destrutivas (ex: excluir um item ou cliente).
+
+### Segurança
+Sub-características Escolhidas: Confidencialidade, Integridade e Autenticidade.
+
+Justificativa: O sistema irá armazenar e gerenciar dados pessoais de clientes, como nome, e-mail e telefone, além do histórico de seus eventos. É fundamental proteger essas informações, como exigido pelo requisito RNF-007 de acordo com a LGPD. Além disso, o RNF-005 especifica que o armazenamento no Firebase deve ter autenticação segura.
+
+Métricas de Avaliação:
+* Confidencialidade: Verificar se todas as transações de dados entre o cliente (site/app) e o servidor (Firebase) são feitas sobre HTTPS.
+* Integridade: Garantir que as regras de segurança do Firebase impeçam a alteração de dados por usuários não autorizados.
+* Autenticidade: 100% das funcionalidades administrativas devem ser protegidas por um sistema de login.
+
+### Adequação Funcional
+Sub-características Escolhidas: Completude Funcional e Corretude Funcional.
+
+Justificativa: O objetivo central do projeto é resolver os problemas de gestão manual e falta de presença online do salão Jiré Festas. Para isso, o software deve executar corretamente todas as funções definidas. O sistema precisa permitir que os visitantes vejam o catálogo e que o administrador gerencie agendamentos e clientes de forma eficaz para substituir o processo manual e sujeito a erros.
+
+Métricas de Avaliação:
+* Completude Funcional: Percentual de requisitos funcionais (da lista de RF-001 a RF-016) que foram implementados e testados com sucesso.
+* Corretude Funcional: Número de bugs identificados por funcionalidade durante a fase de testes. A meta é ter zero bugs críticos ou de alta prioridade no momento da entrega.
+
+### Desempenho
+Sub-características Escolhidas: Comportamento em relação ao tempo.
+
+Justificativa: Um site ou aplicativo lento pode frustrar os usuários e prejudicar a imagem profissional do salão. O requisito RNF-004 estabelece explicitamente que "O sistema deve processar requisições em até 3 segundos em condições normais de uso".
+
+Métricas de Avaliação:
+* Tempo: Medir o tempo de carregamento das principais páginas do site e o tempo de resposta das principais operações do aplicativo (ex: carregar a lista de clientes). A meta é que todas essas operações sejam concluídas em menos de 3 segundos.
