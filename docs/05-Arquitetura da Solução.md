@@ -106,27 +106,17 @@ R02/R05 → Exclusivamente React/React Native e Firebase.
 
 R04 → Arquitetura monolítica simplificada (frontend + backend Firebase).
 
-
-
 <img width="1269" height="421" alt="Fluxo" src="https://github.com/user-attachments/assets/763c9712-9cb7-451d-b3b6-b73a09c4c1db" />
-
-
 <img width="181" height="711" alt="Fluxo cliente" src="https://github.com/user-attachments/assets/a02f39dc-afca-4c63-9732-1a117ba80fa4" />
-
-
-
 <img width="182" height="602" alt="Fluxo adm" src="https://github.com/user-attachments/assets/5110c7ed-e346-4cad-a147-1299c47550f8" />
 
 ## Hospedagem
 
-Explique como a hospedagem e o lançamento da plataforma foi feita.
+A hospedagem e o lançamento da plataforma foram realizados utilizando a Vercel, uma plataforma moderna especializada na publicação de aplicações web de alta performance, com foco em frameworks de frontend como o React.
 
-> **Links Úteis**:
->
-> - [Website com GitHub Pages](https://pages.github.com/)
-> - [Programação colaborativa com Repl.it](https://repl.it/)
-> - [Getting Started with Heroku](https://devcenter.heroku.com/start)
-> - [Publicando Seu Site No Heroku](http://pythonclub.com.br/publicando-seu-hello-world-no-heroku.html)
+O processo de lançamento (deploy) foi configurado usando como controle de versão o Github. Foi enviado um convite para a equipe da PUC permitir que repositório do projeto no Github seja conectado à plataforma Vercel. Este vínculo permitie que o Vercel escute todas as alterações enviadas ao repositório.
+
+Com isso o Deploy é automatizado a cada push para a branch main no repositório github, o Vercel automaticamente inicia o processo de build, deploy e publicação no domínio da aplicação
 
 ## Qualidade de Software
 
