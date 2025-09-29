@@ -189,6 +189,12 @@ O protótipo interativo foi desenvolvido para validar os fluxos do sistema e gar
 ### Editar cliente
 ![Gerenciar Clientes](./img/Wireframes/GerênciarClientesEditar.png)
 
+### Excluir cliente
+![Gerenciar Clientes](./img/Wireframes/GerênciarClientesExcluir.png)
+
+### Cadastrar cliente
+![Gerenciar Clientes](./img/Wireframes/GerênciarClientesCadastrar.png)
+
 ### Gerenciar Itens
 ![Gerenciar Itens](./img/Wireframes/GerênciarItens.png)
 
