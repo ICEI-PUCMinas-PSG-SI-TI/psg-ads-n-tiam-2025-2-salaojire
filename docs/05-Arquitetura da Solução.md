@@ -1,10 +1,8 @@
 # Arquitetura da Solução
 
-<span style="color:red">Pré-requisitos: <a href="3-Projeto de Interface.md"> Projeto de Interface</a></span>
-
-Definição de como o software é estruturado em termos dos componentes que fazem parte da solução e do ambiente de hospedagem da aplicação.
-
-![Arquitetura da Solução](img/02-mob-arch.png)
+<img width="1269" height="421" alt="Fluxo" src="./img//Arquitetura.png" />
+<img width="181" height="711" alt="Fluxo cliente" src="https://github.com/user-attachments/assets/a02f39dc-afca-4c63-9732-1a117ba80fa4" />
+<img width="182" height="602" alt="Fluxo adm" src="https://github.com/user-attachments/assets/5110c7ed-e346-4cad-a147-1299c47550f8" />
 
 ## Diagrama de Classes
 
@@ -105,10 +103,6 @@ RNF-005/007 → Segurança Firebase (Rules) + LGPD.
 R02/R05 → Exclusivamente React/React Native e Firebase.
 
 R04 → Arquitetura monolítica simplificada (frontend + backend Firebase).
-
-<img width="1269" height="421" alt="Fluxo" src="https://github.com/user-attachments/assets/763c9712-9cb7-451d-b3b6-b73a09c4c1db" />
-<img width="181" height="711" alt="Fluxo cliente" src="https://github.com/user-attachments/assets/a02f39dc-afca-4c63-9732-1a117ba80fa4" />
-<img width="182" height="602" alt="Fluxo adm" src="https://github.com/user-attachments/assets/5110c7ed-e346-4cad-a147-1299c47550f8" />
 
 ## Hospedagem
 
