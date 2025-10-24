@@ -1,161 +1,33 @@
-import { Tabs } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import { View } from "react-native";
+import { Tabs } from 'expo-router';
+import React from 'react';
+
+import { HapticTab } from '@/components/haptic-tab';
+import { IconSymbol } from '@/components/ui/icon-symbol';
+import { Colors } from '@/constants/theme';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function TabLayout() {
+  const colorScheme = useColorScheme();
+
   return (
     <Tabs
       screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarStyle: {
-          backgroundColor: "#000",
-          borderTopColor: "#222",
-          height: 90,          
-          paddingBottom: 20,   
-          paddingTop: 1,       
-          position: "absolute", 
-        },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: "600",
-          marginTop: 2,
-        },
-        tabBarActiveTintColor: "#FFD700",
-        tabBarInactiveTintColor: "#B8860B",
-      }}
-    >
-      {/* Homepage */}
+        tabBarButton: HapticTab,
+      }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: "Homepage",
-          tabBarIcon: ({ focused }) => (
-            <View
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: focused ? "#FFD700" : "transparent",
-              }}
-            >
-              <Ionicons
-                name="home"
-                size={22}
-                color={focused ? "#000" : "#B8860B"}
-                style={{ marginBottom: 5 }} 
-              />
-            </View>
-          ),
+          title: 'Home',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
-
-      {/* Calendário */}
       <Tabs.Screen
         name="explore"
         options={{
-          title: "Calendário",
-          tabBarIcon: ({ focused }) => (
-            <View
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: focused ? "#FFD700" : "transparent",
-              }}
-            >
-              <Ionicons
-                name="calendar"
-                size={22}
-                color={focused ? "#000" : "#B8860B"}
-                style={{ marginBottom: 5 }}
-              />
-            </View>
-          ),
-        }}
-      />
-
-      {/* Relatórios */}
-      <Tabs.Screen
-        name="relatorios"
-        options={{
-          title: "Relatórios",
-          tabBarIcon: ({ focused }) => (
-            <View
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: focused ? "#FFD700" : "transparent",
-              }}
-            >
-              <Ionicons
-                name="document-text"
-                size={22}
-                color={focused ? "#000" : "#B8860B"}
-                style={{ marginBottom: 5 }}
-              />
-            </View>
-          ),
-        }}
-      />
-
-      {/* Clientes */}
-      <Tabs.Screen
-        name="clientes"
-        options={{
-          title: "Clientes",
-          tabBarIcon: ({ focused }) => (
-            <View
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: focused ? "#FFD700" : "transparent",
-              }}
-            >
-              <Ionicons
-                name="people"
-                size={22}
-                color={focused ? "#000" : "#B8860B"}
-                style={{ marginBottom: 5 }}
-              />
-            </View>
-          ),
-        }}
-      />
-
-      {/* Outros */}
-      <Tabs.Screen
-        name="outros"
-        options={{
-          title: "Outros",
-          tabBarIcon: ({ focused }) => (
-            <View
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: focused ? "#FFD700" : "transparent",
-              }}
-            >
-              <Ionicons
-                name="menu"
-                size={22}
-                color={focused ? "#000" : "#B8860B"}
-                style={{ marginBottom: 5 }}
-              />
-            </View>
-          ),
+          title: 'Explore',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
         }}
       />
     </Tabs>
