@@ -1,8 +1,7 @@
-import * as auth from './auth';
-import * as storage from './storage';
-import * as administradores from './firestore/administradores';
-import * as clientes from './firestore/clientes';
-import * as itens from './firestore/itens';
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 
 export default {
   auth,
