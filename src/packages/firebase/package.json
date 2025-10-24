@@ -8,5 +8,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "Responsável pela interação ao Firebase"
+  "description": "Responsável pela interação ao Firebase",
+  "dependencies": {
+    "firebase": "*"
+  }
 }
