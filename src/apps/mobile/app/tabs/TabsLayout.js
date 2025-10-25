@@ -1,8 +1,28 @@
-import { Tabs } from "expo-router";
+import React from 'react';
+import { Tabs, Redirect } from "expo-router"; // 1. Importar Redirect
 import { Ionicons } from "@expo/vector-icons";
-import { View } from "react-native";
+import { View, ActivityIndicator } from "react-native";
+import { useAuth } from '../context/AuthContext';
+import LoginPage from '../pages/Login/login';
 
 export default function TabLayout() {
+  const { user, initializing } = useAuth();
+
+  if (initializing) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFF' }}>
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
+
+  // Se o usuário não está logado, redirecionar para página de login
+  if (!user) {
+    return (
+    <LoginPage></LoginPage>
+    )
+  }
+
   return (
     <Tabs
       screenOptions={{
@@ -10,10 +30,10 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: "#000",
           borderTopColor: "#222",
-          height: 90,          
-          paddingBottom: 20,   
-          paddingTop: 1,       
-          position: "absolute", 
+          height: 90,
+          paddingBottom: 20,
+          paddingTop: 1,
+          position: "absolute",
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -44,7 +64,7 @@ export default function TabLayout() {
                 name="home"
                 size={22}
                 color={focused ? "#000" : "#B8860B"}
-                style={{ marginBottom: 5 }} 
+                style={{ marginBottom: 5 }}
               />
             </View>
           ),
@@ -78,7 +98,6 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Relatórios */}
       <Tabs.Screen
         name="relatorios"
         options={{
@@ -105,7 +124,6 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Clientes */}
       <Tabs.Screen
         name="clientes"
         options={{
@@ -132,7 +150,6 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Outros */}
       <Tabs.Screen
         name="outros"
         options={{
