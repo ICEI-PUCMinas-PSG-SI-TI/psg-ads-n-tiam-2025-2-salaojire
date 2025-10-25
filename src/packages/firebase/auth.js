@@ -36,6 +36,33 @@ export async function signUpCliente({ email, senha, nome, telefone }) {
   }
 }
 
+/**
+ * Registra um novo administrador.
+ * Requer uma Cloud Function para definir o Custom Claim 'admin'.
+ * @param {object} adminData - Dados do admin, incluindo email, senha, nome, nivel.
+ * @returns {Promise<object>} O objeto do usuário autenticado.
+ */
+export async function signUpAdmin({ email, senha, nome, nivel }) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+    const user = userCredential.user;
+
+    const perfilData = {
+      id: user.uid,
+      email,
+      nome,
+      nivel, // 'SUPER' ou 'ADMIN'
+    };
+
+    // A criação deste documento acionará a Cloud Function para definir o Custom Claim.
+    await setDoc(doc(firestore, 'Administradores', user.uid), perfilData);
+    return user;
+  } catch (error) {
+    console.error("Erro ao registrar administrador:", error);
+    throw new Error(`Falha no registro de admin: ${error.code}`);
+  }
+}
+
 /* Realiza o login. Exemplo:
 await FirebaseAPI.auth.signIn("test@gmail.com", "Test123");
 */
