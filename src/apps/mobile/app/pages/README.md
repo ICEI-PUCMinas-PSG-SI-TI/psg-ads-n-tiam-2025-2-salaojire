@@ -1,0 +1,1 @@
+Coloquem as outras pages aqui, na pasta (tabs) são as páginas que estão no footer

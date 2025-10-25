@@ -53,7 +53,7 @@ export default function TabLayout() {
 
       {/* Calendário */}
       <Tabs.Screen
-        name="explore"
+        name="calendario"
         options={{
           title: "Calendário",
           tabBarIcon: ({ focused }) => (
