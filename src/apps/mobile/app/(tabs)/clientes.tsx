@@ -42,7 +42,7 @@ export default function ClientesScreen() {
   const [q, setQ] = useState("");
   const [clients, setClients] = useState<Client[]>([]);
 
-  // Modais
+  // Modais estrutura
   const [confirmId, setConfirmId] = useState<string | null>(null);
   const [viewOpen, setViewOpen] = useState(false);
   const [viewClient, setViewClient] = useState<Client | null>(null);
@@ -165,7 +165,7 @@ export default function ClientesScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#111" }}>
-      {/* Header */}
+
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Gerenciar Clientes</Text>
 
@@ -174,7 +174,7 @@ export default function ClientesScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Busca */}
+
       <View style={styles.searchWrap}>
         <Ionicons
           name="search"
@@ -196,7 +196,7 @@ export default function ClientesScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Lista */}
+
       <FlatList
         data={filtered}
         keyExtractor={(item) => item.id}
@@ -235,7 +235,7 @@ export default function ClientesScreen() {
         keyboardShouldPersistTaps="handled"
       />
 
-      {/* Tab bar (visual) */}
+
       <View style={styles.tabBar}>
         <TabItem icon="home" label="Homepage" />
         <TabItem icon="calendar" label="Calendário" />
@@ -244,7 +244,7 @@ export default function ClientesScreen() {
         <TabItem icon="menu" label="Outros" />
       </View>
 
-      {/* Confirmar exclusão (Não à esquerda / Sim à direita) */}
+
       <Modal
         visible={!!confirmId}
         transparent
@@ -267,7 +267,7 @@ export default function ClientesScreen() {
             <Text style={styles.sub}>Confirme a sua opção</Text>
 
             <View style={styles.actions}>
-              {/* NÃO (esquerda) */}
+
               <TouchableOpacity
                 onPress={() => setConfirmId(null)}
                 style={[styles.btn, styles.btnPrimary]}
@@ -275,7 +275,7 @@ export default function ClientesScreen() {
                 <Text style={[styles.btnText, { color: "#111" }]}>Não</Text>
               </TouchableOpacity>
 
-              {/* SIM (direita) */}
+
               <TouchableOpacity
                 onPress={() => confirmId && remove(confirmId)}
                 style={[styles.btn, styles.btnOutlineDanger]}
@@ -287,7 +287,7 @@ export default function ClientesScreen() {
         </View>
       </Modal>
 
-      {/* Add/Edit modal */}
+
       <Modal
         visible={editOpen}
         animationType="slide"
@@ -372,7 +372,6 @@ export default function ClientesScreen() {
         </View>
       </Modal>
 
-      {/* Visualizar – sem rota */}
       <Modal
         visible={viewOpen}
         animationType="slide"
@@ -568,7 +567,7 @@ const styles = StyleSheet.create({
   tabItem: { alignItems: "center" },
   tabLabel: { fontSize: 11, marginTop: 2, color: "#111", fontWeight: "600" },
 
-  // Modais (exclusão)
+
   backdrop: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.35)",
@@ -596,7 +595,7 @@ const styles = StyleSheet.create({
   btnPrimary: { borderColor: "#F2C94C", backgroundColor: "#F2C94C" },
   btnText: { fontWeight: "800" },
 
-  // Modal (add/edit)
+
   sheetBackdrop: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.35)",
@@ -640,7 +639,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
 
-  // Visualizar
+
   card2: {
     margin: 16,
     marginTop: 12,
