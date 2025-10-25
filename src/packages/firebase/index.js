@@ -1,7 +1,6 @@
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
-import { getStorage } from 'firebase/storage';
+import * as clientes from './clientes.js';
+import * as agendamentos from './agendamentos.js';
+import * as auth from './auth.js';
 
 export default {
   auth,
