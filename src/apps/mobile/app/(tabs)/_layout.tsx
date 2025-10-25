@@ -10,9 +10,10 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: "#000",
           borderTopColor: "#222",
-          height: 70,
-          paddingBottom: 6,
-          paddingTop: 6,
+          height: 90,          
+          paddingBottom: 20,   
+          paddingTop: 1,       
+          position: "absolute", 
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -43,6 +44,7 @@ export default function TabLayout() {
                 name="home"
                 size={22}
                 color={focused ? "#000" : "#B8860B"}
+                style={{ marginBottom: 5 }} 
               />
             </View>
           ),
@@ -69,6 +71,7 @@ export default function TabLayout() {
                 name="calendar"
                 size={22}
                 color={focused ? "#000" : "#B8860B"}
+                style={{ marginBottom: 5 }}
               />
             </View>
           ),
@@ -95,6 +98,7 @@ export default function TabLayout() {
                 name="document-text"
                 size={22}
                 color={focused ? "#000" : "#B8860B"}
+                style={{ marginBottom: 5 }}
               />
             </View>
           ),
@@ -121,6 +125,7 @@ export default function TabLayout() {
                 name="people"
                 size={22}
                 color={focused ? "#000" : "#B8860B"}
+                style={{ marginBottom: 5 }}
               />
             </View>
           ),
@@ -147,6 +152,7 @@ export default function TabLayout() {
                 name="menu"
                 size={22}
                 color={focused ? "#000" : "#B8860B"}
+                style={{ marginBottom: 5 }}
               />
             </View>
           ),
