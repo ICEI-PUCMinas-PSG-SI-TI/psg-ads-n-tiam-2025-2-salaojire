@@ -1,14 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert } from 'react-native';
+import { StyleSheet, Button, Alert } from 'react-native';
 import { firestore } from '@packages/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export default function App() {
+
+export default function Index() {
+  const insets = useSafeAreaInsets(); 
+
   const handleTestFirebase = async () => {
     try {
       console.log('Tentando escrever no Firestore...');
@@ -30,16 +33,15 @@ export default function App() {
   };
 
   return (
-    <ThemedView style={styles.container}>
-      <ParallaxScrollView>
-        <ThemedText style={styles.title}>Teste de Conexão Firebase</ThemedText>
-        <ThemedText style={styles.instructions}>
-          Clique no botão abaixo para tentar escrever um documento no Firestore.
-        </ThemedText>
-        <Button title="Testar Conexão com Firebase" onPress={handleTestFirebase} />
-        <HelloWave />
-        <Link href="/">Voltar</Link>
-      </ParallaxScrollView>
+    <ThemedView style={[styles.container, { paddingBottom: insets.bottom + 90 }]}>
+      {/* adiciona padding inferior automático */}
+      <ThemedText style={styles.title}>Teste de Conexão Firebase</ThemedText>
+      <ThemedText style={styles.instructions}>
+        Clique no botão abaixo para tentar escrever um documento no Firestore.
+      </ThemedText>
+      <Button title="Testar Conexão com Firebase" onPress={handleTestFirebase} />
+      <HelloWave />
+      <Link href="/">Voltar</Link>
     </ThemedView>
   );
 }
@@ -63,3 +65,4 @@ const styles = StyleSheet.create({
     color: '#555',
   },
 });
+
