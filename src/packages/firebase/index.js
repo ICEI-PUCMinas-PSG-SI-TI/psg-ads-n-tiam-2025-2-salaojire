@@ -1,9 +1,15 @@
-import * as clientes from './clientes.js';
-import * as agendamentos from './agendamentos.js';
-import * as auth from './auth.js';
+import * as auth from './auth';
+import * as storage from './storage';
+import * as administradores from './firestore/administradores';
+import * as clientes from './firestore/clientes';
+import * as itens from './firestore/itens';
 
 export default {
-  clientes,
-  agendamentos,
-  auth
+  auth,
+  storage,
+  firestore: {
+    administradores,
+    clientes,
+    itens,
+  },
 };
