@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {StyleSheet,View,Text,Image,TextInput,TouchableOpacity,KeyboardAvoidingView,Platform,SafeAreaView,ScrollView,ActivityIndicator} from "react-native";
 
 import FirebaseAPI from "@packages/firebase"; 
+import { router } from "expo-router";
 
 const corDourada = '#F0B100';
 
@@ -42,7 +43,7 @@ export default function LoginPage() {
         >
           <View style={styles.logoContainer}>
             <Image
-              source={require('./LogoJire.png')}
+              source={require('../../../assets/images/LogoJire.png')}
               accessibilityLabel="Logo JIRÉ"
               style={styles.logo}
               resizeMode="contain"
@@ -67,25 +68,10 @@ export default function LoginPage() {
               />
             </View>
 
-            <View style={styles.inputGroupPassword}>
-              <Text style={styles.label}>Senha</Text>
-              <TextInput
-                style={styles.input}
-                value={password}
-                onChangeText={setPassword}
-                placeholder="Digite a sua senha..."
-                placeholderTextColor="#969696"
-                secureTextEntry
-                autoCapitalize="none"
-                autoCorrect={false}
-                editable={!isLoading}
-              />
-            </View>
-
             <View style={styles.forgotPasswordContainer}>
-              <TouchableOpacity onPress={() => console.log("Forgot Password pressed")} disabled={isLoading}>
+              <TouchableOpacity onPress={router.back} disabled={isLoading}>
                 <Text style={styles.forgotPasswordText}>
-                  Esqueceu a senha?
+                  Voltar
                 </Text>
               </TouchableOpacity>
             </View>

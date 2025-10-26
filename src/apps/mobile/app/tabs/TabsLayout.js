@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Redirect } from "expo-router"; // 1. Importar Redirect
+import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { View, ActivityIndicator } from "react-native";
 import { useAuth } from '../context/AuthContext';
