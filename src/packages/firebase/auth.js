@@ -2,13 +2,16 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut as 
 import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
 import { auth, firestore } from './config';
 import { initializeApp, deleteApp } from 'firebase/app';
+import { getDocs, collection, query, where } from 'firebase/firestore';
+import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+
 
 //Lembrem de usar try e catch quando for usar a API
 
 /* Cadastra e loga em uma nova conta cliente. Exemplo:
 const clienteData = {
   email: "test@gmail.com",
-  senha: "Test123",
+  senha: "Test123", 
   nome: 'Cliente de Teste',
   telefone: '123456789',
 };
@@ -180,3 +183,33 @@ useEffect(() => {
 export function onAuthStateChanged(callback) {
   return firebaseOnAuthStateChanged(auth, callback);
 }
+/* Redefine a senha com reautenticação. Exemplo:*/
+export async function sendPasswordResetEmail(email) {
+  try {
+    console.log("Enviando email de redefinição para:", email);
+    
+    // Importa a função do Firebase Auth
+    const { sendPasswordResetEmail } = await import('firebase/auth');
+    
+    // Chama a função REAL do Firebase
+    await sendPasswordResetEmail(auth, email);
+    
+    console.log("Email de redefinição enviado com sucesso!");
+    return true;
+    
+  } catch (error) {
+    console.error("Erro REAL ao enviar email:", error);
+    
+    // Tratamento de erros específicos do Firebase
+    if (error.code === 'auth/user-not-found') {
+      throw new Error('Email não encontrado em nosso sistema.');
+    } else if (error.code === 'auth/invalid-email') {
+      throw new Error('O formato do email é inválido.');
+    } else if (error.code === 'auth/too-many-requests') {
+      throw new Error('Muitas tentativas. Tente novamente mais tarde.');
+    } else {
+      throw new Error('Erro ao enviar email: ' + error.message);
+    }
+  }
+}
+
