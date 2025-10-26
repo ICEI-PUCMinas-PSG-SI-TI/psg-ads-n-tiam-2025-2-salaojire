@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator, Alert, TextInput } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { getAdmins, deleteAdmin } from "../services/adminService";
+import FirebaseAPI from "@packages/firebase"
 import AdminModal from "../../components/AdminModal";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
-import { useRouter } from "expo-router"; // ✅ usar router do Expo Router
+import { useRouter } from "expo-router";
 
 export default function AdminManagerScreen() {
-  const router = useRouter(); // ✅ substitui navigation
+  const router = useRouter();
 
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,7 +19,7 @@ export default function AdminManagerScreen() {
 
   const loadAdmins = async () => {
     try {
-      const data = await getAdmins();
+      const data = await FirebaseAPI.firestore.administradores.getAdmins();
       setAdmins(data);
     } catch (error) {
       console.log("Erro ao buscar admins:", error);
@@ -56,7 +56,7 @@ export default function AdminManagerScreen() {
 
   const confirmDelete = async () => {
     try {
-      await deleteAdmin(selectedAdmin.id);
+      await FirebaseAPI.firestore.administradores.deleteAdminProfile(selectedAdmin.id);
       setAdmins(admins.filter((a) => a.id !== selectedAdmin.id));
       setShowDeleteModal(false);
     } catch (error) {
@@ -70,14 +70,12 @@ export default function AdminManagerScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Header personalizado */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#f9b500" />
         </TouchableOpacity>
         <Text style={styles.title}>Gerenciar administradores</Text>
 
-        {/* Barra de pesquisa */}
         <View style={styles.searchContainer}>
           <Ionicons name="search" size={20} color="#f9b500" style={styles.searchIcon} />
           <TextInput
@@ -144,7 +142,6 @@ export default function AdminManagerScreen() {
   );
 }
 
-// ✅ Desativa o header automático do Expo Router
 AdminManagerScreen.options = {
   headerShown: false,
 };

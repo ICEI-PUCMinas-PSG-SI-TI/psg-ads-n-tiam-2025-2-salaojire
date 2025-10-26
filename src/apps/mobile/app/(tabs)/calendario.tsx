@@ -1,11 +1,9 @@
 import { View, Text, StyleSheet } from "react-native";
+import GerenciarAdmin from "../(pages)/AdminManagerScreen";
 
 export default function OutrosScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Calendário</Text>
-      <Text style={styles.text}>Aqui ficará a tela de calendário</Text>
-    </View>
+    <GerenciarAdmin></GerenciarAdmin>
   );
 }
 

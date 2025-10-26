@@ -78,7 +78,7 @@ export async function createClienteAsAdmin({ email, senha, nome, telefone }) {
   }
 }
 
-/* Cadastrar admin. Exemplo:
+/* Cadastra um admin sem logar na conta dele. Exemplo:
 const adminData = {
   email: "admin@gmail.com",
   senha: "Admin123",
@@ -88,22 +88,33 @@ const adminData = {
 await FirebaseAPI.auth.signUpAdmin(adminData);
 */
 export async function signUpAdmin({ email, senha, nome, nivel }) {
+  const tempAppName = `auth-worker-${Date.now()}`;
+  let secondaryApp;
+
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-    const user = userCredential.user;
-    
+    const mainAppConfig = auth.app.options;
+    secondaryApp = initializeApp(mainAppConfig, tempAppName);
+    const secondaryAuth = getAuth(secondaryApp);
+    const userCredential = await createUserWithEmailAndPassword(secondaryAuth, email, senha);
+    const newUser = userCredential.user;
+
     const perfilData = {
-      id: user.uid,
+      id: newUser.uid,
       email,
       nome,
       nivel, // 'SUPER' ou 'ADMIN'
     };
 
-    await setDoc(doc(firestore, 'Administradores', user.uid), perfilData);
-    return user;
+    await setDoc(doc(firestore, 'Administradores', newUser.uid), perfilData);
+    await firebaseSignOut(secondaryAuth);
+    return { uid: newUser.uid, email: newUser.email };
   } catch (error) {
-    console.error("Erro ao registrar administrador:", error);
-    throw new Error(`Falha no registro de admin: ${error.code}`);
+    console.error("Erro ao criar admin:", error);
+    throw new Error(`Falha no registro pelo admin: ${error.code}`);
+  } finally {
+    if (secondaryApp) {
+      await deleteApp(secondaryApp);
+    }
   }
 }
 

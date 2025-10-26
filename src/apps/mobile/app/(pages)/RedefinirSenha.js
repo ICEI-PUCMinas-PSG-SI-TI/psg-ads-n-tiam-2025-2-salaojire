@@ -43,7 +43,7 @@ export default function LoginPage() {
         >
           <View style={styles.logoContainer}>
             <Image
-              source={require('../../../assets/images/LogoJire.png')}
+              source={require('../../assets/images/LogoJire.png')}
               accessibilityLabel="Logo JIRÉ"
               style={styles.logo}
               resizeMode="contain"

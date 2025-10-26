@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { createAdmin, updateAdmin } from"../app/services/adminService";
+import FirebaseAPI from "@packages/firebase"
 
 export default function AdminModal({
     visible,
@@ -13,19 +13,19 @@ export default function AdminModal({
     const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
-    const [nivel, setNivel] = useState("secundario");
+    const [nivel, setNivel] = useState("ADMIN");
 
     useEffect(() => {
         if (isEditing && adminData) {
             setNome(adminData.nome);
             setEmail(adminData.email);
             setSenha(adminData.senha || "");
-            setNivel(adminData.nivel || "secundario")
+            setNivel(adminData.nivel || "ADMIN")
         } else {
             setNome("");
             setEmail("");
             setSenha("");
-            setNivel("secundario")
+            setNivel("ADMIN")
         }
     }, [isEditing, adminData]);
 
@@ -47,10 +47,10 @@ export default function AdminModal({
 
         try {
             if (isEditing) {
-                await updateAdmin(adminData.id, { nome, email, senha, nivel });
+                await FirebaseAPI.firestore.administradores.updateAdminProfile(adminData.id, { nome, email, senha, nivel });
                 Alert.alert("Sucesso", "Administrador atualizado com sucesso!");
             } else {
-                await createAdmin({ nome, email, senha, nivel });
+                await FirebaseAPI.auth.signUpAdmin({ nome, email, senha, nivel });
                 Alert.alert("Sucesso", "Administrador cadastrado com sucesso!");
             }
 
@@ -94,14 +94,14 @@ export default function AdminModal({
 
                     <TextInput
                         style={styles.input}
-                        placeholder="Digite seu nome"
+                        placeholder="Digite o nome"
                         placeholderTextColor="#4d4c4cff"
                         value={nome}
                         onChangeText={setNome}
                     />
                     <TextInput
                         style={styles.input}
-                        placeholder="Digite seu email"
+                        placeholder="Digite o email"
                         placeholderTextColor="#4d4c4cff"
                         value={email}
                         onChangeText={setEmail}
@@ -142,22 +142,22 @@ export default function AdminModal({
                     <TouchableOpacity
                         style={[
                             styles.nivelButton,
-                            nivel === "master" && styles.nivelSelected,
+                            nivel === "SUPER" && styles.nivelSelected,
                         ]}
-                        onPress={() => setNivel("master")}>
-                        <Text style={nivel === "master" ? { color: "#fff" } : { color: "#333" }}>
-                            Master
+                        onPress={() => setNivel("SUPER")}>
+                        <Text style={nivel === "SUPER" ? { color: "#fff" } : { color: "#333" }}>
+                            SUPER
                         </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={[
                             styles.nivelButton,
-                            nivel === "secundario" && styles.nivelSelected,
+                            nivel === "ADMIN" && styles.nivelSelected,
                         ]}
-                        onPress={() => setNivel("secundario")}>
-                        <Text style={nivel === "secundario" ? { color: "#fff" } : { color: "#333" }}>
-                            Secundario
+                        onPress={() => setNivel("ADMIN")}>
+                        <Text style={nivel === "ADMIN" ? { color: "#fff" } : { color: "#333" }}>
+                            ADMIN
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     },
     nivelContainer: {
   width: "100%",
-  backgroundColor: "#fff", // 🔹 Cor sólida — pode mudar para "#f9b500" se quiser amarelo
+  backgroundColor: "#fff",
   borderTopWidth: 1,
   borderTopColor: "#ddd",
   marginTop: 20,

@@ -2,10 +2,11 @@ import { Button } from "@react-navigation/elements";
 import { View, Text, StyleSheet } from "react-native";
 import FirebaseAPI from "@packages/firebase";
 import Gerenciaritens from "../pages/GerenciarItens";
+import GerenciarAdmin from "../(pages)/AdminManagerScreen";
+
 export default function HomepageScreen() {
   return (
-    <>
-    </>
+    <></>
   );
 }
 
