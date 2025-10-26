@@ -36,6 +36,35 @@ export async function signUpCliente({ email, senha, nome, telefone }) {
   }
 }
 
+/* Cadastrar admin. Exemplo:
+const adminData = {
+  email: "admin@gmail.com",
+  senha: "Admin123",
+  nome: 'Admin de Teste',
+  nivel: 'SUPER',
+};
+await FirebaseAPI.auth.signUpAdmin(adminData);
+*/
+export async function signUpAdmin({ email, senha, nome, nivel }) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+    const user = userCredential.user;
+    
+    const perfilData = {
+      id: user.uid,
+      email,
+      nome,
+      nivel, // 'SUPER' ou 'ADMIN'
+    };
+
+    await setDoc(doc(firestore, 'Administradores', user.uid), perfilData);
+    return user;
+  } catch (error) {
+    console.error("Erro ao registrar administrador:", error);
+    throw new Error(`Falha no registro de admin: ${error.code}`);
+  }
+}
+
 /* Realiza o login. Exemplo:
 await FirebaseAPI.auth.signIn("test@gmail.com", "Test123");
 */
