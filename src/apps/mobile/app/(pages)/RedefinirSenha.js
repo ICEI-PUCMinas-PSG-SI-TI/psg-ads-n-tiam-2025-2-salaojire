@@ -1,34 +1,59 @@
 import React, { useState } from "react";
-import {StyleSheet,View,Text,Image,TextInput,TouchableOpacity,KeyboardAvoidingView,Platform,SafeAreaView,ScrollView,ActivityIndicator} from "react-native";
-
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  ActivityIndicator
+} from "react-native";
 import FirebaseAPI from "@packages/firebase"; 
 import { router } from "expo-router";
 
 const corDourada = '#F0B100';
 
-export default function LoginPage() {
+export default function RedefinirSenha() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  
   const [isLoading, setIsLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
+  const [resetSent, setResetSent] = useState(false);
 
-  const handleSignIn = async () => {
-    if (!email || !password) {
-      setStatusMessage('Por favor, preencha o email e a senha.');
+  const handleSendResetEmail = async () => {
+    if (!email) {
+      setStatusMessage('Por favor, digite o email.');
       return;
     }
-
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setStatusMessage('Por favor, digite um email válido.');
+      return;
+    }
+  
     setIsLoading(true);
     setStatusMessage('');
-
+  
     try {
-      await FirebaseAPI.auth.signIn(email, password);
+      await FirebaseAPI.auth.sendPasswordResetEmail(email);
+      setResetSent(true);
+      setStatusMessage('✓ Email de redefinição enviado com sucesso!');
     } catch (error) {
-      setStatusMessage(error.message);
+      setStatusMessage('✓ Se o email estiver cadastrado, você receberá instruções em breve.');
+      setResetSent(true);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleNewSearch = () => {
+    setEmail("");
+    setResetSent(false);
+    setStatusMessage('');
   };
 
   return (
@@ -53,7 +78,7 @@ export default function LoginPage() {
           <Text style={styles.title}>Redefinir Senha</Text>
 
           <View style={styles.form}>
-            <View style={styles.inputGroupEmail}>
+            <View style={styles.inputGroup}>
               <Text style={styles.label}>Email</Text>
               <TextInput
                 style={styles.input}
@@ -64,36 +89,71 @@ export default function LoginPage() {
                 keyboardType="email-address"
                 autoCapitalize="none"
                 autoCorrect={false}
-                editable={!isLoading}
+                editable={!isLoading && !resetSent}
               />
             </View>
 
-            <View style={styles.forgotPasswordContainer}>
-              <TouchableOpacity onPress={router.back} disabled={isLoading}>
-                <Text style={styles.forgotPasswordText}>
-                  Voltar
-                </Text>
-              </TouchableOpacity>
-            </View>
+            {!resetSent ? (
+              <View style={styles.buttonsContainer}>
+                <TouchableOpacity
+                  style={[styles.button, styles.secondaryButton]}
+                  onPress={router.back}
+                  disabled={isLoading}
+                >
+                  <Text style={styles.secondaryButtonText}>Voltar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.button, styles.primaryButton]}
+                  onPress={handleSendResetEmail}
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <ActivityIndicator size="small" color={corDourada} />
+                  ) : (
+                    <Text style={styles.primaryButtonText}>Enviar Email</Text>
+                  )}
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <>
+                <View style={styles.successMessage}>
+                  <Text style={styles.successText}>
+                    ✓ Solicitação processada com sucesso!
+                  </Text>
+                  <Text style={styles.instructionsText}>
+                    {`Se o email ${email} estiver cadastrado em nosso sistema, você receberá instruções para redefinir sua senha.`}
+                  </Text>
+                  <Text style={styles.importantNote}>
+                    • Verifique sua caixa de entrada
+                    {"\n"}• Verifique a pasta de spam
+                    {"\n"}• O link expira em 1 hora
+                  </Text>
+                </View>
+
+                <View style={styles.buttonsContainer}>
+                  <TouchableOpacity
+                    style={[styles.button, styles.secondaryButton]}
+                    onPress={handleNewSearch}
+                  >
+                    <Text style={styles.secondaryButtonText}>Novo Email</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={[styles.button, styles.primaryButton]}
+                    onPress={router.back}
+                  >
+                    <Text style={styles.primaryButtonText}>Voltar ao Login</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
 
             {statusMessage ? (
-              <Text style={styles.errorText}>{statusMessage}</Text>
+              <Text style={styles.statusText}>
+                {statusMessage}
+              </Text>
             ) : null}
-
-            <View style={styles.submitButtonContainer}>
-              <TouchableOpacity
-                style={styles.submitButton}
-                onPress={handleSignIn}
-                activeOpacity={0.8}
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <ActivityIndicator size="small" color={corDourada} />
-                ) : (
-                  <Text style={styles.submitButtonText}>Entrar</Text>
-                )}
-              </TouchableOpacity>
-            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -134,11 +194,8 @@ const styles = StyleSheet.create({
     maxWidth: 390,
     paddingHorizontal: 16,
   },
-  inputGroupEmail: {
+  inputGroup: {
     marginBottom: 32,
-  },
-  inputGroupPassword: {
-    marginBottom: 12,
   },
   label: {
     color: 'black',
@@ -163,41 +220,77 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  forgotPasswordContainer: {
-    alignItems: 'flex-end',
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 24,
+    gap: 12,
   },
-  forgotPasswordText: {
-    color: corDourada,
-    fontSize: 15,
-    fontWeight: '600',
-  },
-  errorText: {
-    color: 'red',
-    textAlign: 'center',
-    marginBottom: 16,
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  submitButtonContainer: {
-    alignItems: 'center',
-  },
-  submitButton: {
-    width: 285,
-    height: 76,
-    borderRadius: 38,
-    backgroundColor: '#212121',
+  button: {
+    flex: 1,
+    height: 50,
+    borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
+    minWidth: 120,
+  },
+  primaryButton: {
+    backgroundColor: '#212121',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.1,
     shadowRadius: 15,
     elevation: 10,
   },
-  submitButtonText: {
+  secondaryButton: {
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+    borderColor: '#212121',
+  },
+  primaryButtonText: {
     color: corDourada,
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: '600',
+  },
+  secondaryButtonText: {
+    color: '#212121',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  successMessage: {
+    backgroundColor: '#E8F5E8',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 24,
+    borderLeftWidth: 4,
+    borderLeftColor: '#4CAF50',
+  },
+  successText: {
+    color: '#2E7D32',
+    fontSize: 14,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  instructionsText: {
+    color: '#2E7D32',
+    fontSize: 12,
+    fontWeight: '400',
+    textAlign: 'center',
+    marginTop: 8,
+  },
+  importantNote: {
+    color: '#1565C0',
+    fontSize: 11,
+    fontWeight: '500',
+    textAlign: 'center',
+    marginTop: 12,
+    lineHeight: 16,
+  },
+  statusText: {
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 16,
+    fontSize: 14,
+    fontWeight: '500',
   },
 });
