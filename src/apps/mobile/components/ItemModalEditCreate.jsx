@@ -58,25 +58,25 @@ export default function ItemModal({ visible, onClose, onSave, isEditing, itemDat
     };
 
     return (
-        <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
+        <Modal visible={visible} animationType="fade" transparent onRequestClose={onClose}>
             <View style={styles.overlay}>
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     <View style={styles.modalContainer}>
                         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-                            <Ionicons name="close" size={28} color="#FFF" />
+                            <Ionicons name="close" size={28} color="#b1b1b1ff" />
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.imagePicker}>
-                            <Ionicons name="camera-outline" size={50} color="#FFD700" />
+                            <Ionicons name="camera-outline" size={50} color="#000000ff" />
                         </TouchableOpacity>
 
                         <Text style={styles.title}>{isEditing ? "Editar Item" : "Cadastrar Item"}</Text>
                         <Text style={styles.subtitle}>{isEditing ? "Altere as informações necessárias" : "Adicione as informações necessárias"}</Text>
 
-                        <TextInput style={styles.input} placeholder="Digite o Nome do item" placeholderTextColor="#ccc" value={nome} onChangeText={setNome} />
-                        <TextInput style={styles.input} placeholder="Digite a Quantidade disponível" placeholderTextColor="#ccc" keyboardType="numeric" value={quantidade} onChangeText={setQuantidade} />
-                        <TextInput style={styles.input} placeholder="Digite o Valor base de aluguel" placeholderTextColor="#ccc" keyboardType="numeric" value={valorBase} onChangeText={setValorBase} />
-                        <TextInput style={[styles.input, styles.textArea]} placeholder="Digite a Descrição do item" placeholderTextColor="#ccc" multiline value={descricao} onChangeText={setDescricao} />
+                        <TextInput style={styles.input} placeholder="Digite o Nome do item" placeholderTextColor="#9b9b9bff" value={nome} onChangeText={setNome} />
+                        <TextInput style={styles.input} placeholder="Digite a Quantidade disponível" placeholderTextColor="#9b9b9bff" keyboardType="numeric" value={quantidade} onChangeText={setQuantidade} />
+                        <TextInput style={styles.input} placeholder="Digite o Valor base de aluguel" placeholderTextColor="#9b9b9bff" keyboardType="numeric" value={valorBase} onChangeText={setValorBase} />
+                        <TextInput style={[styles.input, styles.textArea]} placeholder="Digite a Descrição do item" placeholderTextColor="#9b9b9bff" multiline value={descricao} onChangeText={setDescricao} />
 
                         <TouchableOpacity style={styles.saveButton} onPress={Salvar}>
                             <Text style={styles.saveButtonText}>{isEditing ? "Salvar Alterações" : "Cadastrar"}</Text>
@@ -104,14 +104,15 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     modalContainer: {
-        width: '90%',
-        backgroundColor: '#1C1C1C',
+        width: 'auto',
+        backgroundColor: '#ffffffff',
         borderRadius: 20,
         padding: 25,
         alignItems: 'center',
     },
     closeButton: {
         position: 'absolute',
+        padding: 5,
         top: 15,
         right: 15,
     },
@@ -119,29 +120,31 @@ const styles = StyleSheet.create({
         width: 120,
         height: 120,
         borderRadius: 60,
-        backgroundColor: '#333',
+        backgroundColor: '#ffffffff',
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 20,
         borderWidth: 2,
-        borderColor: '#FFD700',
-        borderStyle: 'dashed',
+        borderColor: '#000000ff',
+        borderStyle: 'solid',
     },
     title: {
         fontSize: 22,
         fontWeight: 'bold',
-        color: '#FFD700',
+        color: '#000000ff',
         marginBottom: 5,
     },
     subtitle: {
         fontSize: 14,
-        color: '#ccc',
+        color: '#9b9b9bff',
         marginBottom: 20,
     },
     input: {
         width: '100%',
-        backgroundColor: '#333',
-        color: '#fff',
+        backgroundColor: '#ffffffff',
+        borderColor: '#b1b1b1ff',
+        borderWidth: 1,
+        color: '#000000ff',
         padding: 15,
         borderRadius: 10,
         marginVertical: 8,
@@ -166,9 +169,19 @@ const styles = StyleSheet.create({
     },
     cancelButton: {
         marginTop: 15,
+        borderColor: '#636363ff',
+        borderWidth: 1,
+        width: '100%',
+        padding: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginTop: 20,
+        
     },
     cancelButtonText: {
-        color: '#FFD700',
-        fontSize: 16,
+        color: '#636363ff',
+        fontSize: 18,
+        fontWeight: 'bold',
+        
     },
 });

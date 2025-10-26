@@ -6,7 +6,7 @@ import * as NavigationBar from "expo-navigation-bar";
 import FirebaseAPI from "@packages/firebase";
 import ListaDeItens from "../../components/SectionList";
 import ModalEditCreate from "../../components/ItemModalEditCreate";
-import ModalDelete from "../../components/ConfirmDeleteModal";
+import ModalDelete from "../../components/ItemModalDelete";
 
 export default function Itens(){
 
