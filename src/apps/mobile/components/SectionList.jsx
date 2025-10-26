@@ -2,7 +2,7 @@ import React from 'react';
 import { SectionList, View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 
-const ItemCard = ({ item }) => (
+const ItemCard = ({ item, onEdit, onDelete }) => (
     <View style={styles.itemContainer}>
         <Image source={{ uri: item.imageUrl || 'https://via.placeholder.com/50' }} style={styles.itemImage} />
         <View style={styles.itemInfo}>
@@ -11,22 +11,26 @@ const ItemCard = ({ item }) => (
             <Text style={styles.itemQuantity}>1 unidade</Text> 
         </View>
         <View style={styles.itemActions}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onEdit}>
                 <Ionicons name="pencil" size={24} color="#333" />
             </TouchableOpacity>
-            <TouchableOpacity style={{ marginLeft: 15 }}>
+            <TouchableOpacity style={{ marginLeft: 15 }} onPres={onDelete}>
                 <Ionicons name="trash" size={24} color="#E53935" />
             </TouchableOpacity>
         </View>
     </View>
 );
 
-export default function ListaDeItens({ sections }){
+export default function ListaDeItens({ sections , onEdit, onDelete}) {
     return (
         <SectionList
             sections={sections} 
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <ItemCard item={item} />}
+            renderItem={({ item }) => <ItemCard 
+            item={item} 
+            onEdit={()=>onEdit(item)}
+            onDelete={()=>onDelete(item)}
+            />}
             renderSectionHeader={({ section: { title } }) => (
                 <Text style={styles.sectionHeader}>{title}</Text>
             )}

@@ -5,10 +5,18 @@ import { Ionicons } from "@expo/vector-icons";
 import * as NavigationBar from "expo-navigation-bar";
 import FirebaseAPI from "@packages/firebase";
 import ListaDeItens from "../../components/SectionList";
+import ModalEditCreate from "../../components/ModalEditCreate";
+import ModalDelete from "../../components/ConfirmDeleteModal";
+
 export default function Itens(){
 
     const [itens, setItens] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [isItemModalVisivel, setItemModalVisivel] = useState(false);
+    const [isDeleteModalVisivel, setDeleteModalVisivel] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [itemAtual, setItemAtual] = useState(null);
 
      useEffect(() => {
     NavigationBar.setVisibilityAsync("hidden");
@@ -31,7 +39,6 @@ export default function Itens(){
               
     }
     
-    
     const groupedItens = useMemo(() => {
         if (itens.length === 0) return [];
 
@@ -50,6 +57,35 @@ export default function Itens(){
     }));
 }, [itens]);
 
+    const Criar = () => {
+        setIsEditing(false);
+        setItemAtual(null);
+        setItemModalVisivel(true);
+    };
+
+    const Editar = (item) => {
+        setIsEditing(true);
+        setItemAtual(item);
+        setItemModalVisivel(true);
+    };
+
+    const Excluir = (item) => {
+        setItemAtual(item);
+        setDeleteModalVisivel(true);
+    };
+    const confirmDelete = async () => {
+        if (!itemAtual) return;
+        try {
+            await FirebaseAPI.firestore.itens.deleteItem(currentItem.id);
+            Alert.alert("Sucesso", "Item excluído!");
+            setDeleteModalVisivel(false);
+            fetchItens();
+        } catch (error) {
+            console.error("Erro ao excluir o item:", error);
+            Alert.alert("Erro", "Não foi possível excluir o item.");
+        }
+    };
+
     return(
         <SafeAreaView>
             <StatusBar barStyle={"light-content"} backgroundColor={"black"}></StatusBar>
@@ -65,15 +101,34 @@ export default function Itens(){
                 </View>
             </View>
             <View>
-                <TouchableOpacity style={styles.Bottom}>
+                <TouchableOpacity style={styles.Bottom} onPress={Criar}>
                     <Text style={styles.BottomText}>Adicionar novo</Text>
                 </TouchableOpacity>
             </View>
             {loading ? (
                 <ActivityIndicator size="large" color="#000" style={{ flex: 1 }} />
             ) : (
-                <ListaDeItens sections={groupedItens} />
+                <ListaDeItens sections={groupedItens} onEdit={Editar} onDelete={Excluir}
+                />
             )}
+
+
+            <ModalEditCreate
+                visible={isItemModalVisivel}
+                onClose={() => setItemModalVisivel(false)}
+                onSave={() => {fetchItens();}}
+                isEditing={isEditing}
+                itemData={itemAtual} 
+                >
+            </ModalEditCreate>
+            <ModalDelete
+                visible={isDeleteModalVisivel}
+                onCancel={() => setDeleteModalVisivel(false)}
+                onConfirm={confirmDelete}
+                title = "Você tem certeza que deseja excluir este item?"
+                subtitle = "Confirme a sua opção"
+            ></ModalDelete>
+
         </SafeAreaView>
         
             

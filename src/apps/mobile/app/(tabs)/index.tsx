@@ -4,7 +4,8 @@ import FirebaseAPI from "@packages/firebase";
 import Gerenciaritens from "../pages/GerenciarItens";
 export default function HomepageScreen() {
   return (
-    <Gerenciaritens />
+    <>
+    </>
   );
 }
 
