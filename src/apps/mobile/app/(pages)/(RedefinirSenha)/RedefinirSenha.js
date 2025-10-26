@@ -49,7 +49,7 @@ export default function LoginPage() {
             />
           </View>
 
-          <Text style={styles.title}>Login</Text>
+          <Text style={styles.title}>Redefinir Senha</Text>
 
           <View style={styles.form}>
             <View style={styles.inputGroupEmail}>
