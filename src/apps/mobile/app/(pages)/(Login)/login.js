@@ -32,6 +32,30 @@ export default function LoginPage() {
     }
   };
 
+    const handleCadastro= async () => {
+    if (!email || !password) {
+      setStatusMessage('Por favor, preencha o email e a senha.');
+      return;
+    }
+
+    setIsLoading(true);
+    setStatusMessage('');
+
+    try {
+      const clienteData = {
+        email: email,
+        senha: password,
+        nome: 'Cliente de Teste1',
+        telefone: '123456789',
+      };
+      await FirebaseAPI.auth.signUpCliente(clienteData);
+    } catch (error) {
+      setStatusMessage(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -107,6 +131,21 @@ export default function LoginPage() {
                   <ActivityIndicator size="small" color={corDourada} />
                 ) : (
                   <Text style={styles.submitButtonText}>Entrar</Text>
+                )}
+              </TouchableOpacity>
+            </View>
+            <Text>Cadastro temporário:</Text>
+            <View style={styles.submitButtonContainer}>
+              <TouchableOpacity
+                style={styles.submitButton}
+                onPress={handleCadastro}
+                activeOpacity={0.8}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <ActivityIndicator size="small" color={corDourada} />
+                ) : (
+                  <Text style={styles.submitButtonText}>Cadastrar</Text>
                 )}
               </TouchableOpacity>
             </View>
