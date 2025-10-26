@@ -1,7 +1,7 @@
-import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
-import { app } from "../config/firebaseConfig";
-
-const db = getFirestore(app);
+// src/apps/mobile/app/services/adminService.js
+import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { firestore as db } from "../../../../packages/firebase/config"; 
+// Ajuste os ../ se necessário, dependendo da posição do arquivo
 
 // Buscar admins
 export async function getAdmins() {
