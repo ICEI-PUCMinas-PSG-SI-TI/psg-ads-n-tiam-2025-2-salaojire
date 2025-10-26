@@ -3,9 +3,6 @@ import { View, Text, StyleSheet } from "react-native";
 import FirebaseAPI from "@packages/firebase";
 import { useAuth } from "../context/AuthContext";
 
-async function Test() {
-
-}
 export default function HomepageScreen() {
   const { user, initializing, logout } = useAuth();
   return (
@@ -14,7 +11,6 @@ export default function HomepageScreen() {
       <Text style={styles.text}>Aqui ficará a homepage do aplicativo.</Text>
       <Text>Logado atualmente como: {user.email}</Text>
       <Button onPress={logout}>Logout</Button>
-      <Button onPress={Test}>Test</Button>
     </View>
   );
 }

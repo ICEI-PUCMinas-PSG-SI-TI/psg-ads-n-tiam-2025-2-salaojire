@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged as firebaseOnAuthStateChanged, getAuth} from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
 import { auth, firestore } from './config';
 import { initializeApp, deleteApp } from 'firebase/app';
 
@@ -132,6 +132,34 @@ export async function signOut() {
   } catch (error) {
     console.error("Erro ao fazer logout:", error);
     throw new Error('Falha ao tentar sair.');
+  }
+}
+
+// EXCLUSÕES: Por enquanto está apenas deletando o perfil no banco de dados, não do Firebase Authentication
+
+/* Exclui o documento de perfil de um cliente do Firestore. Exemplo:
+await FirebaseAPI.auth.deleteClienteProfile(clienteId);
+*/
+export async function deleteClienteProfile(clienteId) {
+  try {
+    const userDocRef = doc(firestore, 'Clientes', clienteId);
+    await deleteDoc(userDocRef);
+  } catch (error) {
+    console.error("Erro ao excluir perfil do cliente:", error);
+    throw new Error('Falha ao excluir o perfil do cliente.');
+  }
+}
+
+/* Exclui o documento de perfil de um administrador do Firestore. Exemplo:
+await FirebaseAPI.auth.deleteAdminProfile(adminId);
+*/
+export async function deleteAdminProfile(adminId) {
+  try {
+    const adminDocRef = doc(firestore, 'Administradores', adminId);
+    await deleteDoc(adminDocRef);
+  } catch (error) {
+    console.error("Erro ao excluir perfil do administrador:", error);
+    throw new Error('Falha ao excluir o perfil do administrador.');
   }
 }
 
