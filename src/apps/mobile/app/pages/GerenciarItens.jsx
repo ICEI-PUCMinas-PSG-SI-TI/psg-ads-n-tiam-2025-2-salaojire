@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as NavigationBar from "expo-navigation-bar";
 import FirebaseAPI from "@packages/firebase";
 import ListaDeItens from "../../components/SectionList";
-import ModalEditCreate from "../../components/ModalEditCreate";
+import ModalEditCreate from "../../components/ItemModalEditCreate";
 import ModalDelete from "../../components/ConfirmDeleteModal";
 
 export default function Itens(){
