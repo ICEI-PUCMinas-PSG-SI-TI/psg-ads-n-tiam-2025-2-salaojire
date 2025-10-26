@@ -1,10 +1,11 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged as firebaseOnAuthStateChanged } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged as firebaseOnAuthStateChanged, getAuth} from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, firestore } from './config';
+import { initializeApp, deleteApp } from 'firebase/app';
 
 //Lembrem de usar try e catch quando for usar a API
 
-/* Cadastra cliente. Exemplo:
+/* Cadastra e loga em uma nova conta cliente. Exemplo:
 const clienteData = {
   email: "test@gmail.com",
   senha: "Test123",
@@ -33,6 +34,47 @@ export async function signUpCliente({ email, senha, nome, telefone }) {
   } catch (error) {
     console.error("Erro ao registrar cliente:", error);
     throw new Error(`Falha no registro: ${error.code}`);
+  }
+}
+
+/* Cadastra um cliente sem logar na conta dele. Exemplo:
+const clienteData = {
+  email: "test@gmail.com",
+  senha: "Test123",
+  nome: 'Cliente de Teste',
+  telefone: '123456789',
+};
+await FirebaseAPI.auth.createClienteAsAdmin(clienteData);
+*/
+export async function createClienteAsAdmin({ email, senha, nome, telefone }) {
+  const tempAppName = `auth-worker-${Date.now()}`;
+  let secondaryApp;
+
+  try {
+    const mainAppConfig = auth.app.options;
+    secondaryApp = initializeApp(mainAppConfig, tempAppName);
+    const secondaryAuth = getAuth(secondaryApp);
+    const userCredential = await createUserWithEmailAndPassword(secondaryAuth, email, senha);
+    const newUser = userCredential.user;
+
+    const perfilData = {
+      id: newUser.uid,
+      email,
+      nome,
+      telefone,
+      agendamentos: [],
+      solicitacoes: [],
+    };
+    await setDoc(doc(firestore, 'Clientes', newUser.uid), perfilData);
+    await firebaseSignOut(secondaryAuth);
+    return { uid: newUser.uid, email: newUser.email };
+  } catch (error) {
+    console.error("Erro ao criar cliente como admin:", error);
+    throw new Error(`Falha no registro pelo admin: ${error.code}`);
+  } finally {
+    if (secondaryApp) {
+      await deleteApp(secondaryApp);
+    }
   }
 }
 
