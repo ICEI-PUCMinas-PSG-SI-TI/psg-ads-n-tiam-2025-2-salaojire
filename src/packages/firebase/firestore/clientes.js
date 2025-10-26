@@ -1,7 +1,16 @@
-import { collection, doc, getDoc, updateDoc, addDoc, getDocs, query, where, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { collection, doc, getDoc, updateDoc, addDoc, deleteDoc, getDocs, query, where, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { firestore } from '../config';
 
 //Lembrem de usar try e catch quando for usar a API
+
+/* Pega todos os clientes. Exemplo:
+const clientes = await FirebaseAPI.firestore.clientes.getClientes();
+*/
+export async function getClientes() {
+  const docRef = collection(firestore, 'Clientes');
+  const querySnapshot = await getDocs(docRef);
+  return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+}
 
 /* Busca os dados de um cliente específico. Exemplo:
 const cliente = await FirebaseAPI.firestore.clientes.getCliente(ClienteID);
@@ -10,6 +19,34 @@ export async function getCliente(clienteId) {
   const docRef = doc(firestore, 'Clientes', clienteId);
   const docSnap = await getDoc(docRef);
   return docSnap.exists() ? { id: docSnap.id, ...docSnap.data() } : null;
+}
+
+/* Atualiza os dados do perfil de um cliente no Firestore. Exemplo:
+await FirebaseAPI.firestore.clientes.updateClienteProfile(clienteId, { nome: "Alterado" });
+const updatedCliente = await FirebaseAPI.firestore.clientes.getCliente(clienteId);
+*/
+export async function updateClienteProfile(clienteId, dataToUpdate) {
+  try {
+    const userDocRef = doc(firestore, 'Clientes', clienteId);
+    await updateDoc(userDocRef, dataToUpdate);
+  } catch (error) {
+    console.error("Erro ao atualizar perfil do cliente:", error);
+    throw new Error('Falha ao atualizar o perfil do cliente.');
+  }
+}
+
+// Precisa atualizar para remover no authentication também
+/* Exclui o documento de perfil de um cliente do Firestore. Exemplo:
+await FirebaseAPI.auth.deleteClienteProfile(clienteId);
+*/
+export async function deleteClienteProfile(clienteId) {
+  try {
+    const userDocRef = doc(firestore, 'Clientes', clienteId);
+    await deleteDoc(userDocRef);
+  } catch (error) {
+    console.error("Erro ao excluir perfil do cliente:", error);
+    throw new Error('Falha ao excluir o perfil do cliente.');
+  }
 }
 
 // AGENDAMENTOS
