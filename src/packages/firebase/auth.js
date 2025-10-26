@@ -1,10 +1,11 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged as firebaseOnAuthStateChanged } from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged as firebaseOnAuthStateChanged, getAuth} from 'firebase/auth';
+import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
 import { auth, firestore } from './config';
+import { initializeApp, deleteApp } from 'firebase/app';
 
 //Lembrem de usar try e catch quando for usar a API
 
-/* Cadastra cliente. Exemplo:
+/* Cadastra e loga em uma nova conta cliente. Exemplo:
 const clienteData = {
   email: "test@gmail.com",
   senha: "Test123",
@@ -36,6 +37,76 @@ export async function signUpCliente({ email, senha, nome, telefone }) {
   }
 }
 
+/* Cadastra um cliente sem logar na conta dele. Exemplo:
+const clienteData = {
+  email: "test@gmail.com",
+  senha: "Test123",
+  nome: 'Cliente de Teste',
+  telefone: '123456789',
+};
+await FirebaseAPI.auth.createClienteAsAdmin(clienteData);
+*/
+export async function createClienteAsAdmin({ email, senha, nome, telefone }) {
+  const tempAppName = `auth-worker-${Date.now()}`;
+  let secondaryApp;
+
+  try {
+    const mainAppConfig = auth.app.options;
+    secondaryApp = initializeApp(mainAppConfig, tempAppName);
+    const secondaryAuth = getAuth(secondaryApp);
+    const userCredential = await createUserWithEmailAndPassword(secondaryAuth, email, senha);
+    const newUser = userCredential.user;
+
+    const perfilData = {
+      id: newUser.uid,
+      email,
+      nome,
+      telefone,
+      agendamentos: [],
+      solicitacoes: [],
+    };
+    await setDoc(doc(firestore, 'Clientes', newUser.uid), perfilData);
+    await firebaseSignOut(secondaryAuth);
+    return { uid: newUser.uid, email: newUser.email };
+  } catch (error) {
+    console.error("Erro ao criar cliente como admin:", error);
+    throw new Error(`Falha no registro pelo admin: ${error.code}`);
+  } finally {
+    if (secondaryApp) {
+      await deleteApp(secondaryApp);
+    }
+  }
+}
+
+/* Cadastrar admin. Exemplo:
+const adminData = {
+  email: "admin@gmail.com",
+  senha: "Admin123",
+  nome: 'Admin de Teste',
+  nivel: 'SUPER',
+};
+await FirebaseAPI.auth.signUpAdmin(adminData);
+*/
+export async function signUpAdmin({ email, senha, nome, nivel }) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+    const user = userCredential.user;
+    
+    const perfilData = {
+      id: user.uid,
+      email,
+      nome,
+      nivel, // 'SUPER' ou 'ADMIN'
+    };
+
+    await setDoc(doc(firestore, 'Administradores', user.uid), perfilData);
+    return user;
+  } catch (error) {
+    console.error("Erro ao registrar administrador:", error);
+    throw new Error(`Falha no registro de admin: ${error.code}`);
+  }
+}
+
 /* Realiza o login. Exemplo:
 await FirebaseAPI.auth.signIn("test@gmail.com", "Test123");
 */
@@ -61,6 +132,34 @@ export async function signOut() {
   } catch (error) {
     console.error("Erro ao fazer logout:", error);
     throw new Error('Falha ao tentar sair.');
+  }
+}
+
+// EXCLUSÕES: Por enquanto está apenas deletando o perfil no banco de dados, não do Firebase Authentication
+
+/* Exclui o documento de perfil de um cliente do Firestore. Exemplo:
+await FirebaseAPI.auth.deleteClienteProfile(clienteId);
+*/
+export async function deleteClienteProfile(clienteId) {
+  try {
+    const userDocRef = doc(firestore, 'Clientes', clienteId);
+    await deleteDoc(userDocRef);
+  } catch (error) {
+    console.error("Erro ao excluir perfil do cliente:", error);
+    throw new Error('Falha ao excluir o perfil do cliente.');
+  }
+}
+
+/* Exclui o documento de perfil de um administrador do Firestore. Exemplo:
+await FirebaseAPI.auth.deleteAdminProfile(adminId);
+*/
+export async function deleteAdminProfile(adminId) {
+  try {
+    const adminDocRef = doc(firestore, 'Administradores', adminId);
+    await deleteDoc(adminDocRef);
+  } catch (error) {
+    console.error("Erro ao excluir perfil do administrador:", error);
+    throw new Error('Falha ao excluir o perfil do administrador.');
   }
 }
 

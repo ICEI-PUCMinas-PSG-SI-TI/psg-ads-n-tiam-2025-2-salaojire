@@ -42,13 +42,13 @@ export default function LoginPage() {
     setStatusMessage('');
 
     try {
-      const clienteData = {
+      const adminData = {
         email: email,
         senha: password,
-        nome: 'Cliente de Teste1',
-        telefone: '123456789',
+        nome: 'Admin de Teste',
+        nivel: 'SUPER',
       };
-      await FirebaseAPI.auth.signUpCliente(clienteData);
+      await FirebaseAPI.auth.signUpAdmin(adminData);
     } catch (error) {
       setStatusMessage(error.message);
     } finally {
