@@ -6,7 +6,7 @@ import GerenciarAdmin from "../(pages)/AdminManagerScreen";
 
 export default function HomepageScreen() {
   return (
-    <></>
+    <Gerenciaritens></Gerenciaritens>
   );
 }
 

@@ -7,21 +7,20 @@ const ItemCard = ({ item, onEdit, onDelete }) => (
         <Image source={{ uri: item.imageUrl || 'https://via.placeholder.com/50' }} style={styles.itemImage} />
         <View style={styles.itemInfo}>
             <Text style={styles.itemName}>{item.nome}</Text>
-            {}
-            <Text style={styles.itemQuantity}>1 unidade</Text> 
+            <Text style={styles.itemQuantity}>{item.quantidade} unidades</Text> 
         </View>
         <View style={styles.itemActions}>
             <TouchableOpacity onPress={onEdit}>
                 <Ionicons name="pencil" size={24} color="#333" />
             </TouchableOpacity>
-            <TouchableOpacity style={{ marginLeft: 15 }} onPres={onDelete}>
+            <TouchableOpacity style={{ marginLeft: 15 }} onPress={onDelete}>
                 <Ionicons name="trash" size={24} color="#E53935" />
             </TouchableOpacity>
         </View>
     </View>
 );
 
-export default function ListaDeItens({ sections , onEdit, onDelete}) {
+export default function ListaDeItens({ sections , onEdit, onDelete, title }) {
     return (
         <SectionList
             sections={sections} 
@@ -31,7 +30,7 @@ export default function ListaDeItens({ sections , onEdit, onDelete}) {
             onEdit={()=>onEdit(item)}
             onDelete={()=>onDelete(item)}
             />}
-            renderSectionHeader={({ section: { title } }) => (
+            renderSectionHeader={() => (
                 <Text style={styles.sectionHeader}>{title}</Text>
             )}
             contentContainerStyle={{ paddingBottom: 20 }}
