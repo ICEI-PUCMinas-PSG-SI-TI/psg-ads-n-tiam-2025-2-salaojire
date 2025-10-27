@@ -39,7 +39,7 @@ export default function RedefinirSenha() {
     setStatusMessage('');
   
     try {
-      await FirebaseAPI.auth.sendPasswordResetEmail(email);
+      await FirebaseAPI.auth.sendResetEmail(email);
       setResetSent(true);
       setStatusMessage('✓ Email de redefinição enviado com sucesso!');
     } catch (error) {
