@@ -3,7 +3,7 @@ import {
   Alert,
   FlatList,
   Modal,
-  SafeAreaView,
+  SafeAreaView, 
   StyleSheet,
   Text,
   TextInput,
@@ -42,7 +42,7 @@ export default function ClientesScreen() {
   const [q, setQ] = useState("");
   const [clients, setClients] = useState<Client[]>([]);
 
-  // Modais estrutura
+  
   const [confirmId, setConfirmId] = useState<string | null>(null);
   const [viewOpen, setViewOpen] = useState(false);
   const [viewClient, setViewClient] = useState<Client | null>(null);
@@ -50,16 +50,16 @@ export default function ClientesScreen() {
   const [editOpen, setEditOpen] = useState(false);
   const [editing, setEditing] = useState<Client | null>(null);
 
-  // Form (add/edit)
+  
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
   const [senha, setSenha] = useState("");
 
-  // Coleção
+  
   const colRef = collection(firestore, "Clientes");
 
-  // Carregar em tempo real
+  
   useEffect(() => {
     const qRef = query(colRef, orderBy("createdAt", "desc"));
 
@@ -164,50 +164,53 @@ export default function ClientesScreen() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#111" }}>
+    
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
 
+      {}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Gerenciar Clientes</Text>
 
-        <TouchableOpacity onPress={openCreate} activeOpacity={0.8}>
-          <Text style={styles.addAction}>+ Adicionar novo</Text>
-        </TouchableOpacity>
+        {}
+        <View style={styles.ContainerBusca}>
+          <Ionicons
+            name="search"
+            size={20} 
+            color="#FFD700" 
+            style={{ marginRight: 8 }}
+          />
+
+          <TextInput
+            placeholder="Pesquisar por um cliente"
+            placeholderTextColor="#ccc" 
+            value={q}
+            onChangeText={setQ}
+            style={styles.InputBusca} 
+          />
+        </View>
       </View>
 
-
-      <View style={styles.searchWrap}>
-        <Ionicons
-          name="search"
-          size={18}
-          color="#999"
-          style={{ marginRight: 8 }}
-        />
-
-        <TextInput
-          placeholder="Pesquisar por um cliente"
-          placeholderTextColor="#bdbdbd"
-          value={q}
-          onChangeText={setQ}
-          style={styles.searchInput}
-        />
-
-        <TouchableOpacity style={{ padding: 6 }}>
-          <Ionicons name="ellipsis-vertical" size={18} color="#bdbdbd" />
+      {}
+      <View>
+        <TouchableOpacity style={styles.Bottom} onPress={openCreate}>
+          <Text style={styles.BottomText}>+ Adicionar novo</Text>
         </TouchableOpacity>
       </View>
-
+      
+      {}
 
       <FlatList
         data={filtered}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 90 }}
+        
+        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 90, paddingTop: 12 }} 
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         renderItem={({ item }) => (
+          
           <View style={styles.row}>
             <View style={styles.avatar}>
               <Text style={styles.avatarText}>{initials(item.nome)}</Text>
             </View>
-
             <TouchableOpacity
               style={{ flex: 1 }}
               activeOpacity={0.7}
@@ -216,14 +219,12 @@ export default function ClientesScreen() {
               <Text style={styles.name}>{item.nome}</Text>
               <Text style={styles.email}>{item.email}</Text>
             </TouchableOpacity>
-
             <TouchableOpacity
               onPress={() => setConfirmId(item.id)}
               style={{ paddingHorizontal: 8 }}
             >
               <Ionicons name="trash" size={20} color="#111" />
             </TouchableOpacity>
-
             <TouchableOpacity
               onPress={() => openEdit(item)}
               style={{ paddingHorizontal: 8 }}
@@ -235,7 +236,7 @@ export default function ClientesScreen() {
         keyboardShouldPersistTaps="handled"
       />
 
-
+      {}
       <View style={styles.tabBar}>
         <TabItem icon="home" label="Homepage" />
         <TabItem icon="calendar" label="Calendário" />
@@ -245,6 +246,7 @@ export default function ClientesScreen() {
       </View>
 
 
+      {}
       <Modal
         visible={!!confirmId}
         transparent
@@ -287,7 +289,7 @@ export default function ClientesScreen() {
         </View>
       </Modal>
 
-
+      {}
       <Modal
         visible={editOpen}
         animationType="slide"
@@ -372,12 +374,15 @@ export default function ClientesScreen() {
         </View>
       </Modal>
 
+      {}
       <Modal
         visible={viewOpen}
         animationType="slide"
         onRequestClose={() => setViewOpen(false)}
       >
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#111" }}>
+        {}
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+          {}
           <View style={styles.header}>
             <TouchableOpacity
               onPress={() => setViewOpen(false)}
@@ -389,7 +394,8 @@ export default function ClientesScreen() {
             <Text style={styles.headerTitle}>Visualizar Cliente</Text>
           </View>
 
-          <View style={styles.searchWrap}>
+          {}
+          <View style={styles.ContainerBusca}>
             <Ionicons
               name="search"
               size={18}
@@ -398,34 +404,38 @@ export default function ClientesScreen() {
             />
             <TextInput
               placeholder="Pesquisar por um cliente"
-              placeholderTextColor="#bdbdbd"
-              style={styles.searchInput}
+              placeholderTextColor="#999"
+              style={styles.InputBusca}
             />
           </View>
 
           <View style={{ paddingHorizontal: 16, paddingTop: 12 }}>
             <Text style={styles.label}>Nome</Text>
+            {}
             <TextInput
-              style={styles.input}
+              style={styles.inputDisabled}
               editable={false}
               value={viewClient?.nome ?? ""}
             />
 
             <Text style={styles.label}>Email</Text>
+            {}
             <TextInput
-              style={styles.input}
+              style={styles.inputDisabled}
               editable={false}
               value={viewClient?.email ?? ""}
             />
 
             <Text style={styles.label}>Telefone</Text>
+            {}
             <TextInput
-              style={styles.input}
+              style={styles.inputDisabled}
               editable={false}
               value={viewClient?.telefone ?? ""}
             />
           </View>
 
+          {}
           <View style={styles.card2}>
             <View style={styles.cardHeader}>
               <Text style={styles.cardTitle}>PEDIDOS REALIZADOS</Text>
@@ -486,6 +496,7 @@ export default function ClientesScreen() {
   );
 }
 
+
 function TabItem({
   icon,
   label,
@@ -495,14 +506,15 @@ function TabItem({
   label: string;
   active?: boolean;
 }) {
+  const color = active ? "#FFF" : "#F2C94C"; 
   return (
     <View style={styles.tabItem}>
       <Ionicons
         name={icon as any}
         size={18}
-        color={active ? "#111" : "#F2C94C"}
+        color={color}
       />
-      <Text style={[styles.tabLabel, active && { color: "#111" }]}>
+      <Text style={[styles.tabLabel, { color: color }]}>
         {label}
       </Text>
     </View>
@@ -510,38 +522,77 @@ function TabItem({
 }
 
 const styles = StyleSheet.create({
+  
   header: {
-    paddingHorizontal: 16,
-    paddingTop: 12,
-    paddingBottom: 12,
-    backgroundColor: "#111",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    backgroundColor: "#000",
+    padding: 20,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    marginBottom: 24, 
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 6,
   },
-  headerTitle: { color: "#F2C94C", fontSize: 18, fontWeight: "700" },
+  
+  headerTitle: { 
+    color: "#F2C94C", 
+    fontSize: 20, 
+    fontWeight: "bold",
+    marginBottom: 10, 
+  },
+  
   addAction: { color: "#F2C94C", fontWeight: "700" },
 
-  searchWrap: {
-    marginHorizontal: 16,
-    backgroundColor: "#1C1C1E",
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
+  
+  ContainerBusca: {
     flexDirection: "row",
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#2A2A2A",
+    backgroundColor: "#1C1C1E", 
+    borderRadius: 12,
+    paddingHorizontal: 10,
+    height: 45,
   },
-  searchInput: { color: "#fff", flex: 1, fontSize: 14 },
+  
+  InputBusca: {
+    color: "#fff", 
+    marginLeft: 8,
+    flex: 1,
+    fontSize: 14,
+  },
 
+  
+  Bottom: {
+    backgroundColor: "#ffd900ff", 
+    height: 40,
+    width: 150,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "flex-end",
+    marginRight: 20,
+    
+  },
+  BottomText: {
+    fontSize: 16,
+    color: '#000', 
+    fontWeight: '600'
+  },
+
+  
   row: {
     backgroundColor: "#fff",
     borderRadius: 12,
     padding: 12,
-    marginTop: 8,
     flexDirection: "row",
     alignItems: "center",
+    
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
   },
   avatar: {
     width: 36,
@@ -556,18 +607,21 @@ const styles = StyleSheet.create({
   name: { color: "#111", fontWeight: "700" },
   email: { color: "#777", fontSize: 12 },
 
+  
   tabBar: {
     height: 62,
-    backgroundColor: "#F2C94C",
+    backgroundColor: "#000", 
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     paddingBottom: 6,
   },
   tabItem: { alignItems: "center" },
-  tabLabel: { fontSize: 11, marginTop: 2, color: "#111", fontWeight: "600" },
+  
+  tabLabel: { fontSize: 11, marginTop: 2, color: "#F2C94C", fontWeight: "600" },
 
 
+  
   backdrop: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.35)",
@@ -631,6 +685,16 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     color: "#111",
   },
+  
+  inputDisabled: {
+    backgroundColor: "#f0f0f0", 
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    color: "#555", 
+  },
   btnPrimaryBig: {
     marginTop: 16,
     backgroundColor: "#F2C94C",
@@ -639,7 +703,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
 
-
+  
   card2: {
     margin: 16,
     marginTop: 12,
