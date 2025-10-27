@@ -58,8 +58,7 @@ export default function TabLayout() {
                 justifyContent: "center",
                 alignItems: "center",
                 backgroundColor: focused ? "#FFD700" : "transparent",
-              }}
-            >
+              }}>
               <Ionicons
                 name="home"
                 size={22}
@@ -149,6 +148,34 @@ export default function TabLayout() {
           ),
         }}
       />
+
+{/* Agendamentos */}
+<Tabs.Screen
+  name="gerenciarAgendamentos"
+  options={{
+    title: "Agendamentos",
+    tabBarIcon: ({ focused }) => (
+      <View
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: 20,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: focused ? "#FFD700" : "transparent",
+        }}
+      >
+        <Ionicons
+          name="alarm-outline"
+          size={22}
+          color={focused ? "#000" : "#B8860B"}
+        />
+      </View>
+    ),
+  }}
+/>
+
+
 
       <Tabs.Screen
         name="outros"
