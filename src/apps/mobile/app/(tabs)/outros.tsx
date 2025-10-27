@@ -1,14 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AdminManagerScreen from "../(pages)/AdminManagerScreen";
 
 export default function OutrosScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Relatórios</Text>
-      <Text style={styles.text}>Aqui você poderá visualizar relatórios e estatísticas do salão.</Text>
+      <Text style={styles.title}>Outros</Text>
+      <Text style={styles.text}>Esta seção abrirá um menu "Outros" eventualmente!</Text>
     </View>
   );
 }

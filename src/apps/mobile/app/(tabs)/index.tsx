@@ -1,12 +1,11 @@
-import { Button } from "@react-navigation/elements";
 import { View, Text, StyleSheet } from "react-native";
-import FirebaseAPI from "@packages/firebase";
-import Gerenciaritens from "../pages/GerenciarItens";
-import GerenciarAdmin from "../(pages)/AdminManagerScreen";
 
-export default function HomepageScreen() {
+export default function Homepage() {
   return (
-    <Gerenciaritens></Gerenciaritens>
+    <View style={styles.container}>
+      <Text style={styles.title}>Homepage</Text>
+      <Text style={styles.text}>Aqui você poderá visualizar a homepage do app.</Text>
+    </View>
   );
 }
 

@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, ScrollView, TextInput, StatusBar, TouchableOpac
 import React, { useEffect, useState, useMemo } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import * as NavigationBar from "expo-navigation-bar";
 import FirebaseAPI from "@packages/firebase";
 import ListaDeItens from "../../components/SectionList";
 import ModalEditCreate from "../../components/ItemModalEditCreate";
@@ -30,7 +29,6 @@ export default function Itens() {
     };
 
     useEffect(() => {
-        NavigationBar.setVisibilityAsync("hidden");
         fetchItens();
     }, []);
 
@@ -92,7 +90,6 @@ export default function Itens() {
 
     return (
         <View>
-            <StatusBar barStyle={"light-content"} backgroundColor={"black"}></StatusBar>
             <View style={styles.header}>
                 <Text style={styles.headerTitle}><Ionicons name="arrow-back" size={24} color="#FFD700" onPress={voltar} />  Gerenciar itens</Text>
                 <View style={styles.ContainerBusca}>
