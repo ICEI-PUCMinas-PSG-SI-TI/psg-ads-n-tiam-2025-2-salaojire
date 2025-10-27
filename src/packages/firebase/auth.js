@@ -3,7 +3,7 @@ import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
 import { auth, firestore } from './config';
 import { initializeApp, deleteApp } from 'firebase/app';
 import { getDocs, collection, query, where } from 'firebase/firestore';
-import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+import { updatePassword, reauthenticateWithCredential, EmailAuthProvider, sendPasswordResetEmail } from 'firebase/auth';
 
 
 //Lembrem de usar try e catch quando for usar a API
@@ -195,12 +195,9 @@ export function onAuthStateChanged(callback) {
   return firebaseOnAuthStateChanged(auth, callback);
 }
 /* Redefine a senha com reautenticação. Exemplo:*/
-export async function sendPasswordResetEmail(email) {
+export async function sendResetEmail(email) {
   try {
     console.log("Enviando email de redefinição para:", email);
-    
-    // Importa a função do Firebase Auth
-    const { sendPasswordResetEmail } = await import('firebase/auth');
     
     // Chama a função REAL do Firebase
     await sendPasswordResetEmail(auth, email);
