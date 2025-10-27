@@ -5,6 +5,8 @@ import { View, ActivityIndicator } from "react-native";
 import { useAuth } from '../context/AuthContext';
 import LoginPage from '../(pages)/login';
 
+//Ajeitar os nomes direitinho depois
+
 export default function TabLayout() {
   const { user, initializing } = useAuth();
 
@@ -74,7 +76,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="calendario"
         options={{
-          title: "Calendário",
+          title: "Admins",
           tabBarIcon: ({ focused }) => (
             <View
               style={{
@@ -100,7 +102,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="relatorios"
         options={{
-          title: "Relatórios",
+          title: "Itens",
           tabBarIcon: ({ focused }) => (
             <View
               style={{
