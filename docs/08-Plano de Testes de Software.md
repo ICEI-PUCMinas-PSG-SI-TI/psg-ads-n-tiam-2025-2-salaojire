@@ -1,19 +1,91 @@
 # Plano de Testes de Software
 
-<span style="color:red">Pré-requisitos: <a href="2-Especificação do Projeto.md"> Especificação do Projeto</a></span>, <a href="3-Projeto de Interface.md"> Projeto de Interface</a>
+## 1. Objetivo
+Verificar se as funcionalidades implementadas no aplicativo **Salão Jire (Mobile)** estão operando conforme os requisitos funcionais definidos
 
-Apresente os cenários de testes utilizados na realização dos testes da sua aplicação. Escolha cenários de testes que demonstrem os requisitos sendo satisfeitos.
 
-Enumere quais cenários de testes foram selecionados para teste. Neste tópico o grupo deve detalhar quais funcionalidades avaliadas, o grupo de usuários que foi escolhido para participar do teste e as ferramentas utilizadas.
- 
-## Ferramentas de Testes (Opcional)
+## 2. Escopo dos Testes
+Os testes abrangem as funcionalidades de **autenticação** (login e cadastro de cliente), **CRUD de clientes e itens**, **visualização de pedidos e solicitações**, e **integração com Firebase Firestore e Storage**.  
+Foram realizados em ambiente de testes com o **Firebase público** configurado via arquivo .env.
 
-Comente sobre as ferramentas de testes utilizadas.
- 
-> **Links Úteis**:
-> - [IBM - Criação e Geração de Planos de Teste](https://www.ibm.com/developerworks/br/local/rational/criacao_geracao_planos_testes_software/index.html)
-> - [Práticas e Técnicas de Testes Ágeis](http://assiste.serpro.gov.br/serproagil/Apresenta/slides.pdf)
-> -  [Teste de Software: Conceitos e tipos de testes](https://blog.onedaytesting.com.br/teste-de-software/)
-> - [Criação e Geração de Planos de Teste de Software](https://www.ibm.com/developerworks/br/local/rational/criacao_geracao_planos_testes_software/index.html)
-> - [Ferramentas de Test para Java Script](https://geekflare.com/javascript-unit-testing/)
-> - [UX Tools](https://uxdesign.cc/ux-user-research-and-user-testing-tools-2d339d379dc7)
+
+## 3. Ambiente de Testes
+
+| Elemento | Descrição |
+|-----------|------------|
+| **Dispositivo** | Smartphone Android (versão 13) |
+| **Framework** | Expo 54.0.20 (Expo Go) |
+| **Linguagem** | TypeScript + React Native |
+| **Backend** | Firebase (Firestore / Auth / Storage) |
+| **Versão Testada** | 1.0.0 |
+
+## 4. Funcionalidades Testadas
+
+| Código RF | Requisito Funcional | Responsável | Status |
+|------------|--------------------|--------------|--------|
+| **RF-009** | CRUD de Itens | Gabriel |  Testado |
+| **RF-010** | Gerenciamento de Agendamentos | Junio |  Testado |
+| **RF-011** | Visualizar informações de clientes | Henrique |  Testado |
+| **RF-012** | Atualizar/cadastrar dados de clientes | Henrique | Testado |
+| **RF-017** | Recuperação de senha | Gabriel Assis |  Testado |
+| **RF-018** | Gerenciar administradores | João |  Testado |
+| **Login com autenticação** | Implementação do login Firebase | Isaque |  Testado |
+
+## 5. Casos de Teste Funcional
+
+###  Caso de Teste 1 — Cadastro de Cliente
+| Item | Descrição |
+|------|------------|
+| **ID** | CT-001 |
+| **Requisito Relacionado** | RF-012 |
+| **Objetivo** | Verificar se o cadastro cria corretamente o cliente no Firestore e autentica via Firebase Auth |
+| **Pré-condição** | Aplicativo em tela de cadastro, Firebase configurado |
+| **Ação** | Inserir e-mail, senha, nome e telefone e pressionar “Cadastrar” |
+| **Resultado Esperado** | Usuário criado no Auth e documento criado em `Clientes/{uid}` |
+| **Resultado Obtido** | Conforme esperado |
+| **Status** |  Aprovado |
+
+###  Caso de Teste 2 — Login de Cliente
+| Item | Descrição |
+|------|------------|
+| **ID** | CT-002 |
+| **Requisito Relacionado** | RF-011 |
+| **Objetivo** | Validar autenticação com credenciais válidas |
+| **Ação** | Inserir e-mail/senha cadastrados e clicar “Entrar” |
+| **Resultado Esperado** | Redirecionamento para tela inicial do cliente |
+| **Resultado Obtido** | Autenticação bem-sucedida |
+| **Status** |  Aprovado |
+
+###  Caso de Teste 3 — Visualização de Cliente
+| Item | Descrição |
+|------|------------|
+| **ID** | CT-003 |
+| **Requisito Relacionado** | RF-011 |
+| **Objetivo** | Verificar exibição de dados do cliente |
+| **Ação** | Abrir aba “Clientes” no app |
+| **Resultado Esperado** | Campos de Nome, E-mail e Telefone preenchidos corretamente |
+| **Resultado Obtido** | Exibição correta (dados mockados e dinâmicos) |
+| **Status** |  Aprovado |
+
+
+###  Caso de Teste 4 — CRUD de Itens
+| Item | Descrição |
+|------|------------|
+| **ID** | CT-004 |
+| **Requisito Relacionado** | RF-009 |
+| **Objetivo** | Verificar criação, edição e exclusão de itens no Firestore |
+| **Ação** | Executar funções `createItem`, `updateItem` e `deleteItem` |
+| **Resultado Esperado** | Dados salvos/atualizados/removidos em `Itens` |
+| **Resultado Obtido** | Conforme esperado |
+| **Status** |  Aprovado |
+
+###  Caso de Teste 5 — Integração Firebase
+| Item | Descrição |
+|------|------------|
+| **ID** | CT-005 |
+| **Requisito Relacionado** | RF-011 / RF-012 |
+| **Objetivo** | Verificar comunicação com Firestore a partir da tela Index (teste de conexão) |
+| **Ação** | Clicar no botão “Testar Conexão com Firebase” |
+| **Resultado Esperado** | Documento `conexao-teste` criado em `testes` |
+| **Resultado Obtido** | Documento criado com sucesso |
+| **Status** |  Aprovado |
