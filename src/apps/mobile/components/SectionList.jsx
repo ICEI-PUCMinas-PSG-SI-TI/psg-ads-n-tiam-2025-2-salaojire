@@ -14,7 +14,7 @@ const ItemCard = ({ item, onEdit, onDelete }) => (
                 <Ionicons name="pencil" size={24} color="#333" />
             </TouchableOpacity>
             <TouchableOpacity style={{ marginLeft: 15 }} onPress={onDelete}>
-                <Ionicons name="trash" size={24} color="#E53935" />
+                <Ionicons name="trash" size={24} color="#000000ff" />
             </TouchableOpacity>
         </View>
     </View>

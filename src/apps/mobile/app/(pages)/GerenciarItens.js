@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, ScrollView, TextInput, StatusBar, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
-import React, { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import FirebaseAPI from "@packages/firebase";
