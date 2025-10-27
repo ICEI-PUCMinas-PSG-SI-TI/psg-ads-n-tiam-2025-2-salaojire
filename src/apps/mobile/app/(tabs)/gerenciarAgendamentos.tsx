@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Alert,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import FirebaseAPI from "@packages/firebase";
@@ -33,9 +34,24 @@ export default function GerenciarAgendamentos() {
   const [loading, setLoading] = useState(false);
   const [clienteSelecionado, setClienteSelecionado] = useState<Cliente | null>(null);
   const [agendamentos, setAgendamentos] = useState<Agendamento[]>([]);
-  const insets = useSafeAreaInsets();
-  const router = useRouter(); 
+  const [modoCriar, setModoCriar] = useState(false);
 
+  // Campos do novo agendamento
+  const [itens, setItens] = useState<any[]>([]);
+  const [itensSelecionados, setItensSelecionados] = useState<any[]>([]);
+  const [novoAgendamento, setNovoAgendamento] = useState({
+    nomeEvento: "",
+    dataInicio: "",
+    dataFim: "",
+    valorTotal: 0,
+  });
+
+  const insets = useSafeAreaInsets();
+  const router = useRouter();
+
+  // ========================
+  // Carrega clientes
+  // ========================
   useEffect(() => {
     carregarClientes();
   }, []);
@@ -57,7 +73,9 @@ export default function GerenciarAgendamentos() {
     }
   };
 
-  
+  // ========================
+  // Carrega agendamentos
+  // ========================
   const carregarAgendamentos = async (clienteId: string) => {
     try {
       setLoading(true);
@@ -78,7 +96,80 @@ export default function GerenciarAgendamentos() {
     }
   };
 
+  // ========================
+  // Carrega itens disponíveis
+  // ========================
+  const carregarItens = async () => {
+    try {
+      const lista = await FirebaseAPI.firestore.itens.getItens();
+      setItens(lista);
+    } catch (error) {
+      console.error("Erro ao carregar itens:", error);
+    }
+  };
 
+  // ========================
+  // Alternar seleção de item
+  // ========================
+  const alternarItem = (item: any) => {
+    const existe = itensSelecionados.find((i) => i.id === item.id);
+    if (existe) {
+      setItensSelecionados(itensSelecionados.filter((i) => i.id !== item.id));
+      setNovoAgendamento((prev) => ({
+        ...prev,
+        valorTotal: prev.valorTotal - item.precoAluguel,
+      }));
+    } else {
+      setItensSelecionados([...itensSelecionados, item]);
+      setNovoAgendamento((prev) => ({
+        ...prev,
+        valorTotal: prev.valorTotal + item.precoAluguel,
+      }));
+    }
+  };
+
+  // ========================
+  // Criar novo agendamento
+  // ========================
+  const criarAgendamento = async () => {
+    if (!clienteSelecionado) return;
+    const { nomeEvento, dataInicio, dataFim, valorTotal } = novoAgendamento;
+
+    if (!dataInicio || !dataFim || itensSelecionados.length === 0) {
+      Alert.alert("Atenção", "Preencha todos os campos e selecione ao menos um item.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const novo = {
+        nome: nomeEvento || `Evento de ${clienteSelecionado.nome}`,
+        dataInicio: new Date(dataInicio),
+        dataFim: new Date(dataFim),
+        status: "agendado",
+        valorTotal,
+        itensAlugados: itensSelecionados,
+        midias: [],
+      };
+
+      await FirebaseAPI.firestore.clientes.addAgendamentoToCliente(clienteSelecionado.id, novo);
+
+      Alert.alert("Sucesso", "Agendamento criado com sucesso!");
+      setModoCriar(false);
+      setItensSelecionados([]);
+      setNovoAgendamento({ nomeEvento: "", dataInicio: "", dataFim: "", valorTotal: 0 });
+      carregarAgendamentos(clienteSelecionado.id);
+    } catch (error) {
+      console.error("Erro ao criar agendamento:", error);
+      Alert.alert("Erro", "Falha ao criar agendamento.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ========================
+  // Filtro de clientes
+  // ========================
   const clientesFiltrados = clientes.filter((c) =>
     c.nome?.toLowerCase().includes(filtro.toLowerCase())
   );
@@ -90,26 +181,20 @@ export default function GerenciarAgendamentos() {
         <TouchableOpacity onPress={() => router.push("/")}>
           <Ionicons name="arrow-back" size={22} color="#FFD700" />
         </TouchableOpacity>
-        <Text style={styles.titulo}>Gerenciar agendamentos</Text>
+        <Text style={styles.titulo}>Gerenciar Agendamentos</Text>
       </View>
 
       {/* Campo de busca */}
-      <View style={styles.searchBox}>
-        <Ionicons name="search" size={18} color="#FFD700" style={{ marginHorizontal: 6 }} />
-        <TextInput
-          placeholder="Pesquisar por cliente"
-          placeholderTextColor="#999"
-          style={styles.input}
-          value={filtro}
-          onChangeText={setFiltro}
-        />
-      </View>
-
-      {/* Indicador de carregamento */}
-      {loading && (
-        <View style={styles.loading}>
-          <ActivityIndicator color="#FFD700" size="large" />
-          <Text style={styles.loadingText}>Carregando...</Text>
+      {!clienteSelecionado && (
+        <View style={styles.searchBox}>
+          <Ionicons name="search" size={18} color="#FFD700" style={{ marginHorizontal: 6 }} />
+          <TextInput
+            placeholder="Pesquisar por cliente"
+            placeholderTextColor="#999"
+            style={styles.input}
+            value={filtro}
+            onChangeText={setFiltro}
+          />
         </View>
       )}
 
@@ -124,6 +209,7 @@ export default function GerenciarAgendamentos() {
               onPress={() => {
                 setClienteSelecionado(item);
                 carregarAgendamentos(item.id);
+                carregarItens();
               }}
             >
               <Ionicons name="person-circle" size={28} color="#FFD700" />
@@ -134,7 +220,7 @@ export default function GerenciarAgendamentos() {
       )}
 
       {/* Lista de agendamentos */}
-      {clienteSelecionado && !loading && (
+      {clienteSelecionado && !modoCriar && (
         <View style={styles.agendamentosBox}>
           <View style={styles.voltarBox}>
             <TouchableOpacity onPress={() => setClienteSelecionado(null)}>
@@ -142,6 +228,11 @@ export default function GerenciarAgendamentos() {
             </TouchableOpacity>
             <Text style={styles.nomeSelecionado}>{clienteSelecionado.nome}</Text>
           </View>
+
+          <TouchableOpacity style={styles.botaoCriar} onPress={() => setModoCriar(true)}>
+            <Ionicons name="add-circle" size={20} color="#000" />
+            <Text style={styles.textoCriar}>Novo Agendamento</Text>
+          </TouchableOpacity>
 
           <FlatList
             data={agendamentos}
@@ -166,11 +257,72 @@ export default function GerenciarAgendamentos() {
                 )}
               </View>
             )}
-            ListEmptyComponent={
-              <Text style={styles.vazio}>Nenhum agendamento encontrado.</Text>
-            }
+            ListEmptyComponent={<Text style={styles.vazio}>Nenhum agendamento encontrado.</Text>}
           />
         </View>
+      )}
+
+      {/* CRIAR NOVO AGENDAMENTO */}
+      {modoCriar && (
+        <ScrollView style={styles.formContainer}>
+          <View style={styles.voltarBox}>
+            <TouchableOpacity onPress={() => setModoCriar(false)}>
+              <Ionicons name="arrow-back" size={20} color="#FFD700" />
+            </TouchableOpacity>
+            <Text style={styles.nomeSelecionado}>Novo Agendamento</Text>
+          </View>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Nome do evento"
+            placeholderTextColor="#888"
+            value={novoAgendamento.nomeEvento}
+            onChangeText={(text) => setNovoAgendamento({ ...novoAgendamento, nomeEvento: text })}
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder="Data início (YYYY-MM-DD)"
+            placeholderTextColor="#888"
+            value={novoAgendamento.dataInicio}
+            onChangeText={(text) => setNovoAgendamento({ ...novoAgendamento, dataInicio: text })}
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder="Data fim (YYYY-MM-DD)"
+            placeholderTextColor="#888"
+            value={novoAgendamento.dataFim}
+            onChangeText={(text) => setNovoAgendamento({ ...novoAgendamento, dataFim: text })}
+          />
+
+          <Text style={styles.subtitulo}>Itens disponíveis:</Text>
+          {itens.map((item) => {
+            const selecionado = itensSelecionados.find((i) => i.id === item.id);
+            return (
+              <TouchableOpacity
+                key={item.id}
+                style={[
+                  styles.itemCard,
+                  selecionado && { borderColor: "#FFD700", borderWidth: 1.5 },
+                ]}
+                onPress={() => alternarItem(item)}
+              >
+                <Ionicons name="cube" size={20} color="#FFD700" />
+                <Text style={styles.itemNome}>{item.nome}</Text>
+                <Text style={styles.itemPreco}>R$ {item.precoAluguel?.toFixed(2)}</Text>
+              </TouchableOpacity>
+            );
+          })}
+
+          <Text style={styles.total}>
+            Valor Total: R$ {novoAgendamento.valorTotal.toFixed(2)}
+          </Text>
+
+          <TouchableOpacity style={styles.botaoCriarFinal} onPress={criarAgendamento}>
+            <Text style={styles.textoBotaoCriar}>Criar</Text>
+          </TouchableOpacity>
+        </ScrollView>
       )}
     </View>
   );
@@ -178,22 +330,9 @@ export default function GerenciarAgendamentos() {
 
 // ================== ESTILOS ==================
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000",
-    paddingHorizontal: 16,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  titulo: {
-    color: "#FFD700",
-    fontSize: 18,
-    fontWeight: "bold",
-    marginLeft: 10,
-  },
+  container: { flex: 1, backgroundColor: "#000", paddingHorizontal: 16 },
+  header: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
+  titulo: { color: "#FFD700", fontSize: 18, fontWeight: "bold", marginLeft: 10 },
   searchBox: {
     flexDirection: "row",
     alignItems: "center",
@@ -204,18 +343,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   input: {
+    backgroundColor: "#111",
     color: "#FFF",
-    flex: 1,
-    fontSize: 14,
-  },
-  loading: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingText: {
-    color: "#FFD700",
-    marginTop: 10,
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 8,
   },
   clienteItem: {
     flexDirection: "row",
@@ -225,46 +357,52 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 5,
   },
-  nomeCliente: {
-    color: "#FFF",
-    fontSize: 16,
-    marginLeft: 10,
-  },
-  agendamentosBox: {
+  nomeCliente: { color: "#FFF", fontSize: 16, marginLeft: 10 },
+  voltarBox: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
+  nomeSelecionado: { color: "#FFD700", fontWeight: "bold", marginLeft: 10, fontSize: 16 },
+   agendamentosBox: {
     flex: 1,
+    marginTop: 10,
   },
-  voltarBox: {
+  card: { backgroundColor: "#111", padding: 12, borderRadius: 10, marginVertical: 6 },
+  info: { color: "#DDD", fontSize: 14 },
+  status: { color: "#FFD700", fontWeight: "600" },
+  bold: { fontWeight: "bold" },
+  vazio: { color: "#888", textAlign: "center", marginTop: 20 },
+  subtitulo: { color: "#FFD700", fontWeight: "bold", marginVertical: 10 },
+  itemCard: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#111",
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 6,
+  },
+  itemNome: { color: "#FFF", flex: 1, marginLeft: 8 },
+  itemPreco: { color: "#FFD700" },
+  total: {
+    color: "#FFD700",
+    fontWeight: "bold",
+    fontSize: 16,
+    marginTop: 10,
+    textAlign: "right",
+  },
+  botaoCriar: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    justifyContent: "center",
+    backgroundColor: "#FFD700",
+    padding: 10,
+    borderRadius: 10,
+    marginVertical: 10,
   },
-  nomeSelecionado: {
-    color: "#FFD700",
-    fontWeight: "bold",
-    marginLeft: 10,
-    fontSize: 16,
-  },
-  card: {
-    backgroundColor: "#111",
+  textoCriar: { color: "#000", fontWeight: "bold", marginLeft: 6 },
+  botaoCriarFinal: {
+    backgroundColor: "#FFD700",
     padding: 12,
     borderRadius: 10,
-    marginVertical: 6,
+    marginTop: 10,
   },
-  info: {
-    color: "#DDD",
-    fontSize: 14,
-    marginTop: 2,
-  },
-  status: {
-    color: "#FFD700",
-    fontWeight: "600",
-  },
-  bold: {
-    fontWeight: "bold",
-  },
-  vazio: {
-    color: "#888",
-    textAlign: "center",
-    marginTop: 20,
-  },
+  textoBotaoCriar: { color: "#000", fontWeight: "bold", textAlign: "center" },
+  formContainer: { backgroundColor: "#000", padding: 10 },
 });
