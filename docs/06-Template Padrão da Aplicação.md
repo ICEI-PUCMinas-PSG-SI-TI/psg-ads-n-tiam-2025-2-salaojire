@@ -5,7 +5,8 @@
 Layout padrão da aplicação que será utilizado em todas as páginas com a definição de identidade visual, aspectos de responsividade e iconografia.
 
 
-<img width="531" height="1044" alt="{FF02C367-2E40-4EE7-BB93-4C3B806BC744}" src="https://github.com/user-attachments/assets/362a520f-459f-4b5c-aecc-e26c623307cc" />
+<img width="649" height="1249" alt="{EA967601-E7B0-4F68-BCB7-68503F8068C7}" src="https://github.com/user-attachments/assets/aff9d5cd-99d4-4161-9bf7-1d28002dd427" />
+
 
 
 > **Links Úteis**:
