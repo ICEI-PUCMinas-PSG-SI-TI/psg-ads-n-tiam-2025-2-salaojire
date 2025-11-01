@@ -21,11 +21,13 @@ type Cliente = {
 
 type Agendamento = {
   id: string;
+  nome?: string; 
   status?: string;
   dataInicio?: { seconds: number };
   dataFim?: { seconds: number };
   valorTotal?: number;
 };
+
 
 export default function GerenciarAgendamentos() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
@@ -74,25 +76,29 @@ export default function GerenciarAgendamentos() {
   // ========================
   // Carrega agendamentos
   // ========================
-  const carregarAgendamentos = async (clienteId: string) => {
-    try {
-      setLoading(true);
-      const lista = await FirebaseAPI.firestore.clientes.getAgendamentosFromCliente(clienteId);
-      const listaFormatada = lista.map((a: any) => ({
-        id: a.id,
-        status: a.status || "pendente",
-        dataInicio: a.dataInicio,
-        dataFim: a.dataFim,
-        valorTotal: a.valorTotal,
-      }));
-      setAgendamentos(listaFormatada);
-    } catch (error) {
-      console.error("Erro ao carregar agendamentos:", error);
-      Alert.alert("Erro", "Falha ao carregar agendamentos.");
-    } finally {
-      setLoading(false);
-    }
-  };
+const carregarAgendamentos = async (clienteId: string) => {
+  try {
+    setLoading(true);
+    const lista = await FirebaseAPI.firestore.clientes.getAgendamentosFromCliente(clienteId);
+
+    const listaFormatada = lista.map((a: any) => ({
+      id: a.id,
+      nome: a.nome || "Evento sem nome", 
+      status: a.status || "pendente",
+      dataInicio: a.dataInicio,
+      dataFim: a.dataFim,
+      valorTotal: a.valorTotal,
+    }));
+
+    setAgendamentos(listaFormatada);
+  } catch (error) {
+    console.error("Erro ao carregar agendamentos:", error);
+    Alert.alert("Erro", "Falha ao carregar agendamentos.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   // ========================
   // Carrega itens disponíveis
@@ -225,50 +231,57 @@ export default function GerenciarAgendamentos() {
         />
       )}
 
-      {/* --------- Agendamentos --------- */}
-      {clienteSelecionado && !modoCriar && (
-        <View style={styles.agendamentosBox}>
-          <View style={styles.voltarBox}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <TouchableOpacity onPress={() => setClienteSelecionado(null)}>
-                <Ionicons name="arrow-back" size={20} color="#F2C94C" />
-              </TouchableOpacity>
-              <Text style={styles.nomeSelecionado}>{clienteSelecionado.nome}</Text>
-            </View>
+     {/* --------- Agendamentos --------- */}
+{clienteSelecionado && !modoCriar && (
+  <View style={styles.agendamentosBox}>
+    <View style={styles.voltarBox}>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <TouchableOpacity onPress={() => setClienteSelecionado(null)}>
+          <Ionicons name="arrow-back" size={20} color="#F2C94C" />
+        </TouchableOpacity>
+        <Text style={styles.nomeSelecionado}>{clienteSelecionado.nome}</Text>
+      </View>
 
-            <TouchableOpacity style={styles.botaoCriar} onPress={() => setModoCriar(true)}>
-              <Ionicons name="add-circle" size={18} color="#000" />
-              <Text style={styles.textoCriar}>Novo Agendamento</Text>
-            </TouchableOpacity>
-          </View>
+      <TouchableOpacity style={styles.botaoCriar} onPress={() => setModoCriar(true)}>
+        <Ionicons name="add-circle" size={18} color="#000" />
+        <Text style={styles.textoCriar}>Novo Agendamento</Text>
+      </TouchableOpacity>
+    </View>
 
-          <FlatList
-            data={agendamentos}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.card}>
-                <Text style={styles.status}>
-                  Status: <Text style={styles.bold}>{item.status}</Text>
-                </Text>
-                {item.dataInicio && (
-                  <Text style={styles.info}>
-                    Início: {new Date(item.dataInicio.seconds * 1000).toLocaleDateString()}
-                  </Text>
-                )}
-                {item.dataFim && (
-                  <Text style={styles.info}>
-                    Fim: {new Date(item.dataFim.seconds * 1000).toLocaleDateString()}
-                  </Text>
-                )}
-                {item.valorTotal && (
-                  <Text style={styles.info}>Valor: R$ {item.valorTotal.toFixed(2)}</Text>
-                )}
-              </View>
-            )}
-            ListEmptyComponent={<Text style={styles.vazio}>Nenhum agendamento encontrado.</Text>}
-          />
+    <FlatList
+      data={agendamentos}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <View style={styles.card}>
+          {/* Nome do evento acima do status */}
+          {item.nome && (
+            <Text style={styles.nomeEvento}>{item.nome}</Text>
+          )}
+
+          <Text style={styles.status}>
+            Status: <Text style={styles.bold}>{item.status}</Text>
+          </Text>
+
+          {item.dataInicio && (
+            <Text style={styles.info}>
+              Início: {new Date(item.dataInicio.seconds * 1000).toLocaleDateString()}
+            </Text>
+          )}
+          {item.dataFim && (
+            <Text style={styles.info}>
+              Fim: {new Date(item.dataFim.seconds * 1000).toLocaleDateString()}
+            </Text>
+          )}
+          {item.valorTotal && (
+            <Text style={styles.info}>Valor: R$ {item.valorTotal.toFixed(2)}</Text>
+          )}
         </View>
       )}
+      ListEmptyComponent={<Text style={styles.vazio}>Nenhum agendamento encontrado.</Text>}
+    />
+  </View>
+)}
+
 
       {/* --------- Formulário de Novo Agendamento --------- */}
       {modoCriar && (
@@ -305,23 +318,47 @@ export default function GerenciarAgendamentos() {
           />
 
           <Text style={styles.subtitulo}>Itens disponíveis:</Text>
-          {itens.map((item) => {
-            const selecionado = itensSelecionados.find((i) => i.id === item.id);
-            return (
-              <TouchableOpacity
-                key={item.id}
-                style={[
-                  styles.itemCard,
-                  selecionado && { borderColor: "#F2C94C", borderWidth: 1.5 },
-                ]}
-                onPress={() => alternarItem(item)}
-              >
-                <Ionicons name="cube" size={20} color="#F2C94C" />
-                <Text style={styles.itemNome}>{item.nome}</Text>
-                <Text style={styles.itemPreco}>R$ {item.precoAluguel?.toFixed(2)}</Text>
-              </TouchableOpacity>
-            );
-          })}
+   {itens.map((item) => {
+  const selecionado = itensSelecionados.find((i) => i.id === item.id);
+  return (
+    <TouchableOpacity
+      key={item.id}
+      style={[
+        styles.itemCard,
+        selecionado && {
+          backgroundColor: "#F2C94C", 
+          borderColor: "#000",        
+          transform: [{ scale: 1.02 }], 
+        },
+      ]}
+      onPress={() => alternarItem(item)}
+      activeOpacity={0.8}
+    >
+      <Ionicons
+        name="cube"
+        size={20}
+        color={selecionado ? "#000" : "#F2C94C"} 
+      />
+      <Text
+        style={[
+          styles.itemNome,
+          selecionado && { color: "#000" }, 
+        ]}
+      >
+        {item.nome}
+      </Text>
+      <Text
+        style={[
+          styles.itemPreco,
+          selecionado && { color: "#000" }, 
+        ]}
+      >
+        R$ {item.precoAluguel?.toFixed(2)}
+      </Text>
+    </TouchableOpacity>
+  );
+})}
+
 
           <Text style={styles.total}>
             Valor Total: R$ {novoAgendamento.valorTotal.toFixed(2)}
@@ -449,7 +486,6 @@ status: {
   marginBottom: 8,
   fontSize: 16,
   textTransform: "uppercase",
-  letterSpacing: 0.5, // dá um toque mais “refinado”
 },
 
 info: {
@@ -459,17 +495,26 @@ info: {
   lineHeight: 20,
 },
 
-bold: { 
+bold: {
   fontWeight: "bold",
   color: "#fff",
 },
 
 vazio: {
-  color: "#d4af37", 
+  color: "#999",
   textAlign: "center",
   marginTop: 20,
   fontStyle: "italic",
   fontSize: 14,
+},
+
+subtitulo: {
+  color: "#F2C94C",
+  fontWeight: "bold",
+  marginVertical: 10,
+  fontSize: 16,
+  textTransform: "uppercase",
+  letterSpacing: 0.5,
 },
 
 itemCard: {
@@ -478,25 +523,32 @@ itemCard: {
   alignItems: "center",
   backgroundColor: "#111", 
   borderWidth: 1,
-  borderColor: "#F2C94C", 
+  borderColor: "#F2C94C",
   padding: 12,
   borderRadius: 12,
   marginBottom: 10,
-  shadowColor: "#F2C94C",
+  shadowColor: "#000",
   shadowOpacity: 0.15,
   shadowRadius: 5,
-  elevation: 4,
+  elevation: 3,
 },
 
-  itemNome: { color: "#111", flex: 1, marginLeft: 8, fontWeight: "600" },
-  itemPreco: { color: "#F2C94C", fontWeight: "700" },
-  total: {
-    color: "#F2C94C",
-    fontWeight: "bold",
-    fontSize: 16,
-    marginTop: 10,
-    textAlign: "right",
-  },
+itemNome: { color: "#F2C94C", flex: 1, marginLeft: 8, fontWeight: "600" },
+itemPreco: { color: "#F2C94C", fontWeight: "700" },
+
+total: {
+  color: "#F2C94C",
+  fontWeight: "bold",
+  fontSize: 20,        
+  marginTop: 14,
+  textAlign: "right",
+  letterSpacing: 0.5,  
+  textShadowColor: "rgba(0, 0, 0, 0.2)", 
+  textShadowOffset: { width: 1, height: 1 },
+  textShadowRadius: 2,
+},
+
+
 
   botaoCriar: {
     flexDirection: "row",
@@ -522,5 +574,15 @@ itemCard: {
     fontWeight: "bold",
     textAlign: "center",
   },
+
+nomeEvento: {
+  color: "#F2C94C",
+  fontSize: 18,
+  fontWeight: "bold",
+  marginBottom: 8,
+  textTransform: "capitalize",
+},
+
+
   formContainer: { backgroundColor: "#fff", padding: 10 },
 });
