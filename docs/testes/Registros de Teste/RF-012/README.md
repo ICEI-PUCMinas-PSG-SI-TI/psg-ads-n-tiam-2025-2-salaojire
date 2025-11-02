@@ -55,5 +55,5 @@
 ### Caso de Teste 6 — Validação de Campos
 | Item | Descrição |
 |------|------------|
-| **Ação** | Tentar cadastrar ou editar um cliente deixando campos obrigatórios vazios ou com formatos inválidos. |
-| **Resultado Esperado** | O sistema deve bloquear o envio e exibir mensagens de erro, informando os campos obrigatórios ou inválidos. |
+| **Ação** | Atualização da tabela |
+| **Resultado Esperado** | O sistema deve mostrar os clientes após todos esses testes |
