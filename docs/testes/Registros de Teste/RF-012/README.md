@@ -2,60 +2,58 @@
 
 ## RF-012:
 
-- **Descrição do Requisito:** O sistema deve permitir que o administrador atualize ou cadastre dados dos clientes.
-- **Objetivo:** Validar as operações de CRUD (Criar, Ler, Atualizar e Deletar) dos clientes no módulo administrativo.
+- **Descrição do Requisito:**  
+  O sistema deve permitir que o administrador visualize, cadastre, edite, pesquise e exclua dados dos clientes.
+
+- **Objetivo:**  
+  Garantir que o administrador consiga gerenciar corretamente os clientes, validando todas as ações possíveis no módulo: cadastro, visualização, pesquisa, edição, exclusão e validação de campos obrigatórios.
+
 * **Plano de Testes**: [Plano de Testes - RF-012](../../Planos%20de%20teste/RF-012/README.MD)
 
 ---
 
 ### Caso de Teste 1 — Cadastro de Cliente
-
 | Item | Descrição |
 |------|------------|
-| **Ação** | Inserir um novo cliente preenchendo os campos obrigatórios (Nome, Email, Telefone e Senha). |
-| **Resultado Esperado** | O sistema deve cadastrar o cliente e exibir mensagem de sucesso. |
+| **Ação** | Preencher o formulário de cadastro com nome, e-mail, telefone e senha, e clicar em **Cadastrar**. |
+| **Resultado Esperado** | O sistema deve cadastrar o cliente e exibir o novo registro na lista de clientes. |
 
 ---
 
-### Caso de Teste 2 — Edição de Cliente
-
+### Caso de Teste 2 — Visualizar Cliente
 | Item | Descrição |
 |------|------------|
-| **Ação** | Editar um cliente existente alterando nome, email ou telefone. |
-| **Resultado Esperado** | O sistema deve atualizar as informações e confirmar a alteração. |
+| **Ação** | Selecionar um cliente da lista para abrir a tela **Visualizar Cliente**. |
+| **Resultado Esperado** | O sistema deve exibir corretamente os dados do cliente (nome, e-mail, telefone e histórico de pedidos). |
 
 ---
 
-### Caso de Teste 3 — Visualização de Cliente
-
+### Caso de Teste 3 — Pesquisar Cliente
 | Item | Descrição |
 |------|------------|
-| **Ação** | Clicar em um cliente da lista para visualizar suas informações completas. |
-| **Resultado Esperado** | O sistema deve exibir os dados detalhados do cliente e os pedidos relacionados. |
+| **Ação** | Digitar o nome ou e-mail do cliente na barra de pesquisa. |
+| **Resultado Esperado** | A listagem deve ser filtrada e exibir apenas os clientes correspondentes à pesquisa. |
 
 ---
 
-### Caso de Teste 4 — Exclusão de Cliente
+### Caso de Teste 4 — Editar Cliente
+| Item | Descrição |
+|------|------------|
+| **Ação** | Clicar no ícone de lápis, alterar dados do cliente (ex.: telefone ou e-mail) e clicar em **Salvar**. |
+| **Resultado Esperado** | As alterações devem ser salvas e refletidas na listagem de clientes. |
 
+---
+
+### Caso de Teste 5 — Excluir Cliente
 | Item | Descrição |
 |------|------------|
 | **Ação** | Clicar no ícone de lixeira e confirmar a exclusão do cliente. |
-| **Resultado Esperado** | O sistema deve remover o cliente da lista e exibir a mensagem de confirmação. |
-
----
-
-### Caso de Teste 5 — Busca de Cliente
-
-| Item | Descrição |
-|------|------------|
-| **Ação** | Digitar o nome ou email do cliente na barra de pesquisa. |
-| **Resultado Esperado** | O sistema deve filtrar e exibir apenas os clientes correspondentes. |
+| **Resultado Esperado** | O cliente deve ser removido da lista e o sistema deve exibir mensagem de confirmação de exclusão. |
 
 ---
 
 ### Caso de Teste 6 — Validação de Campos
-
 | Item | Descrição |
 |------|------------|
-| **Ação** | Tentar cadastrar ou editar um cliente com campos vazios ou formato inválido. |
-| **Resultado Esperado** | O sistema deve bloquear a ação e exibir mensagens de erro de validação. |
+| **Ação** | Tentar cadastrar ou editar um cliente deixando campos obrigatórios vazios ou com formatos inválidos. |
+| **Resultado Esperado** | O sistema deve bloquear o envio e exibir mensagens de erro, informando os campos obrigatórios ou inválidos. |
