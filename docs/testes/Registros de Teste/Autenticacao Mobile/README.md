@@ -2,7 +2,7 @@
 
 ## Autenticação (Mobile)
 
-* **Plano de Testes**: [Plano de Testes - Autenticação Mobile](../../Planos%20de%20teste/Autenticação%20(Mobile)/README.md)
+* **Plano de Testes**: [Plano de Testes - Autenticação Mobile](../../Planos%20de%20teste/Autenticacao%20Mobile/README.MD)
 
 ## Seções
 

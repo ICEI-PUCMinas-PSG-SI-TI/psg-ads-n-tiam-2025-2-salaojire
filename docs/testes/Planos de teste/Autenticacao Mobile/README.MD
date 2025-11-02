@@ -3,7 +3,7 @@
 ## Autenticação (Mobile)
 * **Descrição do Requisito**: (RF-004) - O sistema deve permitir que o administrador cadastre, edite e exclua itens disponíveis para aluguel.
 * **Objetivo**: Validar autenticação com credenciais válidas
-* **Registro de Testes**: [Autenticação Mobile](../../Registros%20de%20Teste/Autenticação%20Mobile/README.md)
+* **Registro de Testes**: [Registro de Testes - Autenticação Mobile](../../Registros%20de%20Teste/Autenticacao%20Mobile/README.md)
 
 ###  Caso de Teste 1 — Login bem sucedido
 | Item | Descrição |
