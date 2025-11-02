@@ -1,21 +1,20 @@
-# Registros de Testes de Software
+# Registros de Testes de Software  
+## RF-010 — Gerenciamento de Agendamentos  
 
-## RF-010
+**Plano de Testes:** [Plano de Testes - RF-010](../../Planos%20de%20teste/RF-010/README.MD)
 
-* **Plano de Testes**: [Plano de Testes - RF-010](../../Planos%20de%20teste/RF-010/README.MD)
+---
 
-## Seções
+### Caso de Teste 1 — Criar novo agendamento  
+**Evidências:**  
+- Tela de criação  
+  ![Agendamento - Novo](../../../img/Registros%20de%20Testes/AgendamentoNovoAgendamento.jpg)  
+- Tela após criação  
+  ![Agendamento - Criado](../../../img/Registros%20de%20Testes/AgendamentoBemSucedido.jpg)
 
-1. [Caso de Teste 1 — X](#caso-de-teste-1--x)
+---
 
-2. [Caso de Teste 2 — Y](#caso-de-teste-2--y)
-
-(Caso haja mais seções, adicione)
-
-###  Caso de Teste 1 — X
-
-![Registro de Teste - X](../../../img/Registros%20de%20Testes//X.jpg)
-
-###  Caso de Teste 2 — Y
-
-![Registro de Teste - Y](../../../img/Registros%20de%20Testes//Y.jpg)
+### Caso de Teste 2 — Listar agendamentos existentes  
+**Evidência:**  
+- Tela de listagem de clientes e agendamentos  
+  ![Agendamento - Listagem](../../../img/Registros%20de%20Testes/AgendamentoVisualizarClientes.jpg)
