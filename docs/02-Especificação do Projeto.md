@@ -45,7 +45,7 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 | RF-001 | O sistema deve permitir que o visitante visualize fotos e vídeos do salão e de eventos anteriores.               | ALTA       |
 | RF-002 | O sistema deve exibir o catálogo de itens disponíveis para aluguel.                                              | ALTA       |
 | RF-003 | O sistema deve permitir que o visitante visualize a localização do salão em um mapa integrado.                   | MÉDIA      |
-| RF-004 | O sistema deve possibilitar cadastro e login simples para clientes.                                              | ALTA       |
+| RF-004 | O sistema deve possibilitar cadastro e login simples para clientes e administradores.                                              | ALTA       |
 | RF-005 | O sistema deve permitir que clientes selecionem itens para aluguel e solicitem o orçamento deles.                | ALTA       |
 | RF-006 | O sistema deve permitir que o cliente envie um formulário de contato simples, sem a necessidade de selecionar itens.  | ALTA       |
 | RF-007 | O sistema deve notificar o administrador sobre novas solicitações de contato e de orçamento recebido    | ALTA       |
