@@ -4,7 +4,7 @@
 
 - **Descrição do Requisito:** O sistema deve permitir que o administrador visualize informações completas dos clientes.
 - **Objetivo:** Garantir que o administrador consiga visualizar corretamente os dados de cada cliente, incluindo informações pessoais e pedidos realizados.
-- **Registro de Testes:** [Registro de Testes - RF-011](../../Registros%20de%20Testes%20de%20Software/RF-011/README.md)
+- **Registro de Testes:** [Registro de Testes - RF-011](../../Registros%20de%20Teste/RF-011/README.md)
 
 ---
 
