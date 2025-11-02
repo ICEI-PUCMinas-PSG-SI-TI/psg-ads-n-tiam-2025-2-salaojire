@@ -1,18 +1,46 @@
-# Plano de Testes de Software
+# Registros de Testes de Software
 
-## RF-012:
-* **Descrição do Requisito**: O sistema deve permitir que o administrador atualize ou cadastre dados dos clientes.
-* **Objetivo**: (Preencha objetivo)
+## RF-012
+
 * **Registro de Testes**: [Registro de Testes - RF-012](../../Registros%20de%20Teste/RF-012/README.md)
 
-###  Caso de Teste 1 — X
-| Item | Descrição |
-|------|------------|
-| **Ação** | Preencha ação |
-| **Resultado Esperado** | Preencha o resultado esperado |
+---
 
-###  Caso de Teste 2 — Y
-| Item | Descrição |
-|------|------------|
-| **Ação** | Preencha ação |
-| **Resultado Esperado** | Preencha o resultado esperado |
+## Seções
+
+1. [Caso de Teste 1 — Cadastro de Cliente](#caso-de-teste-1--cadastro-de-cliente)
+2. [Caso de Teste 2 — Edição de Cliente](#caso-de-teste-2--edição-de-cliente)
+3. [Caso de Teste 3 — Visualização de Cliente](#caso-de-teste-3--visualização-de-cliente)
+4. [Caso de Teste 4 — Exclusão de Cliente](#caso-de-teste-4--exclusão-de-cliente)
+5. [Caso de Teste 5 — Busca de Cliente](#caso-de-teste-5--busca-de-cliente)
+6. [Caso de Teste 6 — Validação de Campos](#caso-de-teste-6--validação-de-campos)
+
+---
+
+### Caso de Teste 1 — Cadastro de Cliente
+![Registro de Teste - 1](../../../img/Registros%20de%20Testes/cliente2.png)
+
+---
+
+### Caso de Teste 2 — Edição de Cliente
+![Registro de Teste - 2](../../../img/Registros%20de%20Testes/Cliente3.png)
+
+---
+
+### Caso de Teste 3 — Visualização de Cliente
+![Registro de Teste - 3](../../../img/Registros%20de%20Testes/Cliente4.png)
+
+---
+
+### Caso de Teste 4 — Exclusão de Cliente
+![Registro de Teste - 4](../../../img/Registros%20de%20Testes/Cliente5.png)
+
+---
+
+### Caso de Teste 5 — Busca de Cliente
+![Registro de Teste - 5](../../../img/Registros%20de%20Testes/Cliente6.png)
+
+---
+
+### Caso de Teste 6 — Validação de Campos
+![Registro de Teste - 6](../../../img/Registros%20de%20Testes/Cliente7.png)
