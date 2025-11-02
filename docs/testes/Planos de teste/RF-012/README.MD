@@ -9,9 +9,9 @@
 ## Seções
 
 1. [Caso de Teste 1 — Cadastro de Cliente](#caso-de-teste-1--cadastro-de-cliente)
-2. [Caso de Teste 2 — Edição de Cliente](#caso-de-teste-2--edição-de-cliente)
-3. [Caso de Teste 3 — Visualização de Cliente](#caso-de-teste-3--visualização-de-cliente)
-4. [Caso de Teste 4 — Exclusão de Cliente](#caso-de-teste-4--exclusão-de-cliente)
+2. [Caso de Teste 2 — Visualizar Cliente](#caso-de-teste-2--edição-de-cliente)
+3. [Caso de Teste 3 — Pesquisar Cliente](#caso-de-teste-3--visualização-de-cliente)
+4. [Caso de Teste 4 — Editar Cliente](#caso-de-teste-4--exclusão-de-cliente)
 5. [Caso de Teste 5 — Busca de Cliente](#caso-de-teste-5--busca-de-cliente)
 6. [Caso de Teste 6 — Validação de Campos](#caso-de-teste-6--validação-de-campos)
 
@@ -22,22 +22,22 @@
 
 ---
 
-### Caso de Teste 2 — Edição de Cliente
+### Caso de Teste 2 — Visualizar cliente
 ![Registro de Teste - 2](../../../img/Registros%20de%20Testes/Cliente3.png)
 
 ---
 
-### Caso de Teste 3 — Visualização de Cliente
+### Caso de Teste 3 — Pesquisar cliente 
 ![Registro de Teste - 3](../../../img/Registros%20de%20Testes/Cliente4.png)
 
 ---
 
-### Caso de Teste 4 — Exclusão de Cliente
+### Caso de Teste 4 — Editar cliente 
 ![Registro de Teste - 4](../../../img/Registros%20de%20Testes/Cliente5.png)
 
 ---
 
-### Caso de Teste 5 — Busca de Cliente
+### Caso de Teste 5 — Excluir cliente
 ![Registro de Teste - 5](../../../img/Registros%20de%20Testes/Cliente6.png)
 
 ---
