@@ -5,15 +5,14 @@ import {
   FlatList,
   TouchableOpacity,
   TextInput,
-  ActivityIndicator,
   Alert,
   StyleSheet,
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import FirebaseAPI from "@packages/firebase";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+
 
 type Cliente = {
   id: string;
@@ -22,11 +21,13 @@ type Cliente = {
 
 type Agendamento = {
   id: string;
+  nome?: string; 
   status?: string;
   dataInicio?: { seconds: number };
   dataFim?: { seconds: number };
   valorTotal?: number;
 };
+
 
 export default function GerenciarAgendamentos() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
@@ -46,7 +47,6 @@ export default function GerenciarAgendamentos() {
     valorTotal: 0,
   });
 
-  const insets = useSafeAreaInsets();
   const router = useRouter();
 
   // ========================
@@ -76,25 +76,29 @@ export default function GerenciarAgendamentos() {
   // ========================
   // Carrega agendamentos
   // ========================
-  const carregarAgendamentos = async (clienteId: string) => {
-    try {
-      setLoading(true);
-      const lista = await FirebaseAPI.firestore.clientes.getAgendamentosFromCliente(clienteId);
-      const listaFormatada = lista.map((a: any) => ({
-        id: a.id,
-        status: a.status || "pendente",
-        dataInicio: a.dataInicio,
-        dataFim: a.dataFim,
-        valorTotal: a.valorTotal,
-      }));
-      setAgendamentos(listaFormatada);
-    } catch (error) {
-      console.error("Erro ao carregar agendamentos:", error);
-      Alert.alert("Erro", "Falha ao carregar agendamentos.");
-    } finally {
-      setLoading(false);
-    }
-  };
+const carregarAgendamentos = async (clienteId: string) => {
+  try {
+    setLoading(true);
+    const lista = await FirebaseAPI.firestore.clientes.getAgendamentosFromCliente(clienteId);
+
+    const listaFormatada = lista.map((a: any) => ({
+      id: a.id,
+      nome: a.nome || "Evento sem nome", 
+      status: a.status || "pendente",
+      dataInicio: a.dataInicio,
+      dataFim: a.dataFim,
+      valorTotal: a.valorTotal,
+    }));
+
+    setAgendamentos(listaFormatada);
+  } catch (error) {
+    console.error("Erro ao carregar agendamentos:", error);
+    Alert.alert("Erro", "Falha ao carregar agendamentos.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   // ========================
   // Carrega itens disponíveis
@@ -174,31 +178,35 @@ export default function GerenciarAgendamentos() {
     c.nome?.toLowerCase().includes(filtro.toLowerCase())
   );
 
+  // ========================
+  // Render
+  // ========================
   return (
-    <View style={[styles.container, { paddingTop: insets.top + 10 }]}>
-      {/* Cabeçalho */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.push("/")}>
-          <Ionicons name="arrow-back" size={22} color="#FFD700" />
-        </TouchableOpacity>
-        <Text style={styles.titulo}>Gerenciar Agendamentos</Text>
-      </View>
-
-      {/* Campo de busca */}
+    <View style={styles.container}>
+      {/* --------- Cabeçalho --------- */}
       {!clienteSelecionado && (
-        <View style={styles.searchBox}>
-          <Ionicons name="search" size={18} color="#FFD700" style={{ marginHorizontal: 6 }} />
-          <TextInput
-            placeholder="Pesquisar por cliente"
-            placeholderTextColor="#999"
-            style={styles.input}
-            value={filtro}
-            onChangeText={setFiltro}
-          />
+        <View style={styles.headerWrapper}>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => router.push("/")}>
+              <Ionicons name="arrow-back" size={22} color="#F2C94C" />
+            </TouchableOpacity>
+            <Text style={styles.titulo}>Gerenciar Agendamentos</Text>
+          </View>
+
+          <View style={styles.searchBox}>
+            <Ionicons name="search" size={18} color="#F2C94C" style={{ marginHorizontal: 6 }} />
+            <TextInput
+              placeholder="Pesquisar por cliente"
+              placeholderTextColor="#999"
+              style={styles.inputSearch}
+              value={filtro}
+              onChangeText={setFiltro}
+            />
+          </View>
         </View>
       )}
 
-      {/* Lista de clientes */}
+      {/* --------- Lista de Clientes --------- */}
       {!loading && !clienteSelecionado && (
         <FlatList
           data={clientesFiltrados}
@@ -212,68 +220,81 @@ export default function GerenciarAgendamentos() {
                 carregarItens();
               }}
             >
-              <Ionicons name="person-circle" size={28} color="#FFD700" />
+              <View style={styles.avatar}>
+                <Text style={styles.avatarText}>
+                  {item.nome ? item.nome.charAt(0).toUpperCase() : "?"}
+                </Text>
+              </View>
               <Text style={styles.nomeCliente}>{item.nome}</Text>
             </TouchableOpacity>
           )}
         />
       )}
 
-      {/* Lista de agendamentos */}
-      {clienteSelecionado && !modoCriar && (
-        <View style={styles.agendamentosBox}>
-          <View style={styles.voltarBox}>
-            <TouchableOpacity onPress={() => setClienteSelecionado(null)}>
-              <Ionicons name="arrow-back" size={20} color="#FFD700" />
-            </TouchableOpacity>
-            <Text style={styles.nomeSelecionado}>{clienteSelecionado.nome}</Text>
-          </View>
+     {/* --------- Agendamentos --------- */}
+{clienteSelecionado && !modoCriar && (
+  <View style={styles.agendamentosBox}>
+    <View style={styles.voltarBox}>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <TouchableOpacity onPress={() => setClienteSelecionado(null)}>
+          <Ionicons name="arrow-back" size={20} color="#F2C94C" />
+        </TouchableOpacity>
+        <Text style={styles.nomeSelecionado}>{clienteSelecionado.nome}</Text>
+      </View>
 
-          <TouchableOpacity style={styles.botaoCriar} onPress={() => setModoCriar(true)}>
-            <Ionicons name="add-circle" size={20} color="#000" />
-            <Text style={styles.textoCriar}>Novo Agendamento</Text>
-          </TouchableOpacity>
+      <TouchableOpacity style={styles.botaoCriar} onPress={() => setModoCriar(true)}>
+        <Ionicons name="add-circle" size={18} color="#000" />
+        <Text style={styles.textoCriar}>Novo Agendamento</Text>
+      </TouchableOpacity>
+    </View>
 
-          <FlatList
-            data={agendamentos}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.card}>
-                <Text style={styles.status}>
-                  Status: <Text style={styles.bold}>{item.status}</Text>
-                </Text>
-                {item.dataInicio && (
-                  <Text style={styles.info}>
-                    Início: {new Date(item.dataInicio.seconds * 1000).toLocaleDateString()}
-                  </Text>
-                )}
-                {item.dataFim && (
-                  <Text style={styles.info}>
-                    Fim: {new Date(item.dataFim.seconds * 1000).toLocaleDateString()}
-                  </Text>
-                )}
-                {item.valorTotal && (
-                  <Text style={styles.info}>Valor: R$ {item.valorTotal.toFixed(2)}</Text>
-                )}
-              </View>
-            )}
-            ListEmptyComponent={<Text style={styles.vazio}>Nenhum agendamento encontrado.</Text>}
-          />
+    <FlatList
+      data={agendamentos}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <View style={styles.card}>
+          {/* Nome do evento acima do status */}
+          {item.nome && (
+            <Text style={styles.nomeEvento}>{item.nome}</Text>
+          )}
+
+          <Text style={styles.status}>
+            Status: <Text style={styles.bold}>{item.status}</Text>
+          </Text>
+
+          {item.dataInicio && (
+            <Text style={styles.info}>
+              Início: {new Date(item.dataInicio.seconds * 1000).toLocaleDateString()}
+            </Text>
+          )}
+          {item.dataFim && (
+            <Text style={styles.info}>
+              Fim: {new Date(item.dataFim.seconds * 1000).toLocaleDateString()}
+            </Text>
+          )}
+          {item.valorTotal && (
+            <Text style={styles.info}>Valor: R$ {item.valorTotal.toFixed(2)}</Text>
+          )}
         </View>
       )}
+      ListEmptyComponent={<Text style={styles.vazio}>Nenhum agendamento encontrado.</Text>}
+    />
+  </View>
+)}
 
-      {/* CRIAR NOVO AGENDAMENTO */}
+
+      {/* --------- Formulário de Novo Agendamento --------- */}
       {modoCriar && (
         <ScrollView style={styles.formContainer}>
           <View style={styles.voltarBox}>
             <TouchableOpacity onPress={() => setModoCriar(false)}>
-              <Ionicons name="arrow-back" size={20} color="#FFD700" />
+              <Ionicons name="arrow-back" size={20} color="#F2C94C" />
             </TouchableOpacity>
             <Text style={styles.nomeSelecionado}>Novo Agendamento</Text>
           </View>
 
           <TextInput
-            style={styles.input}
+            style={styles.inputForm}
             placeholder="Nome do evento"
             placeholderTextColor="#888"
             value={novoAgendamento.nomeEvento}
@@ -281,7 +302,7 @@ export default function GerenciarAgendamentos() {
           />
 
           <TextInput
-            style={styles.input}
+            style={styles.inputForm}
             placeholder="Data início (YYYY-MM-DD)"
             placeholderTextColor="#888"
             value={novoAgendamento.dataInicio}
@@ -289,7 +310,7 @@ export default function GerenciarAgendamentos() {
           />
 
           <TextInput
-            style={styles.input}
+            style={styles.inputForm}
             placeholder="Data fim (YYYY-MM-DD)"
             placeholderTextColor="#888"
             value={novoAgendamento.dataFim}
@@ -297,23 +318,47 @@ export default function GerenciarAgendamentos() {
           />
 
           <Text style={styles.subtitulo}>Itens disponíveis:</Text>
-          {itens.map((item) => {
-            const selecionado = itensSelecionados.find((i) => i.id === item.id);
-            return (
-              <TouchableOpacity
-                key={item.id}
-                style={[
-                  styles.itemCard,
-                  selecionado && { borderColor: "#FFD700", borderWidth: 1.5 },
-                ]}
-                onPress={() => alternarItem(item)}
-              >
-                <Ionicons name="cube" size={20} color="#FFD700" />
-                <Text style={styles.itemNome}>{item.nome}</Text>
-                <Text style={styles.itemPreco}>R$ {item.precoAluguel?.toFixed(2)}</Text>
-              </TouchableOpacity>
-            );
-          })}
+   {itens.map((item) => {
+  const selecionado = itensSelecionados.find((i) => i.id === item.id);
+  return (
+    <TouchableOpacity
+      key={item.id}
+      style={[
+        styles.itemCard,
+        selecionado && {
+          backgroundColor: "#F2C94C", 
+          borderColor: "#000",        
+          transform: [{ scale: 1.02 }], 
+        },
+      ]}
+      onPress={() => alternarItem(item)}
+      activeOpacity={0.8}
+    >
+      <Ionicons
+        name="cube"
+        size={20}
+        color={selecionado ? "#000" : "#F2C94C"} 
+      />
+      <Text
+        style={[
+          styles.itemNome,
+          selecionado && { color: "#000" }, 
+        ]}
+      >
+        {item.nome}
+      </Text>
+      <Text
+        style={[
+          styles.itemPreco,
+          selecionado && { color: "#000" }, 
+        ]}
+      >
+        R$ {item.precoAluguel?.toFixed(2)}
+      </Text>
+    </TouchableOpacity>
+  );
+})}
+
 
           <Text style={styles.total}>
             Valor Total: R$ {novoAgendamento.valorTotal.toFixed(2)}
@@ -328,81 +373,216 @@ export default function GerenciarAgendamentos() {
   );
 }
 
-// ================== ESTILOS ==================
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#000", paddingHorizontal: 16 },
-  header: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
-  titulo: { color: "#FFD700", fontSize: 18, fontWeight: "bold", marginLeft: 10 },
+  container: { flex: 1, backgroundColor: "#fff" },
+
+  headerWrapper: {
+    backgroundColor: "#000",
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+  },
+  titulo: { color: "#F2C94C", fontSize: 20, fontWeight: "bold", marginLeft: 8 },
+
   searchBox: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#222",
-    borderRadius: 8,
-    paddingVertical: 8,
+    backgroundColor: "#000",
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
     paddingHorizontal: 10,
-    marginBottom: 10,
+    height: 45,
+    marginTop: -8,
   },
-  input: {
-    backgroundColor: "#111",
-    color: "#FFF",
+  inputSearch: {
+    backgroundColor: "#1C1C1E",
+    color: "#fff",
     borderRadius: 8,
-    padding: 10,
-    marginBottom: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    fontSize: 14,
+    flex: 1,
   },
+  inputForm: {
+    backgroundColor: "#F7F7F7",
+    color: "#111",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    fontSize: 14,
+    marginVertical: 6,
+    borderWidth: 1,
+    borderColor: "#F2C94C",
+  },
+
   clienteItem: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#111",
-    borderRadius: 10,
-    padding: 10,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
     marginVertical: 5,
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
   },
-  nomeCliente: { color: "#FFF", fontSize: 16, marginLeft: 10 },
-  voltarBox: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
-  nomeSelecionado: { color: "#FFD700", fontWeight: "bold", marginLeft: 10, fontSize: 16 },
-   agendamentosBox: {
-    flex: 1,
-    marginTop: 10,
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "#F2C94C",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
   },
-  card: { backgroundColor: "#111", padding: 12, borderRadius: 10, marginVertical: 6 },
-  info: { color: "#DDD", fontSize: 14 },
-  status: { color: "#FFD700", fontWeight: "600" },
-  bold: { fontWeight: "bold" },
-  vazio: { color: "#888", textAlign: "center", marginTop: 20 },
-  subtitulo: { color: "#FFD700", fontWeight: "bold", marginVertical: 10 },
-  itemCard: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "#111",
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 6,
-  },
-  itemNome: { color: "#FFF", flex: 1, marginLeft: 8 },
-  itemPreco: { color: "#FFD700" },
-  total: {
-    color: "#FFD700",
-    fontWeight: "bold",
-    fontSize: 16,
-    marginTop: 10,
-    textAlign: "right",
-  },
+  avatarText: { color: "#111", fontWeight: "700" },
+  nomeCliente: { color: "#111", fontWeight: "700" },
+
+voltarBox: {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+  backgroundColor: "#111",
+  borderRadius: 12,
+  paddingVertical: 12,
+  paddingHorizontal: 16,
+  marginBottom: 20,
+  borderBottomWidth: 1,
+  borderBottomColor: "#F2C94C",
+},
+
+  nomeSelecionado: { color: "#F2C94C", fontWeight: "bold", fontSize: 18 },
+
+  agendamentosBox: { flex: 1 },
+card: {
+  backgroundColor: "#1a1a1a", 
+  borderColor: "#F2C94C",
+  borderWidth: 0.5,
+  borderRadius: 14,
+  padding: 16,
+  marginVertical: 8,
+  shadowColor: "#000",
+  shadowOpacity: 0.3,
+  shadowRadius: 5,
+  elevation: 3,
+},
+
+status: {
+  color: "#F2C94C",
+  fontWeight: "bold",
+  marginBottom: 8,
+  fontSize: 16,
+  textTransform: "uppercase",
+},
+
+info: {
+  color: "#EEE",
+  fontSize: 14,
+  marginBottom: 4,
+  lineHeight: 20,
+},
+
+bold: {
+  fontWeight: "bold",
+  color: "#fff",
+},
+
+vazio: {
+  color: "#999",
+  textAlign: "center",
+  marginTop: 20,
+  fontStyle: "italic",
+  fontSize: 14,
+},
+
+subtitulo: {
+  color: "#F2C94C",
+  fontWeight: "bold",
+  marginVertical: 10,
+  fontSize: 16,
+  textTransform: "uppercase",
+  letterSpacing: 0.5,
+},
+
+itemCard: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  backgroundColor: "#111", 
+  borderWidth: 1,
+  borderColor: "#F2C94C",
+  padding: 12,
+  borderRadius: 12,
+  marginBottom: 10,
+  shadowColor: "#000",
+  shadowOpacity: 0.15,
+  shadowRadius: 5,
+  elevation: 3,
+},
+
+itemNome: { color: "#F2C94C", flex: 1, marginLeft: 8, fontWeight: "600" },
+itemPreco: { color: "#F2C94C", fontWeight: "700" },
+
+total: {
+  color: "#F2C94C",
+  fontWeight: "bold",
+  fontSize: 20,        
+  marginTop: 14,
+  textAlign: "right",
+  letterSpacing: 0.5,  
+  textShadowColor: "rgba(0, 0, 0, 0.2)", 
+  textShadowOffset: { width: 1, height: 1 },
+  textShadowRadius: 2,
+},
+
+
+
   botaoCriar: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#FFD700",
-    padding: 10,
-    borderRadius: 10,
-    marginVertical: 10,
+    backgroundColor: "#F2C94C",
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 30,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 3,
   },
-  textoCriar: { color: "#000", fontWeight: "bold", marginLeft: 6 },
+  textoCriar: { color: "#000", fontWeight: "bold", fontSize: 14, marginLeft: 6 },
   botaoCriarFinal: {
-    backgroundColor: "#FFD700",
+    backgroundColor: "#F2C94C",
     padding: 12,
     borderRadius: 10,
     marginTop: 10,
   },
-  textoBotaoCriar: { color: "#000", fontWeight: "bold", textAlign: "center" },
-  formContainer: { backgroundColor: "#000", padding: 10 },
+  textoBotaoCriar: {
+    color: "#000",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+
+nomeEvento: {
+  color: "#F2C94C",
+  fontSize: 18,
+  fontWeight: "bold",
+  marginBottom: 8,
+  textTransform: "capitalize",
+},
+
+
+  formContainer: { backgroundColor: "#fff", padding: 10 },
 });
