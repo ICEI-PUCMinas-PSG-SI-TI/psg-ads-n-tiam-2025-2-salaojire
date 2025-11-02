@@ -17,7 +17,7 @@
 
  **Registro de Teste - 1**
 
-![Registro de Teste - 1](<img width="1919" height="910" alt="Cliente1" src="https://github.com/user-attachments/assets/c9b0f0bc-9ea8-4535-bb78-b7f0cf247295" />).
+![Registro de Teste - 1](./img/Registro de Testes/Cliente1.png).
 
 **Descrição:**  
 A tela *Gerenciar Clientes* mostra corretamente a lista de todos os clientes com nome e e-mail.
@@ -28,8 +28,7 @@ A tela *Gerenciar Clientes* mostra corretamente a lista de todos os clientes com
 
  **Registro de Teste - 2**
 
-![Registro de Teste - 2]( <img width="1919" height="911" alt="Cliente8" src="https://github.com/user-attachments/assets/f5b8324c-bd68-4f6c-bbd8-18947538cb3a" />
- )
+![Registro de Teste - 2](./img/Registro de Testes/Cliente8.png)
 
 **Descrição:**  
 A tela *Visualizar Cliente* exibe nome, e-mail, telefone e a lista de pedidos realizados pelo cliente, com data, status e valor.
