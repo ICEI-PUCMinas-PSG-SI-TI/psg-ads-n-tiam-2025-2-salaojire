@@ -19,73 +19,14 @@ Foram realizados em ambiente de testes com o **Firebase público** configurado v
 | **Backend** | Firebase (Firestore / Auth / Storage) |
 | **Versão Testada** | 1.0.0 |
 
-## 4. Funcionalidades Testadas
-
-| Código RF | Requisito Funcional | Responsável | Status |
-|------------|--------------------|--------------|--------|
-| **RF-009** | CRUD de Itens | Gabriel |  Testado |
-| **RF-010** | Gerenciamento de Agendamentos | Junio |  Testado |
-| **RF-011** | Visualizar informações de clientes | Henrique |  Testado |
-| **RF-012** | Atualizar/cadastrar dados de clientes | Henrique | Testado |
-| **RF-017** | Recuperação de senha | Gabriel Assis |  Testado |
-| **RF-018** | Gerenciar administradores | João |  Testado |
-| **Login com autenticação** | Implementação do login Firebase | Isaque |  Testado |
-
-## 5. Casos de Teste Funcional
-
-###  Caso de Teste 1 — Cadastro de Cliente
-| Item | Descrição |
-|------|------------|
-| **ID** | CT-001 |
-| **Requisito Relacionado** | RF-012 |
-| **Objetivo** | Verificar se o cadastro cria corretamente o cliente no Firestore e autentica via Firebase Auth |
-| **Pré-condição** | Aplicativo em tela de cadastro, Firebase configurado |
-| **Ação** | Inserir e-mail, senha, nome e telefone e pressionar “Cadastrar” |
-| **Resultado Esperado** | Usuário criado no Auth e documento criado em `Clientes/{uid}` |
-| **Resultado Obtido** | Conforme esperado |
-| **Status** |  Aprovado |
-
-###  Caso de Teste 2 — Login de Cliente
-| Item | Descrição |
-|------|------------|
-| **ID** | CT-002 |
-| **Requisito Relacionado** | RF-011 |
-| **Objetivo** | Validar autenticação com credenciais válidas |
-| **Ação** | Inserir e-mail/senha cadastrados e clicar “Entrar” |
-| **Resultado Esperado** | Redirecionamento para tela inicial do cliente |
-| **Resultado Obtido** | Autenticação bem-sucedida |
-| **Status** |  Aprovado |
-
-###  Caso de Teste 3 — Visualização de Cliente
-| Item | Descrição |
-|------|------------|
-| **ID** | CT-003 |
-| **Requisito Relacionado** | RF-011 |
-| **Objetivo** | Verificar exibição de dados do cliente |
-| **Ação** | Abrir aba “Clientes” no app |
-| **Resultado Esperado** | Campos de Nome, E-mail e Telefone preenchidos corretamente |
-| **Resultado Obtido** | Exibição correta (dados mockados e dinâmicos) |
-| **Status** |  Aprovado |
-
-
-###  Caso de Teste 4 — CRUD de Itens
-| Item | Descrição |
-|------|------------|
-| **ID** | CT-004 |
-| **Requisito Relacionado** | RF-009 |
-| **Objetivo** | Verificar criação, edição e exclusão de itens no Firestore |
-| **Ação** | Executar funções `createItem`, `updateItem` e `deleteItem` |
-| **Resultado Esperado** | Dados salvos/atualizados/removidos em `Itens` |
-| **Resultado Obtido** | Conforme esperado |
-| **Status** |  Aprovado |
-
-###  Caso de Teste 5 — Integração Firebase
-| Item | Descrição |
-|------|------------|
-| **ID** | CT-005 |
-| **Requisito Relacionado** | RF-011 / RF-012 |
-| **Objetivo** | Verificar comunicação com Firestore a partir da tela Index (teste de conexão) |
-| **Ação** | Clicar no botão “Testar Conexão com Firebase” |
-| **Resultado Esperado** | Documento `conexao-teste` criado em `testes` |
-| **Resultado Obtido** | Documento criado com sucesso |
-| **Status** |  Aprovado |
+## 4. Acesso aos Planos de Teste
+Acesse o código RF para ir até o plano de teste específico.
+| Código RF | Requisito Funcional | Responsável |
+|------------|--------------------|--------------|
+| **[RF-004](/docs/testes/Planos%20de%20teste/Autenticacao%20Mobile/README.MD)** | Implementação do login Firebase | Isaque |
+| **[RF-009](/docs/testes/Planos%20de%20teste/RF-009/README.MD)** | CRUD de Itens | Gabriel |
+| **[RF-010](/docs/testes/Planos%20de%20teste/RF-010/README.MD)** | Gerenciamento de Agendamentos | Junio |
+| **[RF-011](/docs/testes/Planos%20de%20teste/RF-011/README.MD)** | Visualizar informações de clientes | Henrique |
+| **[RF-012](/docs/testes/Planos%20de%20teste/RF-012/README.MD)** | Atualizar/cadastrar dados de clientes | Henrique |
+| **[RF-017](/docs/testes/Planos%20de%20teste/RF-017/README.MD)** | Recuperação de senha | Gabriel Assis |
+| **[RF-018](/docs/testes/Planos%20de%20teste/RF-018/README.MD)** | Gerenciar administradores | João |

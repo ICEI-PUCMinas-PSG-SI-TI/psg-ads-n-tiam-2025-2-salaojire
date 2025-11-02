@@ -1,12 +1,20 @@
 # Registro de Testes de Software
 
-<span style="color:red">Pré-requisitos: <a href="3-Projeto de Interface.md"> Projeto de Interface</a></span>, <a href="8-Plano de Testes de Software.md"> Plano de Testes de Software</a>
+## Acesso aos Registros de Testes
+Acesse o código RF para ir até o registro de teste específico.
 
-Relatório com as evidências dos testes de software realizados no sistema pela equipe, baseado em um plano de testes pré-definido.
+| Código RF | Requisito Funcional | Responsável 
+|------------|--------------------|--------------
+| **[RF-004](/docs/testes/Registros%20de%20Teste/Autenticacao%20Mobile/README.md)** | Implementação do login Firebase | Isaque |
+| **[RF-009](/docs/testes/Registros%20de%20Teste/RF-009/README.md)** | CRUD de Itens | Gabriel |
+| **[RF-010](/docs/testes/Registros%20de%20Teste/RF-010/README.md)** | Gerenciamento de Agendamentos | Junio |
+| **[RF-011](/docs/testes/Registros%20de%20Teste/RF-011/README.md)** | Visualizar informações de clientes | Henrique |
+| **[RF-012](/docs/testes/Registros%20de%20Teste/RF-012/README.md)** | Atualizar/cadastrar dados de clientes | Henrique |
+| **[RF-017](/docs/testes/Registros%20de%20Teste/RF-017/README.md)** | Recuperação de senha | Gabriel Assis |
+| **[RF-018](/docs/testes/Registros%20de%20Teste/RF-018/README.md)** | Gerenciar administradores | João |
 
 ## Avaliação
 
-Discorra sobre os resultados do teste. Ressaltando pontos fortes e fracos identificados na solução. Comente como o grupo pretende atacar esses pontos nas próximas iterações. Apresente as falhas detectadas e as melhorias geradas a partir dos resultados obtidos nos testes.
+Os resultados dos testes foram bem-sucedidos, sem falhas detectadas nas funcionalidades implementadas.
 
-> **Links Úteis**:
-> - [Ferramentas de Test para Java Script](https://geekflare.com/javascript-unit-testing/)
+Dado que todos os testes foram bem-sucedidos, não houve necessidade de melhorias corretivas (correção de bugs) resultantes desta rodada de testes. As melhorias planejadas são evolutivas, focadas na conclusão das funcionalidades e no aprofundamento da cobertura de testes.
