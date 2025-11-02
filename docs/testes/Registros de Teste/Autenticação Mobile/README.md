@@ -1,9 +1,8 @@
 # Registros de Testes de Software
 
 ## Autenticação (Mobile)
-* **Requisito Relacionado**: RF-004
-* **Objetivo**: Validar autenticação com credenciais válidas
-* **Plano de Testes**: [Plano de Testes - Login com Autenticação](../../Planos%20de%20teste/Login%20com%20autenticação/README.MD)
+
+* **Plano de Testes**: [Plano de Testes - Autenticação Mobile](../../Planos%20de%20teste/Autenticação%20(Mobile)/README.md)
 
 ## Seções
 
