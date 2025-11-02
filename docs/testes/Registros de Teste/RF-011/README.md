@@ -4,18 +4,32 @@
 
 * **Plano de Testes**: [Plano de Testes - RF-011](../../Planos%20de%20teste/RF-011/README.MD)
 
+---
+
 ## Seções
 
-1. [Caso de Teste 1 — X](#caso-de-teste-1--x)
+1. [Caso de Teste 1 — Exibição da lista de clientes](#caso-de-teste-1--exibição-da-lista-de-clientes)
+2. [Caso de Teste 2 — Visualização completa do cliente](#caso-de-teste-2--visualização-completa-do-cliente)
 
-2. [Caso de Teste 2 — Y](#caso-de-teste-2--y)
+---
 
-(Caso haja mais seções, adicione)
+### Caso de Teste 1 — Exibição da lista de clientes
 
-###  Caso de Teste 1 — X
+ **Registro de Teste - 1**
 
-![Registro de Teste - X](../../../img/Registros%20de%20Testes//X.jpg)
+![Registro de Teste - 1](<img width="1919" height="910" alt="Cliente1" src="https://github.com/user-attachments/assets/c9b0f0bc-9ea8-4535-bb78-b7f0cf247295" />).
 
-###  Caso de Teste 2 — Y
+**Descrição:**  
+A tela *Gerenciar Clientes* mostra corretamente a lista de todos os clientes com nome e e-mail.
 
-![Registro de Teste - Y](../../../img/Registros%20de%20Testes//Y.jpg)
+---
+
+### Caso de Teste 2 — Visualização completa do cliente
+
+ **Registro de Teste - 2**
+
+![Registro de Teste - 2]( <img width="1919" height="911" alt="Cliente8" src="https://github.com/user-attachments/assets/f5b8324c-bd68-4f6c-bbd8-18947538cb3a" />
+ )
+
+**Descrição:**  
+A tela *Visualizar Cliente* exibe nome, e-mail, telefone e a lista de pedidos realizados pelo cliente, com data, status e valor.
