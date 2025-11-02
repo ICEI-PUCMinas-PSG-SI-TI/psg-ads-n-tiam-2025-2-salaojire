@@ -1,9 +1,9 @@
 # Plano de Testes de Software
 
 ## Autenticação (Mobile)
-* **Requisito Relacionado**: RF-004
+* **Descrição do Requisito**: (RF-004) - O sistema deve permitir que o administrador cadastre, edite e exclua itens disponíveis para aluguel.
 * **Objetivo**: Validar autenticação com credenciais válidas
-* **Registro de Testes**: [Registro de Testes - Login com Autenticação](../../Registros%20de%20Teste/Login%20com%20Autenticação/README.md)
+* **Registro de Testes**: [Autenticação Mobile](../../Registros%20de%20Teste/Autenticação%20Mobile/README.md)
 
 ###  Caso de Teste 1 — Login bem sucedido
 | Item | Descrição |
