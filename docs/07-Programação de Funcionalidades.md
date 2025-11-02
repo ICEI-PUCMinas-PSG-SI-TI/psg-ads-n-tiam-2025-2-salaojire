@@ -50,16 +50,18 @@ Uso de modais personalizados
     3. clicar na lixeira para abrir o modal de excluir 
 
 
-## RF-X
+## RF-010
 
-* **Responsável:** (Preencher o usuário)
-* **Descrição:**  (Preencher descrição)
+* **Responsável:** Washington Junio Lima 
+* **Descrição:** O sistema deve permitir que o administrador gerencie agendamentos de evento.
 
-* **Artefatos de Código-Fonte:**
-    * [src\apps\mobile\app\(pages)\login.js](/src/apps/mobile/app/(pages)/login.js): Altere o caminho e a descrição do artefato código fonte
-    * [src\packages\firebase\auth.js](/src/packages/firebase/auth.js): Adicione mais artefatos caso seja necessário
-
+* **Artefatos de Código-Fonte:**  
+    * [src/apps/mobile/app/(tabs)/gerenciarAgendamentos.tsx](/src/apps/mobile/app/(tabs)/gerenciarAgendamentos.tsx): O sistema deve permitir que o administrador cadastre e visualize novos agendamentos, exibindo informações como nome do evento, data de início, data de fim e valor total.
 
 * **Instruções para Acesso e Verificação:**
-    1.  Diga as instruções para verificar a funcionalidade.
-    2.  Adicione quantas instruções quanto necessário
+    1.  Inicialize o aplicativo.
+    2.  Navegue até o ícone ou a aba “Agendamentos”.
+    3.  Clique em um usuário para acessar seus agendamentos.
+    4.  Clique em “Novo Agendamento” para registrar um novo evento.
+    5.  Preencha as informações solicitadas e confirme a criação do agendamento.
+    6.  Verifique se o novo agendamento aparece na lista do usuário selecionado.
