@@ -17,7 +17,7 @@
 
  **Registro de Teste - 1**
 
-![Registro de Teste - 1](./img/Registro de Testes/Cliente1.png).
+![Registro de Teste - 1](../../../img/Registros%20de%20Testes/Cliente1.png)
 
 **Descrição:**  
 A tela *Gerenciar Clientes* mostra corretamente a lista de todos os clientes com nome e e-mail.
@@ -28,7 +28,7 @@ A tela *Gerenciar Clientes* mostra corretamente a lista de todos os clientes com
 
  **Registro de Teste - 2**
 
-![Registro de Teste - 2](./img/Registro de Testes/Cliente8.png)
+![Registro de Teste - 1](../../../img/Registros%20de%20Testes/Cliente8.png)
 
 **Descrição:**  
 A tela *Visualizar Cliente* exibe nome, e-mail, telefone e a lista de pedidos realizados pelo cliente, com data, status e valor.
