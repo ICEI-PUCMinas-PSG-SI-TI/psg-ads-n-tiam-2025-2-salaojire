@@ -1,7 +1,7 @@
 # Plano de Testes de Software  
 
 ## RF-010:
-* Descrição do Requisito: O sistema deve permitir que o administrador gerencie agendamentos de festas (criar, alterar status ou cancelar).  
+* Descrição do Requisito: O sistema deve permitir que o administrador gerencie agendamentos de eventos (criar, alterar status ou cancelar).  
 * Objetivo: Verificar se o sistema permite ao administrador visualizar clientes, verificar agendamentos existentes, criar novos agendamentos e listar corretamente os dados.  
 * Registro de Testes: [Registro de Testes - RF-010](../../Registros%20de%20Teste/RF-010/README.md)
 
