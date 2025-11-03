@@ -83,6 +83,43 @@ export async function getAgendamentosFromCliente(clienteId) {
   return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
 
+
+
+/***************************************************************************/
+
+export async function updateAgendamento(clienteId, agendamentoId, dataToUpdate) {
+  try {
+    const agendamentoRef = doc(firestore, 'Clientes', clienteId, 'agendamentos', agendamentoId);
+    await updateDoc(agendamentoRef, dataToUpdate);
+    console.log("Agendamento atualizado com sucesso!");
+  } catch (error) {
+    console.error("Erro ao atualizar agendamento:", error);
+    throw new Error("Falha ao atualizar agendamento.");
+  }
+}
+
+
+/* 
+***************************************************************************/
+
+
+// ========== EXCLUIR AGENDAMENTO ==========
+export async function deleteAgendamento(clienteId, agendamentoId) {
+  try {
+    const agendamentoRef = doc(firestore, "Clientes", clienteId, "agendamentos", agendamentoId);
+    await deleteDoc(agendamentoRef);
+    console.log(" Agendamento excluído com sucesso no Firestore!");
+  } catch (error) {
+    console.error(" Erro ao excluir agendamento:", error);
+    throw new Error("Falha ao excluir agendamento.");
+  }
+}
+
+/***************************************************************************/
+
+
+
+
 /* Adiciona um item ao array 'itensAlugados' de um agendamento específico. Exemplo:
 const itemAlugado = { id: 'item_xyz_789', precoUnitario: 150 };
 await FirebaseAPI.firestore.clientes.addItemToAgendamento(ClienteID, agendamentoId, itemAlugado);
