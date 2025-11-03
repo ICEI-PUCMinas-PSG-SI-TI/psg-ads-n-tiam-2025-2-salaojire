@@ -50,6 +50,30 @@ Uso de modais personalizados
     3. clicar na lixeira para abrir o modal de excluir 
 
 
+
+## RF-009
+
+* **Responsável:** Gabriel Assis Melo Noronha
+* **Descrição:**  O sistema deve permitir que o administrador cadastre, edite e exclua itens disponíveis para aluguel.
+
+* **Artefatos de Código-Fonte:**
+    * [src\apps\mobile\app\(pages)\AdminManagerScreen.js](/src/apps/mobile/app/(pages)/GerenciarItens.js): Pagina base para o gerenciamento de itens. Responsável por grande parte da lógica da função, buscando e atualizando os itens armanezados, assim como gerenciando os componentes de lista de seção e modals.
+    * [src\apps\mobile\components\ItemModalDelete.jsx](/src\apps\mobile\components\ItemModalDelete.jsx): Componente para criação de um modal de exclusão de itens.
+    * [src\apps\mobile\components\ItemModalEditCreate.jsx](/src\apps\mobile\components\ItemModalEditCreate.jsx): Componente para criação de um modal de atualização e criação de itens.
+    * [src\apps\mobile\components\SectionList.jsx](/src\apps\mobile\components\ItemModalEditCreate.jsx): Componente para criação de uma lista para exposição dos itens armazenados.
+
+* **Instruções para Acesso e Verificação:**
+    1.  Inicialize o aplicativo.
+    2.  Toque no ícone "Itens".
+    3.  Toque no botão "Adicionar novo" para criar um novo item.
+    4.  Preencha o formulario de criação de item.
+    5.  Caso todos os campos estejam preenchidos, um novo item sera criado.   
+    6.  Toque no icone de edição para atualizar as informações de um item.
+    7.  Preencha novamente os campos escolhidos para mudança
+    8.  Toque no icone de exclusão para excluir um item da lista.
+    9.  Se a ação for bem sucedida, uma mensagem de exito será mostrada.
+
+
 ## RF-010
 
 * **Responsável:** Washington Junio Lima 

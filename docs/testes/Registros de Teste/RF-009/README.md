@@ -6,16 +6,39 @@
 
 ## Seções
 
-1. [Caso de Teste 1 — X](#caso-de-teste-1--x)
+1. [Caso de Teste 1 — Carregar itens](#caso-de-teste-1--Carregar-itens)
 
-2. [Caso de Teste 2 — Y](#caso-de-teste-2--y)
+2. [Caso de Teste 2 — Criação de item](#caso-de-teste-2--Criação-de-item)
 
-(Caso haja mais seções, adicione)
+3. [Caso de Teste 2 — Atualização de item](#caso-de-teste-2--Atualização-de-item)
 
-###  Caso de Teste 1 — X
+4. [Caso de Teste 2 — Exclusão de item](#caso-de-teste-2--Exclusão-de-item)
 
-![Registro de Teste - X](../../../img/Registros%20de%20Testes//X.jpg)
 
-###  Caso de Teste 2 — Y
+###  Caso de Teste 1 — Carregar itens
 
-![Registro de Teste - Y](../../../img/Registros%20de%20Testes//Y.jpg)
+![Registro de Teste - Carregar itens](../../../img/Registros%20de%20Testes//ItensCarregar.jpeg)
+
+###  Caso de Teste 2 — Criação de item
+
+![Registro de Teste - Criação de item](../../../img/Registros%20de%20Testes//ItensCriar.jpeg)
+
+![Registro de Teste - Criação de item](../../../img/Registros%20de%20Testes//ItensCriar1.jpeg)
+
+![Registro de Teste - Criação de item](../../../img/Registros%20de%20Testes//ItensCriar2.jpeg)
+
+![Registro de Teste - Criação de item](../../../img/Registros%20de%20Testes//ItensCriar3.jpeg)
+
+###  Caso de Teste 3 — Atualização de item
+
+![Registro de Teste - Atualização de item](../../../img/Registros%20de%20Testes//ItensAtualizar.jpeg)
+
+![Registro de Teste - Atualização de item](../../../img/Registros%20de%20Testes//ItensAtualizar1.jpeg)
+
+###  Caso de Teste 4 — Exclusão de item
+
+![Registro de Teste - Exclusão de item](../../../img/Registros%20de%20Testes//ItensExcluir.jpeg)
+
+![Registro de Teste - Exclusão de item](../../../img/Registros%20de%20Testes//ItensExcluir1.jpeg)
+
+![Registro de Teste - Exclusão de item](../../../img/Registros%20de%20Testes//ItensExcluir2.jpeg)
