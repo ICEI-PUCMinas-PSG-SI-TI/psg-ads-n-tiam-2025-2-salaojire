@@ -117,17 +117,32 @@ Uso de modais personalizados
     * Esperado: cliente removido da lista.
 
 
+## RF-017
+
+**Responsável:** Felipe de Oliveira Pereira  
+**Descrição:** O sistema deve permitir que administradores e clientes recuperem a senha esquecida por meio do envio de um link de redefinição para o e-mail cadastrado.
+
+**Artefatos de Código-Fonte:**
+* [`src/apps/mobile/app/(pages)/RedefinirSenha.js`](psg-ads-n-tiam-2025-2-salaojire/src/apps/mobile/app/(pages)/RedefinirSenha.js):  
+  Tela responsável pelo fluxo de recuperação de senha.  
+  - Campo para inserção de e-mail.  
+  - Validação de formato de e-mail.  
+  - Envio da solicitação de redefinição via Firebase Authentication.  
+  - Exibição de mensagens de sucesso ou erro e instruções para o usuário.  
+
+* [`src/packages/firebase/auth.js`](psg-ads-n-tiam-2025-2-salaojire/src/packages/firebase/auth.js):  
+  Implementa a função `sendPasswordResetEmail(email)` que utiliza o Firebase Authentication para enviar o e-mail de redefinição de senha.  
+  - Valida o formato e existência do e-mail.  
+  - Retorna mensagens de erro específicas (`user-not-found`, `invalid-email`, `too-many-requests`).  
+  - Responsável por todo o backend da operação de recuperação de senha.
 
 
+**Instruções para Acesso e Verificação**
 
-
-
-
-
-
-
-
-
-
-
-
+1. Na tela de login, clicar na opção **“Esqueci minha senha”**.  
+2. Informar o e-mail cadastrado (tanto de cliente quanto de administrador).  
+3. Pressionar o botão **“Enviar Email”**.  
+4. Verificar a mensagem de sucesso exibida na tela.  
+5. Confirmar se o e-mail de redefinição foi enviado e recebido (checar caixa de entrada e spam).  
+6. Clicar no link enviado e redefinir a senha com uma nova credencial.  
+7. Efetuar login com a nova senha para garantir o funcionamento correto.
