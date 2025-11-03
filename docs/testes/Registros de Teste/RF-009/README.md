@@ -10,9 +10,9 @@
 
 2. [Caso de Teste 2 — Criação de item](#caso-de-teste-2--Criação-de-item)
 
-3. [Caso de Teste 2 — Atualização de item](#caso-de-teste-2--Atualização-de-item)
+3. [Caso de Teste 3 — Atualização de item](#caso-de-teste-3--Atualização-de-item)
 
-4. [Caso de Teste 2 — Exclusão de item](#caso-de-teste-2--Exclusão-de-item)
+4. [Caso de Teste 4 — Exclusão de item](#caso-de-teste-4--Exclusão-de-item)
 
 
 ###  Caso de Teste 1 — Carregar itens
