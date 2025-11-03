@@ -136,6 +136,10 @@ De acordo com o PMBoK v6 as dez áreas que constituem os pilares para gerenciar 
 
 A equipe será organizada utilizando o [**Kanban do GitHub**](https://github.com/orgs/ICEI-PUCMinas-PSG-SI-TI/projects/159/views/1), que permite visualizar o fluxo de trabalho e acompanhar o progresso das tarefas de forma simples e transparente.
 
+### Foto do Kanban atual:
+
+![Kanban Atual](./img/KanbanAtual.png)
+
 ### Estrutura do quadro
 - **Backlog** → **A Fazer** → **Em Progresso** → **Concluído**  
 - Cada tarefa será registrada como **Issue**, com descrição clara e responsável definido.  
