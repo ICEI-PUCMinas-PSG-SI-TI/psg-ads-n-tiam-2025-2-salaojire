@@ -73,8 +73,8 @@ Uso de modais personalizados
 **Descrição:** O sistema deve permitir que o administrador visualize informações completas dos clientes (nome, e-mail, telefone e pedidos realizados).
 
 **Artefatos de Código-Fonte:**
-* src/apps/mobile/app/(tabs)/clientes.tsx — Tela de Gerenciar/Lista de Clientes (busca, navegação para detalhe). src/apps/mobile/app/(tabs)/clientes.tsx — Tela de Visualizar Cliente com dados completos.
-* Integração de dados: src/packages/firebase/firestore/clientes.js — Configuração Firebase/Firestore utilizada para carregar os dados do cliente e seus pedidos.
+* [src/apps/mobile/app/(tabs)/clientes.tsx](/src/apps/mobile/app/(tabs)/clientes.tsx):— Tela de Gerenciar/Lista de Clientes (busca, navegação para detalhe). src/apps/mobile/app/(tabs)/clientes.tsx — Tela de Visualizar Cliente com dados completos.
+* Integração de dados: [src/packages/firebase/firestore/(clientes.js)](src/packages/firebase/firestore/(clientes.js)): — Configuração Firebase/Firestore utilizada para carregar os dados do cliente e seus pedidos.
 
 **Instruções para Acesso e Verificação:**
 1. Inicialize o aplicativo (Expo) e acesse a aba Clientes.
@@ -91,13 +91,13 @@ Uso de modais personalizados
 **Descrição:** O sistema deve permitir que o administrador cadastre, visualize, pesquise, edite e exclua dados dos clientes, com validação de campos obrigatórios.
 
 **Artefatos de Código-Fonte:**
-* src/apps/mobile/app/(tabs)/clientes.tsx — Tela principal do módulo:
+* [src/apps/mobile/app/(tabs)/clientes.tsx](/src/apps/mobile/app/(tabs)/clientes.tsx): — Tela principal do módulo:
     * Cadastrar (ação “+ Adicionar novo”/abrir formulário)
     * Editar (ícone de lápis)
     * Excluir (ícone de lixeira + confirmação)
     * Pesquisar (campo de busca)
 * Formulário de cadastro/edição com validações.
-* Integração de dados: src/packages/firebase/firestore/clientes.js — Configuração Firebase/Firestore usada nos métodos de CRUD (criar/atualizar/excluir/listar).
+* Integração de dados: [src/packages/firebase/firestore/(clientes.js)](src/packages/firebase/firestore/(clientes.js)): — Configuração Firebase/Firestore usada nos métodos de CRUD (criar/atualizar/excluir/listar).
   
 **Instruções para Acesso e Verificação:**
 1. Cadastro
