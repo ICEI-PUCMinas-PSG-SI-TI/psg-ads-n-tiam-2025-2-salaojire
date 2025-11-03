@@ -6,6 +6,27 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
 
 ---
 
+## FIREBASE API
+
+* **Responsável:** Isaque Caetano Nascimento
+* **Descrição:**  Para auxilio de todas as funcionalidades que interajem com o Firebase, criei uma camada de serviço que padroniza, e gerência este contato com o Firebase. Ele cobre todas as tabelas do banco de dados e possui muitas funções de para a interação.
+
+* **Artefatos de Código-Fonte:**
+    * [src/packages/firebase](/src/packages/firebase/): Pasta que armazena toda a camada de serviço.
+    * [src/packages/firebase/config.js](/src/packages/firebase/config.js): Arquivo que contém a configuração do Firebase, é utilizado os arquivos .env para manter a privacidade das informações.
+    * [src/packages/firebase/index.js](/src/packages/firebase/index.js): Arquivo que exporta toda a API, e é importado ao realizar: import FirebaseAPI from "@packages/firebase"
+    * [src/packages/firebase/firestore/](/src/packages/firebase/firestore/): Pasta que contem as funções relacionadas ao firestore, com interações nas coleções.
+    * [src/packages/firebase/firestore/administradores.js](/src/packages/firebase/firestore/administradores.js): Arquivo que fornece o gerenciamento de administradores.
+    * [src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/administradores.js): Arquivo que fornece o gerenciamento para a coleção Clientes e suas subcoleções (Agendamentos, Solicitações, ItensAlugados, ItensSolicitados)
+    * [src/packages/firebase/firestore/itens.js](/src/packages/firebase/firestore/administradores.js): Arquivo que fornece o gerenciameento para a coleção Itens
+
+
+* **Instruções para Acesso e Verificação:**
+    1.  A API é usada nas demais funcionalidades, e pode ser importada desta forma: 
+    ```js 
+    import FirebaseAPI from "@packages/firebase" 
+    ```
+
 ## RF-004
 
 * **Responsável:** Isaque Caetano Nascimento
@@ -22,34 +43,6 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
     3.  Preencha os campos email e senha com informações válidas.
     4.  Acesse a opção "Entrar"
     5.  Caso os campos estejam corretos, o usuário será autenticado e redirecionado para a Homepage do aplicativo.
-
----
-## RF-018
-
-* **Responsável:** (João Pedro Ferreira)
-* **Descrição:**  (CRUD de administradores)
-
-* **Artefatos de Código-Fonte:**
-    * [src\apps\mobile\app\(pages)\AdminManagerScreen.js](psg-ads-n-tiam-2025-2-salaojire/src/apps/mobile/app/(pages)/AdminManagerScreen.js): Uma tela completa de gerenciamento de administradores, com:
-
-Listagem de admins via Firebase
-
-Pesquisa por nome
-
-Adicionar, editar e excluir admins
-
-Uso de modais personalizados
-    * [src\apps\mobile\components\AdminModal.js](psg-ads-n-tiam-2025-2-salaojire/src/apps/mobile/components/AdminModal.js): Esse código cria um modal (janela pop-up) que serve para cadastrar ou editar um administrador do sistema.
-    * [src\apps\mobile\components\ConfirmDeleteModal.js](psg-ads-n-tiam-2025-2-salaojire/src/apps/mobile/components/ConfirmDeleteModal.js): Um novo modal para excluir um admin. 
-
-
-
-* **Instruções para Acesso e Verificação:**
-    1.  clicar no botao (+ novo admin)
-    2.  clicar no icone com uma caneta para abrir o modal de editar
-    3. clicar na lixeira para abrir o modal de excluir 
-
-
 
 ## RF-009
 
@@ -72,8 +65,7 @@ Uso de modais personalizados
     7.  Preencha novamente os campos escolhidos para mudança
     8.  Toque no icone de exclusão para excluir um item da lista.
     9.  Se a ação for bem sucedida, uma mensagem de exito será mostrada.
-
-
+    
 ## RF-010
 
 * **Responsável:** Washington Junio Lima 
@@ -89,7 +81,6 @@ Uso de modais personalizados
     4.  Clique em “Novo Agendamento” para registrar um novo evento.
     5.  Preencha as informações solicitadas e confirme a criação do agendamento.
     6.  Verifique se o novo agendamento aparece na lista do usuário selecionado.
- 
 
 ## RF-011
 
@@ -97,8 +88,8 @@ Uso de modais personalizados
 **Descrição:** O sistema deve permitir que o administrador visualize informações completas dos clientes (nome, e-mail, telefone e pedidos realizados).
 
 **Artefatos de Código-Fonte:**
-* [src/apps/mobile/app/(tabs)/clientes.tsx](/src/apps/mobile/app/(tabs)/clientes.tsx):— Tela de Gerenciar/Lista de Clientes (busca, navegação para detalhe). src/apps/mobile/app/(tabs)/clientes.tsx — Tela de Visualizar Cliente com dados completos.
-* Integração de dados: [src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/clientes.js) — Configuração Firebase/Firestore utilizada para carregar os dados do cliente e seus pedidos.
+* [src/apps/mobile/app/(tabs)/clientes.tsx](/src/apps/mobile/app/(tabs)/clientes.tsx):— Tela de Gerenciar/Lista de Clientes (busca, navegação para detalhe).
+* [src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/clientes.js) — Configuração Firebase/Firestore utilizada para carregar os dados do cliente e seus pedidos.
 
 **Instruções para Acesso e Verificação:**
 1. Inicialize o aplicativo (Expo) e acesse a aba Clientes.
@@ -106,8 +97,6 @@ Uso de modais personalizados
 3. Toque em um cliente para abrir Visualizar Cliente.
 4. Verifique se aparecem nome, e-mail, telefone e pedidos realizados (com data/status/valor).
 5. Resultado esperado: as informações exibidas correspondem aos dados armazenados no Firebase/Firestore.
-
-
 
 ## RF-012
 
@@ -140,7 +129,6 @@ Uso de modais personalizados
     * Clique na lixeira → Confirmar exclusão.
     * Esperado: cliente removido da lista.
 
-
 ## RF-017
 
 **Responsável:** Felipe de Oliveira Pereira  
@@ -160,7 +148,6 @@ Uso de modais personalizados
   - Retorna mensagens de erro específicas (`user-not-found`, `invalid-email`, `too-many-requests`).  
   - Responsável por todo o backend da operação de recuperação de senha.
 
-
 **Instruções para Acesso e Verificação**
 
 1. Na tela de login, clicar na opção **“Esqueci minha senha”**.  
@@ -170,3 +157,20 @@ Uso de modais personalizados
 5. Confirmar se o e-mail de redefinição foi enviado e recebido (checar caixa de entrada e spam).  
 6. Clicar no link enviado e redefinir a senha com uma nova credencial.  
 7. Efetuar login com a nova senha para garantir o funcionamento correto.
+
+## RF-018
+
+* **Responsável:** (João Pedro Ferreira)
+* **Descrição:**  (CRUD de administradores)
+
+* **Artefatos de Código-Fonte:**
+    * [src\apps\mobile\app\(pages)\AdminManagerScreen.js](psg-ads-n-tiam-2025-2-salaojire/src/apps/mobile/app/(pages)/AdminManagerScreen.js): Uma tela completa de gerenciamento de administradores, com: Listagem de admins via Firebase, Pesquisa por nome, Adicionar, editar e excluir admins
+
+    * [src\apps\mobile\components\AdminModal.js](psg-ads-n-tiam-2025-2-salaojire/src/apps/mobile/components/AdminModal.js): Esse código cria um modal (janela pop-up) que serve para cadastrar ou editar um administrador do sistema.
+
+    * [src\apps\mobile\components\ConfirmDeleteModal.js](psg-ads-n-tiam-2025-2-salaojire/src/apps/mobile/components/ConfirmDeleteModal.js): Um novo modal para excluir um admin. 
+
+* **Instruções para Acesso e Verificação:**
+    1.  clicar no botao (+ novo admin)
+    2.  clicar no icone com uma caneta para abrir o modal de editar
+    3. clicar na lixeira para abrir o modal de excluir 
