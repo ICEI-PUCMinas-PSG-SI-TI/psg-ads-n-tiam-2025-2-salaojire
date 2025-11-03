@@ -74,7 +74,7 @@ Uso de modais personalizados
 
 **Artefatos de Código-Fonte:**
 * [src/apps/mobile/app/(tabs)/clientes.tsx](/src/apps/mobile/app/(tabs)/clientes.tsx):— Tela de Gerenciar/Lista de Clientes (busca, navegação para detalhe). src/apps/mobile/app/(tabs)/clientes.tsx — Tela de Visualizar Cliente com dados completos.
-* Integração de dados: [src/packages/firebase/firestore/(clientes.js)](src/packages/firebase/firestore/(clientes.js)): — Configuração Firebase/Firestore utilizada para carregar os dados do cliente e seus pedidos.
+* Integração de dados: [src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/clientes.js) — Configuração Firebase/Firestore utilizada para carregar os dados do cliente e seus pedidos.
 
 **Instruções para Acesso e Verificação:**
 1. Inicialize o aplicativo (Expo) e acesse a aba Clientes.
@@ -97,7 +97,7 @@ Uso de modais personalizados
     * Excluir (ícone de lixeira + confirmação)
     * Pesquisar (campo de busca)
 * Formulário de cadastro/edição com validações.
-* Integração de dados: [src/packages/firebase/firestore/(clientes.js)](src/packages/firebase/firestore/(clientes.js)): — Configuração Firebase/Firestore usada nos métodos de CRUD (criar/atualizar/excluir/listar).
+* Integração de dados: [src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/clientes.js) — Configuração Firebase/Firestore usada nos métodos de CRUD (criar/atualizar/excluir/listar).
   
 **Instruções para Acesso e Verificação:**
 1. Cadastro
