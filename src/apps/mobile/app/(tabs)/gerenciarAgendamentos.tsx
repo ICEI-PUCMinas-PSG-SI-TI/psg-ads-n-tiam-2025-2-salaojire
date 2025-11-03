@@ -26,6 +26,8 @@ type Agendamento = {
   dataInicio?: { seconds: number };
   dataFim?: { seconds: number };
   valorTotal?: number;
+    itensAlugados?: any[];
+
 };
 
 
@@ -36,6 +38,9 @@ export default function GerenciarAgendamentos() {
   const [clienteSelecionado, setClienteSelecionado] = useState<Cliente | null>(null);
   const [agendamentos, setAgendamentos] = useState<Agendamento[]>([]);
   const [modoCriar, setModoCriar] = useState(false);
+const [modoEditar, setModoEditar] = useState(false);
+const [agendamentoEditando, setAgendamentoEditando] = useState<Agendamento | null>(null);
+
 
   // Campos do novo agendamento
   const [itens, setItens] = useState<any[]>([]);
@@ -46,6 +51,70 @@ export default function GerenciarAgendamentos() {
     dataFim: "",
     valorTotal: 0,
   });
+
+
+  // ========================
+  // Funções de exclusão
+  // ========================
+
+// ========================
+// Confirmar exclusão
+// ========================
+const confirmarExclusao = (agendamentoId: string) => {
+  console.log(" confirmando exclusão para:", agendamentoId);
+
+  Alert.alert(
+    "Confirmar exclusão",
+    "Tem certeza que deseja excluir este agendamento?",
+    [
+      { text: "Cancelar", style: "cancel" },
+      {
+        text: "Excluir",
+        style: "destructive",
+        onPress: async () => {
+          console.log(" Pressionou EXCLUIR no alerta!");
+          await excluirAgendamento(agendamentoId);
+        },
+      },
+    ]
+  );
+};
+
+// ========================
+// Excluir agendamento
+// ========================
+const excluirAgendamento = async (agendamentoId: string) => {
+  console.log(" Tentando excluir agendamento:", agendamentoId);
+
+  if (!clienteSelecionado) {
+    console.log(" Nenhum cliente selecionado!");
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+    if (!FirebaseAPI?.firestore?.clientes?.deleteAgendamento) {
+      console.log(" deleteAgendamento NÃO encontrado no FirebaseAPI!");
+      Alert.alert("Erro", "Função deleteAgendamento não existe no FirebaseAPI.");
+      return;
+    }
+    
+    await FirebaseAPI.firestore.clientes.deleteAgendamento(
+      clienteSelecionado.id,
+      agendamentoId
+    );
+    console.log("✅ Agendamento excluído do Firestore!");
+
+    Alert.alert("Sucesso", "Agendamento excluído com sucesso!");
+    carregarAgendamentos(clienteSelecionado.id);
+  } catch (error) {
+    console.error(" Erro real ao excluir agendamento:", error);
+    Alert.alert("Erro", "Falha ao excluir agendamento. Veja o console.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const router = useRouter();
 
@@ -73,9 +142,11 @@ export default function GerenciarAgendamentos() {
     }
   };
 
-  // ========================
-  // Carrega agendamentos
-  // ========================
+
+
+// ========================
+// Carrega agendamentos
+// ========================
 const carregarAgendamentos = async (clienteId: string) => {
   try {
     setLoading(true);
@@ -83,11 +154,12 @@ const carregarAgendamentos = async (clienteId: string) => {
 
     const listaFormatada = lista.map((a: any) => ({
       id: a.id,
-      nome: a.nome || "Evento sem nome", 
+      nome: a.nome || "Evento sem nome",
       status: a.status || "pendente",
       dataInicio: a.dataInicio,
       dataFim: a.dataFim,
       valorTotal: a.valorTotal,
+      itensAlugados: a.itensAlugados || [], 
     }));
 
     setAgendamentos(listaFormatada);
@@ -98,6 +170,55 @@ const carregarAgendamentos = async (clienteId: string) => {
     setLoading(false);
   }
 };
+
+
+
+// ========================
+// Inicia modo de edição
+// ========================
+const iniciarEdicao = (agendamento: Agendamento) => {
+  setModoEditar(true);
+  setAgendamentoEditando(agendamento);
+
+  const parseData = (data: any) => {
+    if (!data) return "";
+
+    try {
+      let dateObj;
+      if (data.seconds) {
+        dateObj = new Date(data.seconds * 1000);
+      }
+      else if (typeof data === "string") {
+        dateObj = new Date(data);
+      }
+      else if (data instanceof Date) {
+        dateObj = data;
+      } else {
+        return "";
+      }
+
+      const year = dateObj.getFullYear();
+      const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const day = String(dateObj.getDate()).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    } catch (e) {
+      console.warn("Erro ao formatar data:", e);
+      return "";
+    }
+  };
+
+  setNovoAgendamento({
+    nomeEvento: agendamento.nome || "",
+    dataInicio: parseData(agendamento.dataInicio),
+    dataFim: parseData(agendamento.dataFim),
+    valorTotal: agendamento.valorTotal || 0,
+  });
+
+  setItensSelecionados(agendamento.itensAlugados || []);
+};
+
+
 
 
   // ========================
@@ -171,6 +292,46 @@ const carregarAgendamentos = async (clienteId: string) => {
     }
   };
 
+
+// ========================
+// Editar agendamento existente
+// ========================
+const editarAgendamento = async () => {
+  if (!clienteSelecionado || !agendamentoEditando) return;
+
+  const { nomeEvento, dataInicio, dataFim, valorTotal } = novoAgendamento;
+
+  if (!dataInicio || !dataFim) {
+    Alert.alert("Atenção", "Preencha todas as datas antes de salvar.");
+    return;
+  }
+
+  try {
+    setLoading(true);
+    await FirebaseAPI.firestore.clientes.updateAgendamento(
+      clienteSelecionado.id,
+      agendamentoEditando.id, 
+      {
+        nome: nomeEvento,
+        dataInicio: new Date(dataInicio),
+        dataFim: new Date(dataFim),
+        valorTotal,
+        itensAlugados: itensSelecionados, 
+      }
+    );
+
+    Alert.alert("Sucesso", "Agendamento atualizado com sucesso!");
+    setModoEditar(false);
+    setAgendamentoEditando(null);
+    carregarAgendamentos(clienteSelecionado.id);
+  } catch (error) {
+    console.error("Erro ao editar agendamento:", error);
+    Alert.alert("Erro", "Falha ao editar agendamento.");
+  } finally {
+    setLoading(false);
+  }
+};
+
   // ========================
   // Filtro de clientes
   // ========================
@@ -232,7 +393,7 @@ const carregarAgendamentos = async (clienteId: string) => {
       )}
 
      {/* --------- Agendamentos --------- */}
-{clienteSelecionado && !modoCriar && (
+{clienteSelecionado && !modoCriar && !modoEditar && (
   <View style={styles.agendamentosBox}>
     <View style={styles.voltarBox}>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -248,133 +409,189 @@ const carregarAgendamentos = async (clienteId: string) => {
       </TouchableOpacity>
     </View>
 
-    <FlatList
-      data={agendamentos}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <View style={styles.card}>
-          {/* Nome do evento acima do status */}
-          {item.nome && (
-            <Text style={styles.nomeEvento}>{item.nome}</Text>
-          )}
-
-          <Text style={styles.status}>
-            Status: <Text style={styles.bold}>{item.status}</Text>
-          </Text>
-
-          {item.dataInicio && (
-            <Text style={styles.info}>
-              Início: {new Date(item.dataInicio.seconds * 1000).toLocaleDateString()}
-            </Text>
-          )}
-          {item.dataFim && (
-            <Text style={styles.info}>
-              Fim: {new Date(item.dataFim.seconds * 1000).toLocaleDateString()}
-            </Text>
-          )}
-          {item.valorTotal && (
-            <Text style={styles.info}>Valor: R$ {item.valorTotal.toFixed(2)}</Text>
-          )}
-        </View>
+<FlatList
+  data={agendamentos}
+  keyExtractor={(item) => item.id}
+  renderItem={({ item }) => (
+    <View style={styles.card}>
+      {/* Nome do evento acima do status */}
+      {item.nome && (
+        <Text style={styles.nomeEvento}>{item.nome}</Text>
       )}
-      ListEmptyComponent={<Text style={styles.vazio}>Nenhum agendamento encontrado.</Text>}
-    />
-  </View>
+
+      <Text style={styles.status}>
+        Status: <Text style={styles.bold}>{item.status}</Text>
+      </Text>
+
+      {item.dataInicio && (
+        <Text style={styles.info}>
+          Início: {new Date(item.dataInicio.seconds * 1000).toLocaleDateString()}
+        </Text>
+      )}
+      {item.dataFim && (
+        <Text style={styles.info}>
+          Fim: {new Date(item.dataFim.seconds * 1000).toLocaleDateString()}
+        </Text>
+      )}
+      {item.valorTotal && (
+        <Text style={styles.info}>Valor: R$ {item.valorTotal.toFixed(2)}</Text>
+      )}
+
+{/* ---------- BOTÕES EDITAR E EXCLUIR ---------- */}
+<View
+  style={{
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexWrap: "wrap",
+    marginTop: 12,
+    width: "100%", 
+  }}
+>
+  {/* Botão Editar */}
+  <TouchableOpacity
+    style={[styles.botaoCriar, { flexGrow: 1, flexBasis: "45%" }]} 
+    onPress={() => iniciarEdicao(item)}
+  >
+    <Ionicons name="create-outline" size={18} color="#000" />
+    <Text style={styles.textoCriar}>Editar</Text>
+  </TouchableOpacity>
+
+  {/* Botão Excluir */}
+  <TouchableOpacity
+    style={[styles.botaoExcluir, { flexGrow: 1, flexBasis: "45%" }]} 
+    onPress={() => confirmarExclusao(item.id)}
+  >
+    <Ionicons name="trash-outline" size={18} color="#fff" />
+    <Text style={styles.textoExcluir}>Excluir</Text>
+  </TouchableOpacity>
+</View>
+
+</View>
+)}
+ListEmptyComponent={<Text style={styles.vazio}>Nenhum agendamento encontrado.</Text>}
+/>
+</View>
 )}
 
 
-      {/* --------- Formulário de Novo Agendamento --------- */}
-      {modoCriar && (
-        <ScrollView style={styles.formContainer}>
-          <View style={styles.voltarBox}>
-            <TouchableOpacity onPress={() => setModoCriar(false)}>
-              <Ionicons name="arrow-back" size={20} color="#F2C94C" />
-            </TouchableOpacity>
-            <Text style={styles.nomeSelecionado}>Novo Agendamento</Text>
-          </View>
 
-          <TextInput
-            style={styles.inputForm}
-            placeholder="Nome do evento"
-            placeholderTextColor="#888"
-            value={novoAgendamento.nomeEvento}
-            onChangeText={(text) => setNovoAgendamento({ ...novoAgendamento, nomeEvento: text })}
-          />
-
-          <TextInput
-            style={styles.inputForm}
-            placeholder="Data início (YYYY-MM-DD)"
-            placeholderTextColor="#888"
-            value={novoAgendamento.dataInicio}
-            onChangeText={(text) => setNovoAgendamento({ ...novoAgendamento, dataInicio: text })}
-          />
-
-          <TextInput
-            style={styles.inputForm}
-            placeholder="Data fim (YYYY-MM-DD)"
-            placeholderTextColor="#888"
-            value={novoAgendamento.dataFim}
-            onChangeText={(text) => setNovoAgendamento({ ...novoAgendamento, dataFim: text })}
-          />
-
-          <Text style={styles.subtitulo}>Itens disponíveis:</Text>
-   {itens.map((item) => {
-  const selecionado = itensSelecionados.find((i) => i.id === item.id);
-  return (
-    <TouchableOpacity
-      key={item.id}
-      style={[
-        styles.itemCard,
-        selecionado && {
-          backgroundColor: "#F2C94C", 
-          borderColor: "#000",        
-          transform: [{ scale: 1.02 }], 
-        },
-      ]}
-      onPress={() => alternarItem(item)}
-      activeOpacity={0.8}
-    >
-      <Ionicons
-        name="cube"
-        size={20}
-        color={selecionado ? "#000" : "#F2C94C"} 
-      />
-      <Text
-        style={[
-          styles.itemNome,
-          selecionado && { color: "#000" }, 
-        ]}
+      {/* --------- Formulário de Agendamento (Novo ou Edição) --------- */}
+{(modoCriar || modoEditar) && (
+  <ScrollView style={styles.formContainer}>
+    <View style={styles.voltarBox}>
+      <TouchableOpacity
+        onPress={() => {
+          if (modoCriar) setModoCriar(false);
+          if (modoEditar) {
+            setModoEditar(false);
+            setAgendamentoEditando(null);
+          }
+        }}
       >
-        {item.nome}
+        <Ionicons name="arrow-back" size={20} color="#F2C94C" />
+      </TouchableOpacity>
+      <Text style={styles.nomeSelecionado}>
+        {modoEditar ? "Editar Agendamento" : "Novo Agendamento"}
       </Text>
-      <Text
-        style={[
-          styles.itemPreco,
-          selecionado && { color: "#000" }, 
-        ]}
-      >
-        R$ {item.precoAluguel?.toFixed(2)}
+    </View>
+
+    {/* Nome do evento */}
+    <TextInput
+      style={styles.inputForm}
+      placeholder="Nome do evento"
+      placeholderTextColor="#888"
+      value={novoAgendamento.nomeEvento}
+      onChangeText={(text) =>
+        setNovoAgendamento({ ...novoAgendamento, nomeEvento: text })
+      }
+    />
+
+    {/* Datas */}
+    <TextInput
+      style={styles.inputForm}
+      placeholder="Data início (YYYY-MM-DD)"
+      placeholderTextColor="#888"
+      value={novoAgendamento.dataInicio}
+      onChangeText={(text) =>
+        setNovoAgendamento({ ...novoAgendamento, dataInicio: text })
+      }
+    />
+
+    <TextInput
+      style={styles.inputForm}
+      placeholder="Data fim (YYYY-MM-DD)"
+      placeholderTextColor="#888"
+      value={novoAgendamento.dataFim}
+      onChangeText={(text) =>
+        setNovoAgendamento({ ...novoAgendamento, dataFim: text })
+      }
+    />
+
+    {/* Itens */}
+    <Text style={styles.subtitulo}>Itens disponíveis:</Text>
+    {itens.map((item) => {
+      const selecionado = itensSelecionados.find((i) => i.id === item.id);
+      return (
+        <TouchableOpacity
+          key={item.id}
+          style={[
+            styles.itemCard,
+            selecionado && {
+              backgroundColor: "#F2C94C",
+              borderColor: "#000",
+              transform: [{ scale: 1.02 }],
+            },
+          ]}
+          onPress={() => alternarItem(item)}
+          activeOpacity={0.8}
+        >
+          <Ionicons
+            name="cube"
+            size={20}
+            color={selecionado ? "#000" : "#F2C94C"}
+          />
+          <Text
+            style={[styles.itemNome, selecionado && { color: "#000" }]}
+          >
+            {item.nome}
+          </Text>
+          <Text
+            style={[styles.itemPreco, selecionado && { color: "#000" }]}
+          >
+            R$ {item.precoAluguel?.toFixed(2)}
+          </Text>
+        </TouchableOpacity>
+      );
+    })}
+
+    {/* Valor total */}
+    <Text style={styles.total}>
+      Valor Total: R$ {novoAgendamento.valorTotal.toFixed(2)}
+    </Text>
+
+    {/* Botão final */}
+    <TouchableOpacity
+      style={styles.botaoCriarFinal}
+      onPress={modoEditar ? editarAgendamento : criarAgendamento}
+    >
+      <Text style={styles.textoBotaoCriar}>
+        {modoEditar ? "Salvar Alterações" : "Criar"}
       </Text>
     </TouchableOpacity>
-  );
-})}
+  </ScrollView>
+)}
 
-
-          <Text style={styles.total}>
-            Valor Total: R$ {novoAgendamento.valorTotal.toFixed(2)}
-          </Text>
-
-          <TouchableOpacity style={styles.botaoCriarFinal} onPress={criarAgendamento}>
-            <Text style={styles.textoBotaoCriar}>Criar</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
+  container: { 
+    flex: 1, 
+    backgroundColor: "#fff",
+    paddingTop: 33, 
+  },
 
   headerWrapper: {
     backgroundColor: "#000",
@@ -581,6 +798,25 @@ nomeEvento: {
   fontWeight: "bold",
   marginBottom: 8,
   textTransform: "capitalize",
+},
+
+botaoExcluir: {
+  flexDirection: "row",
+  alignItems: "center",
+  backgroundColor: "#c0392b",
+  paddingVertical: 8,
+  paddingHorizontal: 14,
+  borderRadius: 30,
+  shadowColor: "#000",
+  shadowOpacity: 0.2,
+  shadowRadius: 3,
+  elevation: 3,
+},
+textoExcluir: {
+  color: "#fff",
+  fontWeight: "bold",
+  fontSize: 14,
+  marginLeft: 6,
 },
 
 
