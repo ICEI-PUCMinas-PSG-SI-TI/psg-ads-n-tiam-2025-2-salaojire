@@ -6,16 +6,15 @@
 
 ## Seções
 
-1. [Caso de Teste 1 — X](#caso-de-teste-1--x)
+1. [Caso de Teste 1 — Recuperar senha](#caso-de-teste-1--recuperar-senha)
 
-2. [Caso de Teste 2 — Y](#caso-de-teste-2--y)
+2. [Caso de Teste 2 — E-mail inválido](#caso-de-teste-2--e-mail-não-cadastrado)
 
-(Caso haja mais seções, adicione)
 
-###  Caso de Teste 1 — X
+### Caso de Teste 1 — Recuperar senha
 
-![Registro de Teste - X](../../../img/Registros%20de%20Testes//X.jpg)
+![Registro de Teste - Recuperar senha](../../../img/Registros%20de%20Testes/RedefinirSenha.jpeg)
 
-###  Caso de Teste 2 — Y
+### Caso de Teste 2 — E-mail não cadastrado
 
-![Registro de Teste - Y](../../../img/Registros%20de%20Testes//Y.jpg)
+![Registro de Teste - E-mail não cadastrado](../../../img/Registros%20de%20Testes/RedefinirSenha-Invalido.jpeg)

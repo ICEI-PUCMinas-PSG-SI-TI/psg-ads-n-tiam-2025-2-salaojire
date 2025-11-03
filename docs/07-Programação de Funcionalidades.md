@@ -89,3 +89,84 @@ Uso de modais personalizados
     4.  Clique em “Novo Agendamento” para registrar um novo evento.
     5.  Preencha as informações solicitadas e confirme a criação do agendamento.
     6.  Verifique se o novo agendamento aparece na lista do usuário selecionado.
+ 
+
+## RF-011
+
+**Responsável:** Henrique Sousa (Módulo Clientes)
+**Descrição:** O sistema deve permitir que o administrador visualize informações completas dos clientes (nome, e-mail, telefone e pedidos realizados).
+
+**Artefatos de Código-Fonte:**
+* [src/apps/mobile/app/(tabs)/clientes.tsx](/src/apps/mobile/app/(tabs)/clientes.tsx):— Tela de Gerenciar/Lista de Clientes (busca, navegação para detalhe). src/apps/mobile/app/(tabs)/clientes.tsx — Tela de Visualizar Cliente com dados completos.
+* Integração de dados: [src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/clientes.js) — Configuração Firebase/Firestore utilizada para carregar os dados do cliente e seus pedidos.
+
+**Instruções para Acesso e Verificação:**
+1. Inicialize o aplicativo (Expo) e acesse a aba Clientes.
+2. Confirme que a lista exibe nome e e-mail dos clientes.
+3. Toque em um cliente para abrir Visualizar Cliente.
+4. Verifique se aparecem nome, e-mail, telefone e pedidos realizados (com data/status/valor).
+5. Resultado esperado: as informações exibidas correspondem aos dados armazenados no Firebase/Firestore.
+
+
+
+## RF-012
+
+**Responsável:** Henrique Sousa (Módulo Clientes)
+**Descrição:** O sistema deve permitir que o administrador cadastre, visualize, pesquise, edite e exclua dados dos clientes, com validação de campos obrigatórios.
+
+**Artefatos de Código-Fonte:**
+* [src/apps/mobile/app/(tabs)/clientes.tsx](/src/apps/mobile/app/(tabs)/clientes.tsx): — Tela principal do módulo:
+    * Cadastrar (ação “+ Adicionar novo”/abrir formulário)
+    * Editar (ícone de lápis)
+    * Excluir (ícone de lixeira + confirmação)
+    * Pesquisar (campo de busca)
+* Formulário de cadastro/edição com validações.
+* Integração de dados: [src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/clientes.js) — Configuração Firebase/Firestore usada nos métodos de CRUD (criar/atualizar/excluir/listar).
+  
+**Instruções para Acesso e Verificação:**
+1. Cadastro
+    * Acesse Clientes → clique em  Adicionar novo; preencha Nome, E-mail, Telefone, Senha → Cadastrar.
+    * Esperado: cliente aparece na lista após salvar.
+2. Visualizar
+    * Toque em um cliente da lista.
+    * Esperado: abrir Visualizar Cliente com dados completos.
+3. Pesquisar
+    * Digite parte do nome no campo de busca da lista.
+    * Esperado: listagem filtrada com correspondentes.
+4. Editar
+    * Clique no lápis, altere dados → Salvar.
+    * Esperado: listagem reflete os dados atualizados.
+5. Excluir
+    * Clique na lixeira → Confirmar exclusão.
+    * Esperado: cliente removido da lista.
+
+
+## RF-017
+
+**Responsável:** Felipe de Oliveira Pereira  
+**Descrição:** O sistema deve permitir que administradores e clientes recuperem a senha esquecida por meio do envio de um link de redefinição para o e-mail cadastrado.
+
+**Artefatos de Código-Fonte:**
+* [/src/apps/mobile/app/(pages)/RedefinirSenha.js](/src/apps/mobile/app/(pages)/RedefinirSenha.js):  
+  Tela responsável pelo fluxo de recuperação de senha.  
+  - Campo para inserção de e-mail.  
+  - Validação de formato de e-mail.  
+  - Envio da solicitação de redefinição via Firebase Authentication.  
+  - Exibição de mensagens de sucesso ou erro e instruções para o usuário.  
+
+* [/src/packages/firebase/auth.js](/src/packages/firebase/auth.js):  
+  Implementa a função `sendPasswordResetEmail(email)` que utiliza o Firebase Authentication para enviar o e-mail de redefinição de senha.  
+  - Valida o formato e existência do e-mail.  
+  - Retorna mensagens de erro específicas (`user-not-found`, `invalid-email`, `too-many-requests`).  
+  - Responsável por todo o backend da operação de recuperação de senha.
+
+
+**Instruções para Acesso e Verificação**
+
+1. Na tela de login, clicar na opção **“Esqueci minha senha”**.  
+2. Informar o e-mail cadastrado (tanto de cliente quanto de administrador).  
+3. Pressionar o botão **“Enviar Email”**.  
+4. Verificar a mensagem de sucesso exibida na tela.  
+5. Confirmar se o e-mail de redefinição foi enviado e recebido (checar caixa de entrada e spam).  
+6. Clicar no link enviado e redefinir a senha com uma nova credencial.  
+7. Efetuar login com a nova senha para garantir o funcionamento correto.
