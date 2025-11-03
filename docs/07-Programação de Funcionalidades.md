@@ -51,9 +51,9 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
 
 * **Artefatos de Código-Fonte:**
     * [src\apps\mobile\app\(pages)\AdminManagerScreen.js](/src/apps/mobile/app/(pages)/GerenciarItens.js): Pagina base para o gerenciamento de itens. Responsável por grande parte da lógica da função, buscando e atualizando os itens armanezados, assim como gerenciando os componentes de lista de seção e modals.
-    * [src\apps\mobile\components\ItemModalDelete.jsx](/src\apps\mobile\components\ItemModalDelete.jsx): Componente para criação de um modal de exclusão de itens.
-    * [src\apps\mobile\components\ItemModalEditCreate.jsx](/src\apps\mobile\components\ItemModalEditCreate.jsx): Componente para criação de um modal de atualização e criação de itens.
-    * [src\apps\mobile\components\SectionList.jsx](/src\apps\mobile\components\ItemModalEditCreate.jsx): Componente para criação de uma lista para exposição dos itens armazenados.
+    * [src\apps\mobile\components\ItemModalDelete.jsx](src/apps/mobile/components/ItemModalDelete.jsx): Componente para criação de um modal de exclusão de itens.
+    * [src\apps\mobile\components\ItemModalEditCreate.jsx](src/apps/mobile/components/ItemModalEditCreate.jsx): Componente para criação de um modal de atualização e criação de itens.
+    * [src\apps\mobile\components\SectionList.jsx](src/apps/mobile/components/SectionList.jsx): Componente para criação de uma lista para exposição dos itens armazenados.
 
 * **Instruções para Acesso e Verificação:**
     1.  Inicialize o aplicativo.
