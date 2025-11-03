@@ -6,11 +6,11 @@ Acesse o código RF para ir até o registro de teste específico.
 | Código RF | Requisito Funcional | Responsável 
 |------------|--------------------|--------------
 | **[RF-004](/docs/testes/Registros%20de%20Teste/Autenticacao%20Mobile/README.md)** | Implementação do login Firebase | Isaque |
-| **[RF-009](/docs/testes/Registros%20de%20Teste/RF-009/README.md)** | CRUD de Itens | Gabriel |
-| **[RF-010](/docs/testes/Registros%20de%20Teste/RF-010/README.md)** | Gerenciamento de Agendamentos | Junio |
+| **[RF-009](/docs/testes/Registros%20de%20Teste/RF-009/README.md)** | CRUD de Itens | Gabriel Assis |
+| **[RF-010](/docs/testes/Registros%20de%20Teste/RF-010/README.md)** | Gerenciamento de Agendamentos | Washington |
 | **[RF-011](/docs/testes/Registros%20de%20Teste/RF-011/README.md)** | Visualizar informações de clientes | Henrique |
 | **[RF-012](/docs/testes/Registros%20de%20Teste/RF-012/README.md)** | Atualizar/cadastrar dados de clientes | Henrique |
-| **[RF-017](/docs/testes/Registros%20de%20Teste/RF-017/README.md)** | Recuperação de senha | Gabriel Assis |
+| **[RF-017](/docs/testes/Registros%20de%20Teste/RF-017/README.md)** | Recuperação de senha | Felipe |
 | **[RF-018](/docs/testes/Registros%20de%20Teste/RF-018/README.md)** | Gerenciar administradores | João |
 
 ## Avaliação
