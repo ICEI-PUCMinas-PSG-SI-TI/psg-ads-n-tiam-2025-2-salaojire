@@ -13,7 +13,6 @@ import { Ionicons } from "@expo/vector-icons";
 import FirebaseAPI from "@packages/firebase";
 import { useRouter } from "expo-router";
 
-
 type Cliente = {
   id: string;
   nome?: string;
@@ -30,7 +29,6 @@ type Agendamento = {
 
 };
 
-
 export default function GerenciarAgendamentos() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [filtro, setFiltro] = useState("");
@@ -41,7 +39,6 @@ export default function GerenciarAgendamentos() {
 const [modoEditar, setModoEditar] = useState(false);
 const [agendamentoEditando, setAgendamentoEditando] = useState<Agendamento | null>(null);
 
-
   // Campos do novo agendamento
   const [itens, setItens] = useState<any[]>([]);
   const [itensSelecionados, setItensSelecionados] = useState<any[]>([]);
@@ -51,7 +48,6 @@ const [agendamentoEditando, setAgendamentoEditando] = useState<Agendamento | nul
     dataFim: "",
     valorTotal: 0,
   });
-
 
   // ========================
   // Funções de exclusão
@@ -142,8 +138,6 @@ const excluirAgendamento = async (agendamentoId: string) => {
     }
   };
 
-
-
 // ========================
 // Carrega agendamentos
 // ========================
@@ -170,8 +164,6 @@ const carregarAgendamentos = async (clienteId: string) => {
     setLoading(false);
   }
 };
-
-
 
 // ========================
 // Inicia modo de edição
@@ -217,9 +209,6 @@ const iniciarEdicao = (agendamento: Agendamento) => {
 
   setItensSelecionados(agendamento.itensAlugados || []);
 };
-
-
-
 
   // ========================
   // Carrega itens disponíveis
@@ -291,7 +280,6 @@ const iniciarEdicao = (agendamento: Agendamento) => {
       setLoading(false);
     }
   };
-
 
 // ========================
 // Editar agendamento existente
@@ -438,34 +426,16 @@ const editarAgendamento = async () => {
       )}
 
 {/* ---------- BOTÕES EDITAR E EXCLUIR ---------- */}
-<View
-  style={{
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexWrap: "wrap",
-    marginTop: 12,
-    width: "100%", 
-  }}
->
-  {/* Botão Editar */}
-  <TouchableOpacity
-    style={[styles.botaoCriar, { flexGrow: 1, flexBasis: "45%" }]} 
-    onPress={() => iniciarEdicao(item)}
-  >
-    <Ionicons name="create-outline" size={18} color="#000" />
-    <Text style={styles.textoCriar}>Editar</Text>
+<View style={styles.botoesCard}>
+  <TouchableOpacity onPress={() => iniciarEdicao(item)} style={styles.iconeBotao}>
+    <Ionicons name="create-outline" size={20} color="#111" /> 
   </TouchableOpacity>
 
-  {/* Botão Excluir */}
-  <TouchableOpacity
-    style={[styles.botaoExcluir, { flexGrow: 1, flexBasis: "45%" }]} 
-    onPress={() => confirmarExclusao(item.id)}
-  >
-    <Ionicons name="trash-outline" size={18} color="#fff" />
-    <Text style={styles.textoExcluir}>Excluir</Text>
+  <TouchableOpacity onPress={() => confirmarExclusao(item.id)} style={styles.iconeBotaoExcluir}>
+    <Ionicons name="trash-outline" size={20} color="#111" /> 
   </TouchableOpacity>
 </View>
+
 
 </View>
 )}
@@ -474,12 +444,10 @@ ListEmptyComponent={<Text style={styles.vazio}>Nenhum agendamento encontrado.</T
 </View>
 )}
 
-
-
       {/* --------- Formulário de Agendamento (Novo ou Edição) --------- */}
 {(modoCriar || modoEditar) && (
   <ScrollView style={styles.formContainer}>
-    <View style={styles.voltarBox}>
+ <View style={styles.voltarBoxNovo}>
       <TouchableOpacity
         onPress={() => {
           if (modoCriar) setModoCriar(false);
@@ -590,37 +558,42 @@ const styles = StyleSheet.create({
   container: { 
     flex: 1, 
     backgroundColor: "#fff",
-    paddingTop: 33, 
+    paddingTop: 0, 
   },
 
-  headerWrapper: {
-    backgroundColor: "#000",
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-    elevation: 6,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 14,
-  },
+headerWrapper: {
+  backgroundColor: "#000",
+  borderBottomLeftRadius: 0,
+  borderBottomRightRadius: 0,
+  paddingTop: 40,       
+  paddingBottom: 25,    
+  paddingHorizontal: 20,
+  elevation: 6,
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 3 },
+  shadowOpacity: 0.3,
+  shadowRadius: 5,
+},
+
+header: {
+  flexDirection: "row",
+  alignItems: "center",
+  paddingHorizontal: 20,
+  paddingTop: 10,        
+},
+
   titulo: { color: "#F2C94C", fontSize: 20, fontWeight: "bold", marginLeft: 8 },
 
-  searchBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#000",
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-    paddingHorizontal: 10,
-    height: 45,
-    marginTop: -8,
-  },
+searchBox: {
+  flexDirection: "row",
+  alignItems: "center",
+  backgroundColor: "#1C1C1E",  
+  borderRadius: 10,
+  paddingHorizontal: 10,
+  height: 45,
+  marginTop: 10,        
+  marginHorizontal: 15,  
+},
   inputSearch: {
     backgroundColor: "#1C1C1E",
     color: "#fff",
@@ -669,14 +642,10 @@ const styles = StyleSheet.create({
   nomeCliente: { color: "#111", fontWeight: "700" },
 
 voltarBox: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  backgroundColor: "#111",
-  borderRadius: 12,
-  paddingVertical: 12,
-  paddingHorizontal: 16,
-  marginBottom: 20,
+  backgroundColor: "#000",
+  paddingTop: 45,
+  paddingBottom: 25,
+  paddingHorizontal: 20,
   borderBottomWidth: 1,
   borderBottomColor: "#F2C94C",
 },
@@ -685,20 +654,19 @@ voltarBox: {
 
   agendamentosBox: { flex: 1 },
 card: {
-  backgroundColor: "#1a1a1a", 
-  borderColor: "#F2C94C",
-  borderWidth: 0.5,
-  borderRadius: 14,
+  backgroundColor: "#fff",      
+  borderRadius: 12,             
   padding: 16,
   marginVertical: 8,
-  shadowColor: "#000",
-  shadowOpacity: 0.3,
-  shadowRadius: 5,
-  elevation: 3,
+  shadowColor: "#000",          
+  shadowOpacity: 0.08,
+  shadowRadius: 6,
+  shadowOffset: { width: 0, height: 2 },
+  elevation: 3,                 
 },
 
 status: {
-  color: "#F2C94C",
+  color: "#111",
   fontWeight: "bold",
   marginBottom: 8,
   fontSize: 16,
@@ -706,7 +674,7 @@ status: {
 },
 
 info: {
-  color: "#EEE",
+  color: "#333",
   fontSize: 14,
   marginBottom: 4,
   lineHeight: 20,
@@ -765,20 +733,19 @@ total: {
   textShadowRadius: 2,
 },
 
+botaoCriar: {
+  flexDirection: "row",
+  alignItems: "center",
+  backgroundColor: "#F2C94C",
+  paddingVertical: 8,
+  paddingHorizontal: 14,
+  borderRadius: 30,
+  marginTop: 12,              
+  alignSelf: "flex-start",    
+  shadowColor: "transparent",
+  elevation: 0,
+},
 
-
-  botaoCriar: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#F2C94C",
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 30,
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 3,
-  },
   textoCriar: { color: "#000", fontWeight: "bold", fontSize: 14, marginLeft: 6 },
   botaoCriarFinal: {
     backgroundColor: "#F2C94C",
@@ -800,6 +767,7 @@ nomeEvento: {
   textTransform: "capitalize",
 },
 
+
 botaoExcluir: {
   flexDirection: "row",
   alignItems: "center",
@@ -819,6 +787,52 @@ textoExcluir: {
   marginLeft: 6,
 },
 
+botoesCard: {
+  flexDirection: "row",
+  justifyContent: "flex-end",
+  alignItems: "center",  
+  marginTop: 4,          
+  position: "absolute", 
+  right: 10,             
+  top: 70,            
+},
 
-  formContainer: { backgroundColor: "#fff", padding: 10 },
+
+iconeBotao: {
+  backgroundColor: "transparent", 
+  padding: 6,
+  borderRadius: 8,
+},
+
+iconeBotaoExcluir: {
+  padding: 8,
+  borderRadius: 8,
+  backgroundColor: "transparent", 
+},
+
+ formContainer: {
+  backgroundColor: "#fff",
+  paddingHorizontal: 10,  
+  paddingVertical: 5,     
+  flexGrow: 1,
+  transform: [{ scale: 1.0 }],
+},
+
+voltarBoxNovo: {
+  backgroundColor: "#000",
+  width: "107%", 
+  paddingTop: 60,          
+  paddingBottom: 30,      
+  paddingHorizontal: 20,
+  flexDirection: "row",
+  alignItems: "center",
+  gap: 10,
+  shadowColor: "#000",
+  shadowOpacity: 0.3,
+  shadowRadius: 5,
+  elevation: 8,
+  marginTop: -10, 
+  marginLeft: -10,
+  alignSelf: "center", 
+},
 });
