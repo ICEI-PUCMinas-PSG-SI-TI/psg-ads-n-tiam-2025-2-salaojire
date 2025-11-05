@@ -31,6 +31,8 @@ A tela permite preencher os campos obrigatórios (nome do evento, datas e itens)
 ![Novo agendamento](../../../img/Registros%20de%20Testes/GerenciarAgendamentosNovo03.jpg)  
 <br><br>
 
+#### Tela de visualizar novo agendamento  
+![Visualizar Agendamento](../../../img/Registros%20de%20Testes/GerenciarAgendamentos9.jpg) 
 ---
 
 ### Caso de Teste 3 — Editar agendamento existente  
