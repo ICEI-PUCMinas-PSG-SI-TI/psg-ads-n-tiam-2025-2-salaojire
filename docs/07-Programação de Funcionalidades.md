@@ -110,7 +110,7 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
     * Excluir (ícone de lixeira + confirmação)
     * Pesquisar (campo de busca)
 * Formulário de cadastro/edição com validações.
-* Integração de dados: [src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/clientes.js) — Configuração Firebase/Firestore usada nos métodos de CRUD (criar/atualizar/excluir/listar).
+* Integração de dados:[src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/clientes.js) — Configuração Firebase/Firestore usada nos métodos de CRUD (criar/atualizar/excluir/listar).
   
 **Instruções para Acesso e Verificação:**
 1. Cadastro

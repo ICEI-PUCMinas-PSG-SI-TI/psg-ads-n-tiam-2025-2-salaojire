@@ -88,6 +88,7 @@ export default function AdminManagerScreen() {
         </View>
       </View>
 
+      
       {loading ? (
         <ActivityIndicator size="large" color="#f9b500" />
       ) : (
@@ -105,10 +106,10 @@ export default function AdminManagerScreen() {
 
               <View style={styles.actions}>
                 <TouchableOpacity onPress={() => handleEditAdmin(item)}>
-                  <Ionicons name="pencil" size={22} color="#f9b500" />
+                  <Ionicons name="pencil" size={22} color="#0f0f0fff" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleDeleteAdmin(item)}>
-                  <Ionicons name="trash" size={22} color="#f00" />
+                  <Ionicons name="trash" size={22} color="rgba(8, 8, 8, 1)" />
                 </TouchableOpacity>
               </View>
             </View>
@@ -116,9 +117,11 @@ export default function AdminManagerScreen() {
         />
       )}
 
+      <View style={styles.divButtomAdd }>
       <TouchableOpacity style={styles.addButton} onPress={handleAddAdmin}>
         <Text style={styles.addButtonText}>+ Adicionar admin</Text>
       </TouchableOpacity>
+      </View>
 
       {/* Modais */}
       {showModal && (
@@ -139,6 +142,7 @@ export default function AdminManagerScreen() {
         />
       )}
     </View>
+    
   );
 }
 
@@ -153,9 +157,16 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: "#000",
-    paddingHorizontal: 20,
+    paddingHorizontal: 18,
     paddingTop: 50,
-    paddingBottom: 20,
+    paddingBottom: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    shadowColor: "#000",
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 6,
   },
   backButton: {
     position: "absolute",
@@ -167,7 +178,7 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     fontSize: 20,
     fontWeight: "700",
-    color: "#f9b500",
+    color: "#ffd700ff",
     marginBottom: 15,
   },
   searchContainer: {
@@ -183,7 +194,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    color: "#fff",
+    color: "#eeeeeeff",
   },
   adminItem: {
     flexDirection: "row",
@@ -192,18 +203,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#fafafa",
     padding: 12,
     borderRadius: 12,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   avatar: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#f9b500",
+    backgroundColor: "#ffd700ff",
     justifyContent: "center",
     alignItems: "center",
   },
   avatarText: {
-    color: "#fff",
+    color: "#070707ff",
     fontWeight: "bold",
   },
   adminName: {
@@ -217,15 +228,17 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   addButton: {
-    backgroundColor: "#f9b500",
+    backgroundColor: "#ffd700ff",
     paddingVertical: 12,
     borderRadius: 30,
     alignItems: "center",
     margin: 100,
+    marginTop: 25,
   },
   addButtonText: {
-    color: "#fff",
+    color: "#000000ff",
     fontSize: 16,
     fontWeight: "bold",
   },
+
 });
