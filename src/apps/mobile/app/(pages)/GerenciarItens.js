@@ -6,8 +6,10 @@ import FirebaseAPI from "@packages/firebase";
 import ListaDeItens from "../../components/SectionList";
 import ModalEditCreate from "../../components/ItemModalEditCreate";
 import ModalDelete from "../../components/ItemModalDelete";
+import { useRouter } from "expo-router";
 
 export default function Itens() {
+    const router = useRouter(); 
 
     const [itens, setItens] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -34,7 +36,7 @@ export default function Itens() {
 
 
     const voltar = () => {
-
+        router.push("/"); 
     }
 
     const groupedItens = useMemo(() => {
@@ -91,7 +93,12 @@ export default function Itens() {
     return (
         <View>
             <View style={styles.header}>
-                <Text style={styles.headerTitle}><Ionicons name="arrow-back" size={24} color="#FFD700" onPress={voltar} />  Gerenciar itens</Text>
+                <Text style={styles.headerTitle}>
+                    <TouchableOpacity onPress={voltar} style={{paddingRight: 10}}>
+                        <Ionicons name="arrow-back" size={24} color="#FFD700" />
+                    </TouchableOpacity>
+                    Gerenciar itens
+ </Text>
                 <View style={styles.ContainerBusca}>
                     <Ionicons name="search" size={20} color="#FFD700" />
                     <TextInput
@@ -153,6 +160,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         marginBottom: 10,
+        flexDirection: 'row', 
+        alignItems: 'center', 
     },
     ContainerBusca: {
         flexDirection: "row",

@@ -380,7 +380,7 @@ const editarAgendamento = async () => {
         />
       )}
 
-     {/* --------- Agendamentos --------- */}
+      {/* --------- Agendamentos --------- */}
 {clienteSelecionado && !modoCriar && !modoEditar && (
   <View style={styles.agendamentosBox}>
     <View style={styles.voltarBox}>
@@ -565,7 +565,7 @@ headerWrapper: {
   backgroundColor: "#000",
   borderBottomLeftRadius: 0,
   borderBottomRightRadius: 0,
-  paddingTop: 40,       
+  paddingTop: 40,        
   paddingBottom: 25,    
   paddingHorizontal: 20,
   elevation: 6,
@@ -654,7 +654,7 @@ voltarBox: {
 
   agendamentosBox: { flex: 1 },
 card: {
-  backgroundColor: "#fff",      
+  backgroundColor: "#fff",        
   borderRadius: 12,             
   padding: 16,
   marginVertical: 8,
@@ -662,7 +662,7 @@ card: {
   shadowOpacity: 0.08,
   shadowRadius: 6,
   shadowOffset: { width: 0, height: 2 },
-  elevation: 3,                 
+  elevation: 3,             
 },
 
 status: {
@@ -724,7 +724,7 @@ itemPreco: { color: "#F2C94C", fontWeight: "700" },
 total: {
   color: "#F2C94C",
   fontWeight: "bold",
-  fontSize: 20,        
+  fontSize: 20,          
   marginTop: 14,
   textAlign: "right",
   letterSpacing: 0.5,  
@@ -740,7 +740,7 @@ botaoCriar: {
   paddingVertical: 8,
   paddingHorizontal: 14,
   borderRadius: 30,
-  marginTop: 12,              
+  marginTop: 12,            
   alignSelf: "flex-start",    
   shadowColor: "transparent",
   elevation: 0,
@@ -794,7 +794,7 @@ botoesCard: {
   marginTop: 4,          
   position: "absolute", 
   right: 10,             
-  top: 70,            
+  top: 70,               
 },
 
 
@@ -810,7 +810,7 @@ iconeBotaoExcluir: {
   backgroundColor: "transparent", 
 },
 
- formContainer: {
+  formContainer: {
   backgroundColor: "#fff",
   paddingHorizontal: 10,  
   paddingVertical: 5,     

@@ -12,6 +12,8 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+
 
 import { firestore } from "@packages/firebase/config";
 import {
@@ -84,6 +86,7 @@ function money(v?: number) {
 export default function ClientesScreen() {
   const [q, setQ] = useState("");
   const [clients, setClients] = useState<Client[]>([]);
+   const router = useRouter(); 
 
   const [confirmId, setConfirmId] = useState<string | null>(null);
   const [viewOpen, setViewOpen] = useState(false);
@@ -237,27 +240,42 @@ export default function ClientesScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Gerenciar Clientes</Text>
+     <View style={styles.header}>
+  <View
+    style={{
+      flexDirection: "row",
+      alignItems: "center",
+      marginBottom: 10,
+    }}
+  >
+    <TouchableOpacity
+      onPress={() => router.push("/")} 
+      style={{ paddingRight: 8 }}
+    >
+      <Ionicons name="chevron-back" size={22} color="#F2C94C" />
+    </TouchableOpacity>
 
-        {/* Busca */}
-        <View style={styles.ContainerBusca}>
-          <Ionicons
-            name="search"
-            size={20}
-            color="#FFD700"
-            style={{ marginRight: 8 }}
-          />
+    <Text style={styles.headerTitle}>Gerenciar Clientes</Text>
+  </View>
 
-          <TextInput
-            placeholder="Pesquisar por um cliente"
-            placeholderTextColor="#ccc"
-            value={q}
-            onChangeText={setQ}
-            style={styles.InputBusca}
-          />
-        </View>
-      </View>
+  {/* Busca */}
+  <View style={styles.ContainerBusca}>
+    <Ionicons
+      name="search"
+      size={20}
+      color="#FFD700"
+      style={{ marginRight: 8 }}
+    />
+
+    <TextInput
+      placeholder="Pesquisar por um cliente"
+      placeholderTextColor="#ccc"
+      value={q}
+      onChangeText={setQ}
+      style={styles.InputBusca}
+    />
+  </View>
+</View>
 
       {/* Botão adicionar */}
       <View>
