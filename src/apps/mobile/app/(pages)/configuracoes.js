@@ -1,6 +1,8 @@
 import { alterarSenhaAdmin, alterarEmailAdmin } from "../../../../packages/firebase/auth";
 import { useRouter } from "expo-router";
 import { useAuth } from "../context/AuthContext";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 
 import React, { useState } from "react";
 import {
@@ -86,53 +88,58 @@ export default function Configuracoes() {
     }
 
 
-  async function salvarNovoEmail() {
+    async function salvarNovoEmail() {
 
-    if (!emailAtual || !senhaAtualEmail || !novoEmail || !confirmarNovoEmail) {
-        mostrarPopup("Campos obrigatórios", "Preencha todos os campos antes de continuar.");
-        return;
+        if (!emailAtual || !senhaAtualEmail || !novoEmail || !confirmarNovoEmail) {
+            mostrarPopup("Campos obrigatórios", "Preencha todos os campos antes de continuar.");
+            return;
+        }
+
+        if (novoEmail !== confirmarNovoEmail) {
+            mostrarPopup("Emails não conferem", "O novo email e a confirmação devem ser iguais.");
+            return;
+        }
+
+
+        const resultado = await alterarEmailAdmin(senhaAtualEmail, novoEmail);
+
+        if (!resultado.ok) {
+            const code = resultado.error.code;
+
+            if (code === "auth/invalid-credential") {
+                mostrarPopup("Senha incorreta", "A senha atual digitada está errada.");
+            }
+            else if (code === "auth/email-already-in-use") {
+                mostrarPopup("Email já utilizado", "Esse email já está cadastrado. Tente outro.");
+            }
+            else if (code === "auth/invalid-email") {
+                mostrarPopup("Email inválido", "Digite um email válido.");
+            }
+            else {
+                mostrarPopup("Erro ao alterar email", resultado.error.message);
+            }
+
+            return;
+        }
+
+        // SUCESSO
+        setModalEmail(false);
+        setPopupEmailEnviado(true);
     }
-
-    if (novoEmail !== confirmarNovoEmail) {
-        mostrarPopup("Emails não conferem", "O novo email e a confirmação devem ser iguais.");
-        return;
-    }
-
-    
-    const resultado = await alterarEmailAdmin(senhaAtualEmail, novoEmail);
-
-    if (!resultado.ok) {
-        const code = resultado.error.code;
-
-        if (code === "auth/invalid-credential") {
-            mostrarPopup("Senha incorreta", "A senha atual digitada está errada.");
-        }
-        else if (code === "auth/email-already-in-use") {
-            mostrarPopup("Email já utilizado", "Esse email já está cadastrado. Tente outro.");
-        }
-        else if (code === "auth/invalid-email") {
-            mostrarPopup("Email inválido", "Digite um email válido.");
-        }
-        else {
-            mostrarPopup("Erro ao alterar email", resultado.error.message);
-        }
-
-        return;
-    }
-
-    // SUCESSO
-    setModalEmail(false);
-    setPopupEmailEnviado(true); 
-}
 
 
     return (
         <View style={styles.container}>
 
             {/* TÍTULO */}
-            <View style={styles.header}>
+            <SafeAreaView style={styles.header}>
+                <TouchableOpacity onPress={() => router.back()}>
+                    <Ionicons name="arrow-back" size={26} color="#FFD700" />
+                </TouchableOpacity>
+
                 <Text style={styles.headerTitle}>Configurações</Text>
-            </View>
+            </SafeAreaView>
+
 
             {/* ---------------------- SEÇÃO CONTA ---------------------- */}
             <Text style={styles.sectionTitle}>Conta</Text>
@@ -356,11 +363,15 @@ export default function Configuracoes() {
 
 /* ------------------- ESTILOS ------------------- */
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#FFF",
-        padding: 15,
-    },
+header: {
+    backgroundColor: "#000",
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+},
+
 
     header: {
         backgroundColor: "#000",
@@ -380,6 +391,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginTop: 10,
         marginBottom: 8,
+        paddingLeft: 5,
     },
 
     card: {
@@ -393,7 +405,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         paddingVertical: 14,
-        paddingHorizontal: 12,
+        paddingHorizontal: 20,
         borderBottomColor: "#ddd",
         borderBottomWidth: 1,
         gap: 12,
@@ -511,4 +523,16 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 12,
     },
+
+
+  header: {
+    backgroundColor: "#000",
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+},
+
+
 });
