@@ -90,8 +90,8 @@ export default function HomepageScreen() {
                 <ShortcutButton
                   icon="chatbox-ellipses-outline"
                   label="Solicitações"
-                  // Quando a tela de solicitações existir:
-                  // onPress={() => router.push("/solicitacoes")}
+                // Quando a tela de solicitações existir:
+                // onPress={() => router.push("/solicitacoes")}
                 />
               </View>
 
@@ -105,15 +105,15 @@ export default function HomepageScreen() {
                 <ShortcutButton
                   icon="bar-chart-outline"
                   label="Relatórios"
-                  // Quando a tela de relatórios financeiros existir:
-                  // onPress={() => router.push("/relatoriosFinanceiros")}
+                // Quando a tela de relatórios financeiros existir:
+                // onPress={() => router.push("/relatoriosFinanceiros")}
                 />
-                <ShortcutButton
-                  icon="settings-outline"
-                  label="Configurações"
-                  // Exemplo: depois pode mandar pra /outros ou /configuracoes
-                  // onPress={() => router.push("/outros")}
-                />
+             <ShortcutButton
+  icon="settings-outline"
+  label="Configurações"
+  onPress={() => router.push("/(pages)/configuracoes")}
+/>
+
                 {/* Espaço vazio para ficar visualmente alinhado em 4 colunas */}
                 <View style={[styles.shortcut, { opacity: 0 }]} />
               </View>
@@ -256,8 +256,8 @@ export default function HomepageScreen() {
               <View style={styles.cardFooterCenter}>
                 <PillButton
                   label="Relatórios"
-                  // Quando a tela de relatórios existir:
-                  // onPress={() => router.push("/relatoriosFinanceiros")}
+                // Quando a tela de relatórios existir:
+                // onPress={() => router.push("/relatoriosFinanceiros")}
                 />
               </View>
             </View>
