@@ -70,7 +70,7 @@ export default function TabLayout() {
       itens: "/relatorios",
       admins: "/calendario",
       // solicitacoes: "/solicitacoes",
-      // config: "/configuracoes",
+        config: "/configuracoes",
     };
 
     if (key === "sair") {
