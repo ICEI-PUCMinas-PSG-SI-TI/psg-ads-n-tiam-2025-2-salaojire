@@ -8,6 +8,11 @@
     "scheme": "mobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "extra": {
+      "CLOUDINARY_CLOUD_NAME": "dlxshyqra",
+      "CLOUDINARY_UPLOAD_PRESET": "mobile_uploads",
+      "CLOUDINARY_API_URL": "https://api.cloudinary.com/v1_1"
+    },
     "ios": {
       "supportsTablet": true
     },

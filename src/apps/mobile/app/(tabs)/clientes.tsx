@@ -14,7 +14,6 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-
 import { firestore } from "@packages/firebase/config";
 import {
   addDoc,
@@ -49,6 +48,17 @@ type Agendamento = {
   itensAlugados?: any[];
 };
 
+//tratamento de imagens
+import * as ImagePicker from "expo-image-picker";
+import Constants from "expo-constants";
+
+const {
+  CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_UPLOAD_PRESET,
+  CLOUDINARY_API_URL,
+} = Constants.expoConfig!.extra!;
+//fim
+
 function initials(name: string) {
   const p = (name || "").trim().split(/\s+/);
   return ((p[0]?.[0] ?? "") + (p[1]?.[0] ?? "")).toUpperCase();
@@ -59,7 +69,8 @@ function toDateString(d?: { seconds: number } | string | Date) {
   let date: Date;
   if (typeof d === "string") date = new Date(d);
   else if (d instanceof Date) date = d;
-  else if (typeof d === "object" && "seconds" in d) date = new Date(d.seconds * 1000);
+  else if (typeof d === "object" && "seconds" in d)
+    date = new Date(d.seconds * 1000);
   else return "";
   return date.toLocaleDateString();
 }
@@ -86,7 +97,7 @@ function money(v?: number) {
 export default function ClientesScreen() {
   const [q, setQ] = useState("");
   const [clients, setClients] = useState<Client[]>([]);
-   const router = useRouter(); 
+  const router = useRouter();
 
   const [confirmId, setConfirmId] = useState<string | null>(null);
   const [viewOpen, setViewOpen] = useState(false);
@@ -105,7 +116,8 @@ export default function ClientesScreen() {
 
   // Modal de detalhes do agendamento (apenas exibir)
   const [orderOpen, setOrderOpen] = useState(false);
-  const [pedidoSelecionado, setPedidoSelecionado] = useState<Agendamento | null>(null);
+  const [pedidoSelecionado, setPedidoSelecionado] =
+    useState<Agendamento | null>(null);
 
   const colRef = collection(firestore, "Clientes");
 
@@ -141,17 +153,20 @@ export default function ClientesScreen() {
     const s = q.toLowerCase();
     return s
       ? clients.filter(
-          (c) =>
-            c.nome.toLowerCase().includes(s) ||
-            c.email.toLowerCase().includes(s) ||
-            c.telefone?.toLowerCase?.().includes(s)
-        )
+        (c) =>
+          c.nome.toLowerCase().includes(s) ||
+          c.email.toLowerCase().includes(s) ||
+          c.telefone?.toLowerCase?.().includes(s)
+      )
       : clients;
   }, [q, clients]);
 
   async function carregarAgendamentos(clienteId: string) {
     try {
-      const lista = await FirebaseAPI.firestore.clientes.getAgendamentosFromCliente(clienteId);
+      const lista =
+        await FirebaseAPI.firestore.clientes.getAgendamentosFromCliente(
+          clienteId
+        );
       const formatada: Agendamento[] = (lista || []).map((a: any) => ({
         id: a.id,
         nome: a.nome || "Evento sem nome",
@@ -237,45 +252,107 @@ export default function ClientesScreen() {
     }
   }
 
+  //config para add imagens e videos ------------------------------------------------------------------------------------------------------------------------------
+  const CLOUD_NAME = CLOUDINARY_CLOUD_NAME;
+  const UPLOAD_PRESET = CLOUDINARY_UPLOAD_PRESET;
+  
+  const handlePickMedia = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsMultipleSelection: true,
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        for (const file of result.assets) {
+          await uploadToCloudinary(file.uri);
+        }
+
+        alert("Mídias enviadas com sucesso!");
+      }
+    } catch (err) {
+      console.log("Erro ao selecionar mídia:", err);
+    }
+  };
+
+  const uploadToCloudinary = async (uri: string) => {
+    try {
+      const data = new FormData();
+
+      data.append("file", {
+        uri,
+        type: uri.endsWith(".mp4") ? "video/mp4" : "image/jpeg",
+        name: `upload_${Date.now()}`,
+      } as any);
+
+      data.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+
+      const response = await fetch(
+        `${CLOUDINARY_API_URL}/${CLOUDINARY_CLOUD_NAME}/upload`,
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      const result = await response.json();
+
+      console.log("✔ URL Cloudinary:", result.secure_url);
+      await addDoc(
+        collection(firestore, "Clientes", viewClient!.id, "midias"),
+        {
+          url: result.secure_url,
+          criadoEm: new Date(),
+        }
+      );
+      return result.secure_url;
+    } catch (err) {
+      console.log("❌ Erro Cloudinary:", err);
+    }
+  };
+  // fim da manipulacao de imagens -------------------------------------------------------------------------------------------------------------------------------------------
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       {/* Header */}
-     <View style={styles.header}>
-  <View
-    style={{
-      flexDirection: "row",
-      alignItems: "center",
-      marginBottom: 10,
-    }}
-  >
-    <TouchableOpacity
-      onPress={() => router.push("/")} 
-      style={{ paddingRight: 8 }}
-    >
-      <Ionicons name="chevron-back" size={22} color="#F2C94C" />
-    </TouchableOpacity>
+      <View style={styles.header}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 10,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => router.push("/")}
+            style={{ paddingRight: 8 }}
+          >
+            <Ionicons name="chevron-back" size={22} color="#F2C94C" />
+          </TouchableOpacity>
 
-    <Text style={styles.headerTitle}>Gerenciar Clientes</Text>
-  </View>
+          <Text style={styles.headerTitle}>Gerenciar Clientes</Text>
+        </View>
 
-  {/* Busca */}
-  <View style={styles.ContainerBusca}>
-    <Ionicons
-      name="search"
-      size={20}
-      color="#FFD700"
-      style={{ marginRight: 8 }}
-    />
+        {/* Busca */}
+        <View style={styles.ContainerBusca}>
+          <Ionicons
+            name="search"
+            size={20}
+            color="#FFD700"
+            style={{ marginRight: 8 }}
+          />
 
-    <TextInput
-      placeholder="Pesquisar por um cliente"
-      placeholderTextColor="#ccc"
-      value={q}
-      onChangeText={setQ}
-      style={styles.InputBusca}
-    />
-  </View>
-</View>
+          <TextInput
+            placeholder="Pesquisar por um cliente"
+            placeholderTextColor="#ccc"
+            value={q}
+            onChangeText={setQ}
+            style={styles.InputBusca}
+          />
+        </View>
+      </View>
 
       {/* Botão adicionar */}
       <View>
@@ -288,7 +365,11 @@ export default function ClientesScreen() {
       <FlatList
         data={filtered}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 90, paddingTop: 12 }}
+        contentContainerStyle={{
+          paddingHorizontal: 16,
+          paddingBottom: 90,
+          paddingTop: 12,
+        }}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         renderItem={({ item }) => (
           <View style={styles.row}>
@@ -519,7 +600,9 @@ export default function ClientesScreen() {
             <View style={styles.cardHeader}>
               <Text style={styles.cardTitle}>PEDIDOS REALIZADOS</Text>
 
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+              >
                 <View style={styles.badgeYear}>
                   <Text style={{ fontWeight: "700", color: "#111" }}>2025</Text>
                 </View>
@@ -530,20 +613,41 @@ export default function ClientesScreen() {
 
             {/* Lista dinâmica dos agendamentos com status (toque abre apenas o modal de detalhes) */}
             {agendamentos.length === 0 ? (
-              <Text style={{ color: "#777", marginTop: 8 }}>Nenhum pedido encontrado.</Text>
+              <Text style={{ color: "#777", marginTop: 8 }}>
+                Nenhum pedido encontrado.
+              </Text>
             ) : (
               agendamentos.map((ped) => {
                 const st = statusStyle(ped.status);
                 return (
-                  <TouchableOpacity key={ped.id} activeOpacity={0.8} onPress={() => openPedido(ped)}>
+                  <TouchableOpacity
+                    key={ped.id}
+                    activeOpacity={0.8}
+                    onPress={() => openPedido(ped)}
+                  >
                     <View style={styles.orderRow}>
-                      <View style={{ flexDirection: "row", alignItems: "center", gap: 10, flex: 1 }}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 10,
+                          flex: 1,
+                        }}
+                      >
                         <Ionicons name="time" size={16} color="#777" />
                         <View style={{ flex: 1 }}>
-                          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                              gap: 8,
+                            }}
+                          >
                             <Text style={{ fontWeight: "700", color: "#111" }}>
                               {toDateString(ped.dataInicio)}
-                              {ped.dataFim ? ` — ${toDateString(ped.dataFim)}` : ""}
+                              {ped.dataFim
+                                ? ` — ${toDateString(ped.dataFim)}`
+                                : ""}
                             </Text>
 
                             <View
@@ -554,7 +658,13 @@ export default function ClientesScreen() {
                                 paddingVertical: 2,
                               }}
                             >
-                              <Text style={{ color: st.fg, fontWeight: "700", fontSize: 12 }}>
+                              <Text
+                                style={{
+                                  color: st.fg,
+                                  fontWeight: "700",
+                                  fontSize: 12,
+                                }}
+                              >
                                 {st.label}
                               </Text>
                             </View>
@@ -564,12 +674,30 @@ export default function ClientesScreen() {
                         </View>
                       </View>
 
-                      <Text style={{ fontWeight: "700", color: "#111" }}>{money(ped.valorTotal)}</Text>
+                      <Text style={{ fontWeight: "700", color: "#111" }}>
+                        {money(ped.valorTotal)}
+                      </Text>
                     </View>
                   </TouchableOpacity>
                 );
               })
             )}
+          </View>
+          {/* Botão de Enviar Fotos e Vídeos AQUI QUE ESTOU MEXENDO ------------------------------------------------------------------------------------------------- */}
+          <View style={{ paddingHorizontal: 16, marginTop: 20 }}>
+            <TouchableOpacity
+              onPress={handlePickMedia}
+              style={{
+                backgroundColor: "#F2C94C",
+                paddingVertical: 12,
+                borderRadius: 10,
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ fontWeight: "700", fontSize: 16, color: "#111" }}>
+                Adicionar Fotos/Vídeos do Evento
+              </Text>
+            </TouchableOpacity>
           </View>
         </SafeAreaView>
       </Modal>
@@ -588,13 +716,18 @@ export default function ClientesScreen() {
                 <Ionicons name="clipboard" size={22} color="#111" />
               </View>
 
-              <TouchableOpacity onPress={() => setOrderOpen(false)} style={{ padding: 8 }}>
+              <TouchableOpacity
+                onPress={() => setOrderOpen(false)}
+                style={{ padding: 8 }}
+              >
                 <Ionicons name="close" size={18} color="#777" />
               </TouchableOpacity>
             </View>
 
             <Text style={styles.title2}>Detalhes do Agendamento</Text>
-            <Text style={styles.sub}>Veja as informações completas do pedido</Text>
+            <Text style={styles.sub}>
+              Veja as informações completas do pedido
+            </Text>
 
             <ScrollView style={{ marginTop: 8 }}>
               {/* Nome e status */}
@@ -606,12 +739,23 @@ export default function ClientesScreen() {
               />
 
               <Text style={styles.label}>Status</Text>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+              >
                 {(() => {
                   const st = statusStyle(pedidoSelecionado?.status);
                   return (
-                    <View style={{ backgroundColor: st.bg, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4 }}>
-                      <Text style={{ color: st.fg, fontWeight: "700" }}>{st.label}</Text>
+                    <View
+                      style={{
+                        backgroundColor: st.bg,
+                        borderRadius: 8,
+                        paddingHorizontal: 8,
+                        paddingVertical: 4,
+                      }}
+                    >
+                      <Text style={{ color: st.fg, fontWeight: "700" }}>
+                        {st.label}
+                      </Text>
                     </View>
                   );
                 })()}
@@ -624,7 +768,10 @@ export default function ClientesScreen() {
                 editable={false}
                 value={
                   pedidoSelecionado
-                    ? `${toDateString(pedidoSelecionado.dataInicio)}${pedidoSelecionado.dataFim ? ` — ${toDateString(pedidoSelecionado.dataFim)}` : ""}`
+                    ? `${toDateString(pedidoSelecionado.dataInicio)}${pedidoSelecionado.dataFim
+                      ? ` — ${toDateString(pedidoSelecionado.dataFim)}`
+                      : ""
+                    }`
                     : ""
                 }
               />
@@ -639,7 +786,8 @@ export default function ClientesScreen() {
 
               {/* Itens alugados */}
               <Text style={styles.label}>Itens Alugados</Text>
-              {pedidoSelecionado?.itensAlugados && pedidoSelecionado?.itensAlugados.length > 0 ? (
+              {pedidoSelecionado?.itensAlugados &&
+                pedidoSelecionado?.itensAlugados.length > 0 ? (
                 <View style={{ gap: 6 }}>
                   {pedidoSelecionado.itensAlugados.map((it: any) => (
                     <View
@@ -655,8 +803,12 @@ export default function ClientesScreen() {
                         borderColor: "#EEE",
                       }}
                     >
-                      <Text style={{ color: "#222", fontWeight: "600" }}>{it.nome || "Item"}</Text>
-                      <Text style={{ color: "#555" }}>{money(it.precoAluguel)}</Text>
+                      <Text style={{ color: "#222", fontWeight: "600" }}>
+                        {it.nome || "Item"}
+                      </Text>
+                      <Text style={{ color: "#555" }}>
+                        {money(it.precoAluguel)}
+                      </Text>
                     </View>
                   ))}
                 </View>
@@ -794,7 +946,12 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
   },
-  title: { textAlign: "center", color: "#111", fontWeight: "800", fontSize: 16 },
+  title: {
+    textAlign: "center",
+    color: "#111",
+    fontWeight: "800",
+    fontSize: 16,
+  },
   sub: { color: "#666", marginTop: 8, marginBottom: 16 },
   actions: { flexDirection: "row", gap: 12, alignSelf: "stretch" },
   btn: {
