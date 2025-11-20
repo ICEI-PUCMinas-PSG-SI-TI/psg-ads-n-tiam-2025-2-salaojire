@@ -51,23 +51,21 @@ export async function deleteClienteProfile(clienteId) {
 
 // AGENDAMENTOS
 
-/* Busca TODOS os agendamentos de TODOS os clientes.
-  Retorna o objeto do agendamento + o ID do Cliente (pai) para podermos editar/excluir depois.
+/* Busca TODOS os agendamentos de TODOS os clientes, 
+retorna o objeto do agendamento + o ID do Cliente (pai) para podermos editar/excluir depois. Exemplo:
+const listaAgendamentos = await FirebaseAPI.firestore.clientes.getAllAgendamentos();
 */
 export async function getAllAgendamentos() {
   try {
-    // 'agendamentos' deve ser exatamente o nome da subcoleção no Firestore
     const agendamentosQuery = collectionGroup(firestore, 'agendamentos');
-    
     const querySnapshot = await getDocs(agendamentosQuery);
     
     return querySnapshot.docs.map(doc => {
-      // O segredo está aqui: doc.ref.parent.parent.id pega o ID do documento Cliente acima
       const clienteId = doc.ref.parent.parent ? doc.ref.parent.parent.id : null;
       
       return { 
         id: doc.id, 
-        clienteId: clienteId, // Importante para saber de quem é o agendamento
+        clienteId: clienteId,
         ...doc.data() 
       };
     });
