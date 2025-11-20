@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, updateDoc, addDoc, deleteDoc, getDocs, query, where, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { collection, collectionGroup, doc, getDoc, updateDoc, addDoc, deleteDoc, getDocs, query, where, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { firestore } from '../config';
 
 //Lembrem de usar try e catch quando for usar a API
@@ -50,6 +50,32 @@ export async function deleteClienteProfile(clienteId) {
 }
 
 // AGENDAMENTOS
+
+/* Busca TODOS os agendamentos de TODOS os clientes.
+  Retorna o objeto do agendamento + o ID do Cliente (pai) para podermos editar/excluir depois.
+*/
+export async function getAllAgendamentos() {
+  try {
+    // 'agendamentos' deve ser exatamente o nome da subcoleção no Firestore
+    const agendamentosQuery = collectionGroup(firestore, 'agendamentos');
+    
+    const querySnapshot = await getDocs(agendamentosQuery);
+    
+    return querySnapshot.docs.map(doc => {
+      // O segredo está aqui: doc.ref.parent.parent.id pega o ID do documento Cliente acima
+      const clienteId = doc.ref.parent.parent ? doc.ref.parent.parent.id : null;
+      
+      return { 
+        id: doc.id, 
+        clienteId: clienteId, // Importante para saber de quem é o agendamento
+        ...doc.data() 
+      };
+    });
+  } catch (error) {
+    console.error("Erro ao buscar todos os agendamentos:", error);
+    throw new Error("Falha ao buscar agendamentos gerais.");
+  }
+}
 
 /* Adiciona um novo agendamento a um cliente. Exemplo:
 const novoAgendamento = {
