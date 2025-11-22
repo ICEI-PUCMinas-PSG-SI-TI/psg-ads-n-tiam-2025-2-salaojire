@@ -16,20 +16,16 @@ import { useRouter } from "expo-router";
 export default function GerenciarAgendamentos() {
   const router = useRouter();
 
-  // Estados Principais
   const [agendamentos, setAgendamentos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filtro, setFiltro] = useState("");
-
-  // Estado para controlar a ordenação
   const [ordemAscendente, setOrdemAscendente] = useState(true);
 
-  // Estados de Edição/Criação
   const [modoCriar, setModoCriar] = useState(false);
   const [modoEditar, setModoEditar] = useState(false);
   const [agendamentoEditando, setAgendamentoEditando] = useState(null);
+  const [mostrarSelecaoItens, setMostrarSelecaoItens] = useState(false);
 
-  // Dados auxiliares
   const [clientes, setClientes] = useState([]);
   const [itens, setItens] = useState([]);
   const [clienteDono, setClienteDono] = useState(null);
@@ -45,6 +41,16 @@ export default function GerenciarAgendamentos() {
   useEffect(() => {
     carregarTudo();
   }, []);
+
+  // Toda vez que agendamentoEditando mudar, colocar o cliente correto
+  useEffect(() => {
+    async function setCliente() {
+      if (agendamentoEditando != null) {
+        setClienteDono(await FirebaseAPI.firestore.clientes.getCliente(agendamentoEditando.clienteId));
+      }
+    }
+    setCliente();
+  }, [agendamentoEditando])
 
   const carregarTudo = async () => {
     setLoading(true);
@@ -147,61 +153,173 @@ export default function GerenciarAgendamentos() {
     if (secA < 0) return 1;
     if (secB < 0) return -1;
 
-    return ordemAscendente ? (secA - secB) : (secB - secA); // Ordena os agendamentos
+    return ordemAscendente ? (secA - secB) : (secB - secA);
   });
-
-
-  // ================= RENDER =================
 
   if (modoCriar || modoEditar) {
     return (
-      <ScrollView style={styles.formContainer}>
-        <View style={styles.voltarBoxNovo}>
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
+
+        <View style={styles.headerTopo}>
           <TouchableOpacity onPress={() => { setModoCriar(false); setModoEditar(false); }}>
             <Ionicons name="arrow-back" size={24} color="#F2C94C" />
           </TouchableOpacity>
-          <Text style={styles.nomeSelecionado}>{modoEditar ? "Editar" : "Novo Agendamento"}</Text>
+          <Text style={styles.headerTitulo}>Visualizar agendamento</Text>
         </View>
 
-        {modoCriar && (
-          <View style={{ marginVertical: 15 }}>
-            <Text style={styles.subtitulo}>Selecione o Cliente:</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View style={styles.contentBody}>
+
+          <View style={styles.cameraBox}>
+            <Ionicons name="camera-outline" size={80} color="#000" />
+          </View>
+          <View style={styles.navPill}>
+            <Text style={{ fontWeight: 'bold' }}>{'<'}</Text>
+            <View style={{ width: 20 }} />
+            <Text style={{ fontWeight: 'bold' }}>{'>'}</Text>
+          </View>
+
+          <View style={styles.rowTitle}>
+            <TextInput
+              style={styles.bigTitleInput}
+              value={novoAgendamento.nomeEvento}
+              placeholder="Nome do Evento"
+              onChangeText={t => setNovoAgendamento({ ...novoAgendamento, nomeEvento: t })}
+            />
+            <View style={styles.badgePago}>
+              <Text style={styles.badgeText}>Pago</Text>
+            </View>
+          </View>
+
+          <Text style={styles.labelSection}>Cliente:</Text>
+          {modoCriar ? (
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 15 }}>
               {clientes.map(c => (
-                <TouchableOpacity key={c.id}
-                  style={[styles.botaoCriar, { marginRight: 10, backgroundColor: clienteDono?.id === c.id ? '#F2C94C' : '#333' }]}
-                  onPress={() => setClienteDono(c)}>
-                  <Text style={[styles.textoCriar, { color: clienteDono?.id === c.id ? '#000' : '#fff', marginLeft: 0 }]}>{c.nome}</Text>
+                <TouchableOpacity key={c.id} onPress={() => setClienteDono(c)} style={styles.badgeClienteSelect}>
+                  <Text style={{ color: '#fff' }}>{c.nome}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
+          ) : (
+            <View style={styles.cardCliente}>
+              <View style={styles.avatar}>
+                <Text style={styles.avatarText}>
+                  {clienteDono?.nome ? clienteDono.nome.charAt(0).toUpperCase() : "?"}
+                </Text>
+              </View>
+              <Text style={styles.clienteNome}>{clienteDono?.nome || "Selecione um cliente"}</Text>
+              <TouchableOpacity onPress={() => console.log("seleção de clientes")}>
+                <Ionicons name="pencil" size={20} color="#000" />
+              </TouchableOpacity>
+            </View>
+          )}
+
+          <Text style={styles.labelSection}>Informações do aluguel:</Text>
+
+          <View style={styles.inputRow}>
+            <Text style={styles.labelInput}>Data de início:</Text>
+            <View style={styles.inputContainerRight}>
+              <TextInput
+                style={styles.inputTextRight}
+                value={novoAgendamento.dataInicio}
+                placeholder="YYYY-MM-DD"
+                onChangeText={t => setNovoAgendamento({ ...novoAgendamento, dataInicio: t })}
+              />
+              <Ionicons name="calendar-outline" size={20} color="#000" />
+            </View>
           </View>
-        )}
 
-        <TextInput style={styles.inputForm} placeholder="Nome do Evento" value={novoAgendamento.nomeEvento} onChangeText={t => setNovoAgendamento({ ...novoAgendamento, nomeEvento: t })} />
-        <TextInput style={styles.inputForm} placeholder="Início (YYYY-MM-DD)" value={novoAgendamento.dataInicio} onChangeText={t => setNovoAgendamento({ ...novoAgendamento, dataInicio: t })} />
-        <TextInput style={styles.inputForm} placeholder="Fim (YYYY-MM-DD)" value={novoAgendamento.dataFim} onChangeText={t => setNovoAgendamento({ ...novoAgendamento, dataFim: t })} />
+          <View style={styles.inputRow}>
+            <Text style={styles.labelInput}>Data de entrega:</Text>
+            <View style={styles.inputContainerRight}>
+              <TextInput
+                style={styles.inputTextRight}
+                value={novoAgendamento.dataFim}
+                placeholder="YYYY-MM-DD"
+                onChangeText={t => setNovoAgendamento({ ...novoAgendamento, dataFim: t })}
+              />
+              <Ionicons name="calendar-outline" size={20} color="#000" />
+            </View>
+          </View>
 
-        <Text style={styles.subtitulo}>Itens:</Text>
-        {itens.map(item => {
-          const sel = itensSelecionados.find(i => i.id === item.id);
-          return (
-            <TouchableOpacity key={item.id} style={[styles.itemCard, sel && { backgroundColor: '#F2C94C' }]} onPress={() => alternarItem(item)}>
-              <Text style={[styles.itemNome, sel && { color: '#000' }]}>{item.nome}</Text>
-              <Text style={[styles.itemPreco, sel && { color: '#000' }]}>R$ {item.precoAluguel}</Text>
-            </TouchableOpacity>
-          )
-        })}
-        <Text style={styles.total}>Total: R$ {novoAgendamento.valorTotal.toFixed(2)}</Text>
-        <TouchableOpacity style={styles.botaoCriarFinal} onPress={handleSalvar}>
-          <Text style={styles.textoBotaoCriar}>Salvar</Text>
-        </TouchableOpacity>
-        <View style={{ height: 50 }} />
+          <View style={styles.inputRow}>
+            <Text style={styles.labelInput}>Valor Pago:</Text>
+            <View style={styles.inputContainerRight}>
+              <Text style={{ fontWeight: 'bold' }}>R$ 0,00</Text>
+            </View>
+          </View>
+
+          <View style={styles.inputRow}>
+            <Text style={styles.labelInput}>Valor Pendente:</Text>
+            <View style={styles.inputContainerRight}>
+              <Text style={{ fontWeight: 'bold' }}>R$ 0,00</Text>
+            </View>
+          </View>
+
+          <View style={styles.inputRow}>
+            <Text style={styles.labelInput}>Valor Total:</Text>
+            <View style={styles.inputContainerRight}>
+              <Text style={{ fontWeight: 'bold' }}>R$ {novoAgendamento.valorTotal.toFixed(2)}</Text>
+            </View>
+          </View>
+
+          <Text style={styles.labelSection}>Itens alugados:</Text>
+
+          {itensSelecionados.map((item, index) => (
+            <View key={index} style={styles.itemCard}>
+              <View style={styles.iconBox}>
+                <Ionicons
+                  name={item.nome.toLowerCase().includes('cadeira') ? "albums" : "cube"}
+                  size={24} color="#000"
+                />
+              </View>
+              <View style={{ flex: 1, paddingHorizontal: 10 }}>
+                <Text style={styles.itemTitle}>{item.nome}</Text>
+                <Text style={styles.itemSub}>
+                  {item.quantidade} unidades <Ionicons name="ellipse" size={6} color="#999" />  R${item.precoAluguel.toFixed(2)}
+                </Text>
+              </View>
+              <View style={{ flexDirection: 'row', gap: 10 }}>
+                <TouchableOpacity><Ionicons name="pencil" size={20} color="#000" /></TouchableOpacity>
+                <TouchableOpacity onPress={() => alternarItem(item)}>
+                  <Ionicons name="trash-outline" size={20} color="#000" />
+                </TouchableOpacity>
+              </View>
+            </View>
+          ))}
+
+          <TouchableOpacity
+            style={styles.btnAddItem}
+            onPress={() => setMostrarSelecaoItens(!mostrarSelecaoItens)}
+          >
+            <Ionicons name="add" size={24} color="#000" />
+            <Text style={styles.btnAddItemText}>Adicionar Item</Text>
+          </TouchableOpacity>
+
+          {mostrarSelecaoItens && (
+            <View style={styles.listaSelecaoBox}>
+              <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Toque para adicionar:</Text>
+              {itens.map(item => {
+                const selecionado = itensSelecionados.find(i => i.id === item.id);
+                if (selecionado) return null;
+                return (
+                  <TouchableOpacity key={item.id} style={styles.itemSelectRow} onPress={() => alternarItem(item)}>
+                    <Text>{item.nome} - R$ {item.precoAluguel}</Text>
+                    <Ionicons name="add-circle-outline" size={24} color="#F2C94C" />
+                  </TouchableOpacity>
+                )
+              })}
+            </View>
+          )}
+
+          <TouchableOpacity style={styles.btnSalvar} onPress={handleSalvar}>
+            <Text style={styles.btnSalvarText}>Salvar</Text>
+          </TouchableOpacity>
+
+        </View>
       </ScrollView>
     );
   }
 
-  // TELA PRINCIPAL
   return (
     <View style={styles.container}>
       <View style={styles.headerWrapper}>
@@ -246,16 +364,22 @@ export default function GerenciarAgendamentos() {
 
             return (
               <View style={styles.card}>
-                <View style={{ marginRight: 15 }}>
-                  <Ionicons name="balloon" size={24} color="#000" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.nomeEvento}>{item.nome || "Evento"}</Text>
-                  <Text style={styles.info}>
-                    {inicio.toLocaleDateString()}  {inicio.getHours()}:{String(inicio.getMinutes()).padStart(2, '0')}-{fim.getHours()}:{String(fim.getMinutes()).padStart(2, '0')}
-                  </Text>
-                </View>
-                <View style={{ alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => iniciarEdicao(item)}
+                  style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+
+                  <View style={{ marginRight: 15 }}>
+                    <Ionicons name="balloon" size={24} color="#000" />
+                  </View>
+
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.nomeEvento}>{item.nome || "Evento"}</Text>
+                    <Text style={styles.info}>
+                      {inicio.toLocaleDateString()}  {inicio.getHours()}:{String(inicio.getMinutes()).padStart(2, '0')}-{fim.getHours()}:{String(fim.getMinutes()).padStart(2, '0')}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+
+                <View style={{ alignItems: 'center', marginLeft: 10 }}>
                   <TouchableOpacity onPress={() => iniciarEdicao(item)}>
                     <Ionicons name="eye" size={24} color="#000" />
                   </TouchableOpacity>
@@ -277,7 +401,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1, backgroundColor: "#000", paddingTop: 0
   },
-
+  
   headerWrapper: {
     backgroundColor: "#000", paddingTop: 40, paddingBottom: 15, paddingHorizontal: 0
   },
@@ -301,7 +425,7 @@ const styles = StyleSheet.create({
   agendamentosBox: {
     flex: 1, backgroundColor: "#fff", borderTopLeftRadius: 20, borderTopRightRadius: 20, paddingTop: 10
   },
-  
+
   card: {
     backgroundColor: "#EAE2D6", borderRadius: 25, paddingVertical: 15, paddingHorizontal: 20, marginVertical: 6, flexDirection: "row", alignItems: "center", justifyContent: "space-between"
   },
@@ -314,59 +438,121 @@ const styles = StyleSheet.create({
     color: "#555", fontSize: 14
   },
 
-  formContainer: {
-    backgroundColor: "#fff", flex: 1
-  },
-
-  voltarBoxNovo: {
-    backgroundColor: "#000", paddingTop: 50, paddingBottom: 20, paddingHorizontal: 20, flexDirection: "row", alignItems: "center", gap: 10
-  },
-
-  nomeSelecionado: {
-    color: "#F2C94C", fontWeight: "bold", fontSize: 18
-  },
-  
-  inputForm: {
-    backgroundColor: "#F7F7F7", color: "#111", borderRadius: 8, padding: 12, fontSize: 14, marginVertical: 8, marginHorizontal: 10, borderWidth: 1, borderColor: "#ddd"
-  },
-
-  subtitulo: {
-    color: "#F2C94C", fontWeight: "bold", marginVertical: 10, marginHorizontal: 10, fontSize: 16
-  },
-
-  itemCard: {
-    flexDirection: "row", justifyContent: "space-between", alignItems: "center", backgroundColor: "#111", borderWidth: 1, borderColor: "#F2C94C", padding: 12, borderRadius: 12, marginBottom: 10, marginHorizontal: 10
-  },
-
-  itemNome: {
-    color: "#F2C94C", flex: 1, fontWeight: "600"
-  },
-
-  itemPreco: {
-    color: "#F2C94C", fontWeight: "700"
-  },
-
-  botaoCriar: {
-    paddingVertical: 8, paddingHorizontal: 14, borderRadius: 30, alignItems: 'center', justifyContent: 'center'
-  },
-
-  textoCriar: {
-    fontWeight: "bold", fontSize: 14
-  },
-
-  botaoCriarFinal: {
-    backgroundColor: "#F2C94C", padding: 15, borderRadius: 10, marginTop: 20, marginHorizontal: 10
-  },
-
-  textoBotaoCriar: {
-    color: "#000", fontWeight: "bold", textAlign: "center", fontSize: 16
-  },
-
-  total: {
-    color: "#000", fontWeight: "bold", fontSize: 20, marginTop: 14, marginRight: 10, textAlign: "right"
-  },
-
   vazio: {
     color: "#999", textAlign: "center", marginTop: 30
   },
+
+  headerTopo: {
+    flexDirection: 'row', alignItems: 'center', padding: 20, backgroundColor: '#000'
+  },
+
+  headerTitulo: {
+    color: '#F2C94C', fontSize: 18, fontWeight: 'bold', marginLeft: 10
+  },
+
+  contentBody: {
+    backgroundColor: '#F9F9F9', borderTopLeftRadius: 30, borderTopRightRadius: 30, padding: 20, minHeight: 800
+  },
+
+  cameraBox: {
+    alignSelf: 'center', width: 120, height: 120, borderRadius: 30, borderWidth: 2, borderColor: '#111', justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', marginBottom: 10, marginTop: 10
+  },
+
+  navPill: {
+    alignSelf: 'center', flexDirection: 'row', backgroundColor: '#F2C94C', paddingHorizontal: 20, paddingVertical: 5, borderRadius: 20, marginBottom: 20
+  },
+
+  rowTitle: {
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15
+  },
+
+  bigTitleInput: {
+    fontSize: 22, fontWeight: 'bold', color: '#000', flex: 1
+  },
+
+  badgePago: {
+    backgroundColor: '#27AE60', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 12
+  },
+
+  badgeText: {
+    color: '#fff', fontWeight: 'bold', fontSize: 12
+  },
+
+  labelSection: {
+    fontSize: 16, fontWeight: 'bold', marginBottom: 10, marginTop: 10, color: '#000'
+  },
+
+  cardCliente: {
+    flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: 10, borderRadius: 12, shadowColor: "#000", shadowOpacity: 0.05, shadowRadius: 5, elevation: 2, marginBottom: 10
+  },
+
+  avatar: {
+    width: 40, height: 40, borderRadius: 20, backgroundColor: '#F2C94C', justifyContent: 'center', alignItems: 'center', marginRight: 10
+  },
+
+  avatarText: {
+    fontWeight: 'bold', fontSize: 18
+  },
+
+  clienteNome: {
+    flex: 1, fontWeight: '600', fontSize: 16
+  },
+  
+  badgeClienteSelect: {
+    backgroundColor: '#333', padding: 10, borderRadius: 20, marginRight: 10
+  },
+
+  inputRow: {
+    flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: 12, borderRadius: 10, marginBottom: 8, shadowColor: "#000", shadowOpacity: 0.05, shadowRadius: 2, elevation: 1, justifyContent: 'space-between'
+  },
+
+  labelInput: {
+    fontWeight: '600', fontSize: 14, color: '#333'
+  },
+
+  inputContainerRight: {
+    flexDirection: 'row', alignItems: 'center', gap: 8
+  },
+
+  inputTextRight: {
+    textAlign: 'right', minWidth: 100, color: '#333'
+  },
+
+  itemCard: {
+    flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: 12, borderRadius: 12, marginBottom: 8, borderWidth: 1, borderColor: '#eee'
+  },
+
+  iconBox: {
+    width: 40, alignItems: 'center'
+  },
+
+  itemTitle: {
+    fontWeight: 'bold', fontSize: 15
+  },
+  itemSub: {
+    color: '#777', fontSize: 12, marginTop: 2
+  },
+
+  btnAddItem: {
+    flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#EEE', padding: 15, borderRadius: 12, marginTop: 10, borderWidth: 1, borderColor: '#DDD', borderStyle: 'dashed'
+  },
+  btnAddItemText: {
+    fontWeight: 'bold', fontSize: 16, marginLeft: 8
+  },
+
+  listaSelecaoBox: {
+    backgroundColor: '#fff', padding: 15, borderRadius: 10, marginTop: 10, borderWidth: 1, borderColor: '#F2C94C'
+  },
+
+  itemSelectRow: {
+    paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#eee', flexDirection: 'row', justifyContent: 'space-between'
+  },
+  
+  btnSalvar: {
+    backgroundColor: '#F2C94C', padding: 18, borderRadius: 12, alignItems: 'center', marginTop: 30, marginBottom: 20
+  },
+
+  btnSalvarText: {
+    fontWeight: 'bold', fontSize: 18, color: '#000'
+  }
 });
