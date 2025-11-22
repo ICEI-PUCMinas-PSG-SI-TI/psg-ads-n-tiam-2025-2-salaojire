@@ -39,6 +39,14 @@ export default function GerenciarAgendamentos() {
   const [campoEditando, setCampoEditando] = useState(null);
   const [tempDate, setTempDate] = useState(new Date());
 
+  const [imagensEvento, setImagensEvento] = useState([
+    "https://picsum.photos/200/300",
+    "https://picsum.photos/200/301",
+    "https://picsum.photos/200/302",
+    "https://picsum.photos/200/303"
+  ]);
+  const [indiceImagemAtual, setIndiceImagemAtual] = useState(0);
+
   const [novoAgendamento, setNovoAgendamento] = useState({
     nomeEvento: "",
     dataInicio: "",
@@ -139,6 +147,7 @@ export default function GerenciarAgendamentos() {
     item.valorPago *= 100;
     setAgendamentoEditando(item);
     setModoEditar(true);
+    setIndiceImagemAtual(0);
 
     const parseToISO = (val) => {
       if (!val) return "";
@@ -237,6 +246,22 @@ export default function GerenciarAgendamentos() {
     }
   };
   
+  const proximaImagem = () => {
+    if (indiceImagemAtual < imagensEvento.length) {
+      setIndiceImagemAtual(indiceImagemAtual + 1);
+    } else {
+      setIndiceImagemAtual(0);
+    }
+  };
+
+  const anteriorImagem = () => {
+    if (indiceImagemAtual > 0) {
+      setIndiceImagemAtual(indiceImagemAtual - 1);
+    } else {
+      setIndiceImagemAtual(imagensEvento.length);
+    }
+  };
+
  // ------------RENDER------------
 
   if (modoCriar || modoEditar) {
@@ -252,16 +277,40 @@ export default function GerenciarAgendamentos() {
 
         <View style={styles.contentBody}>
 
-          {!modoCriar && (<>
-          <View style={styles.cameraBox}>
-            <Ionicons name="camera-outline" size={80} color="#000" />
-          </View>
-          <View style={styles.navPill}>
-            <Text style={{ fontWeight: 'bold' }}>{'<'}</Text>
-            <View style={{ width: 20 }} />
-            <Text style={{ fontWeight: 'bold' }}>{'>'}</Text>
-          </View>
-          </>)}
+          {!modoCriar && (
+            <>
+              <View style={styles.cameraBox}>
+                {indiceImagemAtual < imagensEvento.length ? (
+                  <Image 
+                    source={{ uri: imagensEvento[indiceImagemAtual] }} 
+                    style={{ width: '100%', height: '100%', borderRadius: 30 }} 
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <TouchableOpacity style={{alignItems:'center'}} onPress={() => Alert.alert("Em breve", "Funcionalidade de adicionar foto em breve.")}>
+                    <Ionicons name="add-circle-outline" size={50} color="#000" />
+                    <Text style={{fontWeight:'bold', marginTop: 5}}>Adicionar Foto</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+
+              <View style={styles.navPill}>
+                <TouchableOpacity onPress={anteriorImagem}>
+                  <Text style={{ fontWeight: 'bold', fontSize: 18, paddingHorizontal: 10 }}>{'<'}</Text>
+                </TouchableOpacity>
+                
+                <View style={{ width: 40, alignItems:'center' }}>
+                   <Text style={{ fontSize: 12, fontWeight:'bold' }}>
+                     {indiceImagemAtual + 1} / {imagensEvento.length + 1}
+                   </Text>
+                </View>
+
+                <TouchableOpacity onPress={proximaImagem}>
+                  <Text style={{ fontWeight: 'bold', fontSize: 18, paddingHorizontal: 10 }}>{'>'}</Text>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
 
           <View style={styles.rowTitle}>
             <TextInput
@@ -270,8 +319,10 @@ export default function GerenciarAgendamentos() {
               placeholder="Nome do Evento"
               onChangeText={t => setNovoAgendamento({ ...novoAgendamento, nomeEvento: t })}
             />
+
             {!modoCriar && (
-            <View style={(() => {
+            <View style={
+              (() => {
               switch (agendamentoEditando.status.toLowerCase()) {
                 case 'pago': return styles.badgePago;
                 case 'não pago': return styles.badgeNaoPago;
@@ -282,11 +333,12 @@ export default function GerenciarAgendamentos() {
               <Text style={styles.badgeText}>{agendamentoEditando.status}</Text>
             </View>
             )}
+
           </View>
 
           <Text style={styles.labelSection}>Cliente:</Text>
-          {modoCriar && !clienteDono ? (
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 15 }}>
+          {!clienteDono ? (
+            <ScrollView showsHorizontalScrollIndicator={false} >
               {clientes.map(c => (
                 <TouchableOpacity key={c.id} onPress={() => setClienteDono(c)} style={styles.badgeClienteSelect}>
                   <Text style={{ color: '#fff' }}>{c.nome}</Text>
@@ -301,9 +353,9 @@ export default function GerenciarAgendamentos() {
                 </Text>
               </View>
               <Text style={styles.clienteNome}>{clienteDono?.nome || "Selecione um cliente"}</Text>
-              <TouchableOpacity onPress={() => console.log("seleção de clientes")}>
+              {modoCriar && <TouchableOpacity onPress={() => setClienteDono(null)}>
                 <Ionicons name="pencil" size={20} color="#000" />
-              </TouchableOpacity>
+              </TouchableOpacity>}
             </View>
           )}
 
@@ -690,13 +742,13 @@ const styles = StyleSheet.create({
   },
 
   iconBox: {
-    width: 40,
+    width: 60,
     alignItems: 'center',
     justifyContent: 'center',
   },
   itemImage: {
-    width: 40,
-    height: 40,
+    width: 60,
+    height: 60,
     borderRadius: 8,
   },
 
