@@ -105,6 +105,7 @@ export default function GerenciarAgendamentos() {
   const handleSalvar = async () => {
     if (!novoAgendamento.dataInicio || !novoAgendamento.dataFim) return Alert.alert("Preencha as datas");
 
+    const valorPago = parseFloat((parseFloat(agendamentoEditando.valorPago || 0) / 100).toFixed(2));
     setLoading(true);
     try {
       const payload = {
@@ -113,8 +114,12 @@ export default function GerenciarAgendamentos() {
         dataFim: new Date(novoAgendamento.dataFim),
         valorTotal: novoAgendamento.valorTotal,
         itensAlugados: itensSelecionados,
-        status: "agendado"
+        valorPago: valorPago,
+        status: valorPago == 0 ? 'Não Pago' 
+        : (valorPago == novoAgendamento.valorTotal) ? "Pago" : "Parcialmente Pago"
       };
+
+      console.log(payload.valorPago);
 
       if (modoEditar && agendamentoEditando) {
         await FirebaseAPI.firestore.clientes.updateAgendamento(agendamentoEditando.clienteId, agendamentoEditando.id, payload);
@@ -131,6 +136,7 @@ export default function GerenciarAgendamentos() {
   };
 
   const iniciarEdicao = (item) => {
+    item.valorPago *= 100;
     setAgendamentoEditando(item);
     setModoEditar(true);
 
@@ -189,6 +195,11 @@ export default function GerenciarAgendamentos() {
     return `${dia}/${mes}/${ano} - ${hora}:${min}`;
   };
 
+  function formatarValor(v) {
+  const numero = (parseFloat(v || 0) / 100).toFixed(2);
+  return "R$ " + numero.replace(".", ",");
+  }
+
   const abrirCalendario = (campo) => {
     setCampoEditando(campo);
     const valorAtual = novoAgendamento[campo];
@@ -225,6 +236,8 @@ export default function GerenciarAgendamentos() {
       });
     }
   };
+  
+ // ------------RENDER------------
 
   if (modoCriar || modoEditar) {
     return (
@@ -258,8 +271,15 @@ export default function GerenciarAgendamentos() {
               onChangeText={t => setNovoAgendamento({ ...novoAgendamento, nomeEvento: t })}
             />
             {!modoCriar && (
-            <View style={styles.badgePago}>
-              <Text style={styles.badgeText}>Pago</Text>
+            <View style={(() => {
+              switch (agendamentoEditando.status.toLowerCase()) {
+                case 'pago': return styles.badgePago;
+                case 'não pago': return styles.badgeNaoPago;
+                case 'parcialmente pago': return styles.badgeParcialmentePago;
+                default: return styles.badgeParcialmentePago;
+              }
+            })()}>
+              <Text style={styles.badgeText}>{agendamentoEditando.status}</Text>
             </View>
             )}
           </View>
@@ -329,7 +349,15 @@ export default function GerenciarAgendamentos() {
           <View style={styles.inputRow}>
             <Text style={styles.labelInput}>Valor Pago:</Text>
             <View style={styles.inputContainerRight}>
-              <Text style={{ fontWeight: 'bold' }}>R$ 0,00</Text>
+              <TextInput 
+              style={{ fontWeight: 'bold', textAlign: 'right'  }}
+              value={formatarValor(agendamentoEditando.valorPago)}
+              onChangeText={text => {
+                const apenasNumeros = text.replace(/\D/g, "")
+                setAgendamentoEditando(prev => ({...prev, valorPago: apenasNumeros}))
+                
+              }}
+              />
             </View>
           </View>
           )}
@@ -338,7 +366,9 @@ export default function GerenciarAgendamentos() {
           <View style={styles.inputRow}>
             <Text style={styles.labelInput}>Valor Pendente:</Text>
             <View style={styles.inputContainerRight}>
-              <Text style={{ fontWeight: 'bold' }}>R$ 0,00</Text>
+              <Text style={{ fontWeight: 'bold' }}>
+                {`R$ ${(agendamentoEditando.valorTotal - parseFloat(agendamentoEditando.valorPago || 0) / 100).toFixed(2)}`}
+                </Text>
             </View>
           </View>
           )}
@@ -569,6 +599,14 @@ const styles = StyleSheet.create({
 
   badgePago: {
     backgroundColor: '#27AE60', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 12
+  },
+
+  badgeNaoPago: {
+    backgroundColor: '#ca3c23ff', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 12
+  },
+
+  badgeParcialmentePago: {
+    backgroundColor: '#ca6623ff', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 12
   },
 
   badgeText: {
