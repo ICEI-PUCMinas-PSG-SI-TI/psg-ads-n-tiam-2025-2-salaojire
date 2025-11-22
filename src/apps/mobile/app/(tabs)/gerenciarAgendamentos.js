@@ -9,6 +9,7 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
+  Image
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import FirebaseAPI from "@packages/firebase";
@@ -128,11 +129,11 @@ export default function GerenciarAgendamentos() {
   const iniciarEdicao = (item) => {
     setAgendamentoEditando(item);
     setModoEditar(true);
-    
+
     const parseToISO = (val) => {
-        if(!val) return "";
-        if(val.seconds) return new Date(val.seconds * 1000).toISOString();
-        return new Date(val).toISOString();
+      if (!val) return "";
+      if (val.seconds) return new Date(val.seconds * 1000).toISOString();
+      return new Date(val).toISOString();
     };
 
     setNovoAgendamento({
@@ -180,7 +181,7 @@ export default function GerenciarAgendamentos() {
     const ano = data.getFullYear();
     const hora = String(data.getHours()).padStart(2, '0');
     const min = String(data.getMinutes()).padStart(2, '0');
-    
+
     return `${dia}/${mes}/${ano} - ${hora}:${min}`;
   };
 
@@ -188,36 +189,36 @@ export default function GerenciarAgendamentos() {
     setCampoEditando(campo);
     const valorAtual = novoAgendamento[campo];
     const dataInicial = valorAtual ? new Date(valorAtual) : new Date();
-    
+
     setTempDate(dataInicial);
-    setPickerMode('date'); 
+    setPickerMode('date');
     setShowPicker(true);
   };
 
   const onChangePicker = (event, selectedDate) => {
     if (event.type === 'dismissed') {
-        setShowPicker(false);
-        return;
+      setShowPicker(false);
+      return;
     }
 
     const currentDate = selectedDate || tempDate;
 
     if (pickerMode === 'date') {
-        setShowPicker(Platform.OS === 'ios'); 
-        setTempDate(currentDate);
-        setPickerMode('time'); 
-        if(Platform.OS === 'android') setShowPicker(true);
+      setShowPicker(Platform.OS === 'ios');
+      setTempDate(currentDate);
+      setPickerMode('time');
+      if (Platform.OS === 'android') setShowPicker(true);
     } else {
-        setShowPicker(false);
-        const dataFinal = new Date(tempDate);
-        dataFinal.setFullYear(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-        dataFinal.setHours(currentDate.getHours());
-        dataFinal.setMinutes(currentDate.getMinutes());
+      setShowPicker(false);
+      const dataFinal = new Date(tempDate);
+      dataFinal.setFullYear(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+      dataFinal.setHours(currentDate.getHours());
+      dataFinal.setMinutes(currentDate.getMinutes());
 
-        setNovoAgendamento({ 
-            ...novoAgendamento, 
-            [campoEditando]: dataFinal.toISOString() 
-        });
+      setNovoAgendamento({
+        ...novoAgendamento,
+        [campoEditando]: dataFinal.toISOString()
+      });
     }
   };
 
@@ -282,12 +283,12 @@ export default function GerenciarAgendamentos() {
 
           <View style={styles.inputRow}>
             <Text style={styles.labelInput}>Data de início:</Text>
-            <TouchableOpacity 
-                style={styles.inputContainerRight} 
-                onPress={() => abrirCalendario('dataInicio')}
+            <TouchableOpacity
+              style={styles.inputContainerRight}
+              onPress={() => abrirCalendario('dataInicio')}
             >
               <Text style={styles.inputTextRight}>
-                  {formatarDataHora(novoAgendamento.dataInicio)}
+                {formatarDataHora(novoAgendamento.dataInicio)}
               </Text>
               <Ionicons name="calendar-outline" size={20} color="#000" />
             </TouchableOpacity>
@@ -295,12 +296,12 @@ export default function GerenciarAgendamentos() {
 
           <View style={styles.inputRow}>
             <Text style={styles.labelInput}>Data de entrega:</Text>
-            <TouchableOpacity 
-                style={styles.inputContainerRight} 
-                onPress={() => abrirCalendario('dataFim')}
+            <TouchableOpacity
+              style={styles.inputContainerRight}
+              onPress={() => abrirCalendario('dataFim')}
             >
               <Text style={styles.inputTextRight}>
-                  {formatarDataHora(novoAgendamento.dataFim)}
+                {formatarDataHora(novoAgendamento.dataFim)}
               </Text>
               <Ionicons name="calendar-outline" size={20} color="#000" />
             </TouchableOpacity>
@@ -308,11 +309,11 @@ export default function GerenciarAgendamentos() {
 
           {showPicker && (
             <DateTimePicker
-                value={tempDate}
-                mode={pickerMode}
-                is24Hour={true}
-                display="default"
-                onChange={onChangePicker}
+              value={tempDate}
+              mode={pickerMode}
+              is24Hour={true}
+              display="default"
+              onChange={onChangePicker}
             />
           )}
 
@@ -342,11 +343,20 @@ export default function GerenciarAgendamentos() {
           {itensSelecionados.map((item, index) => (
             <View key={index} style={styles.itemCard}>
               <View style={styles.iconBox}>
-                <Ionicons
-                  name={item.nome.toLowerCase().includes('cadeira') ? "albums" : "cube"}
-                  size={24} color="#000"
-                />
+                {item.imageUrl ? (
+                  <Image
+                    source={{ uri: item.imageUrl }}
+                    style={styles.itemImage}
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <Ionicons
+                    name={item.nome.toLowerCase().includes('cadeira') ? "albums" : "cube"}
+                    size={24} color="#000"
+                  />
+                )}
               </View>
+
               <View style={{ flex: 1, paddingHorizontal: 10 }}>
                 <Text style={styles.itemTitle}>{item.nome}</Text>
                 <Text style={styles.itemSub}>
@@ -476,7 +486,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1, backgroundColor: "#000", paddingTop: 0
   },
-  
+
   headerWrapper: {
     backgroundColor: "#000", paddingTop: 40, paddingBottom: 15, paddingHorizontal: 0
   },
@@ -548,7 +558,7 @@ const styles = StyleSheet.create({
   badgePago: {
     backgroundColor: '#27AE60', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 12
   },
-  
+
   badgeText: {
     color: '#fff', fontWeight: 'bold', fontSize: 12
   },
@@ -576,7 +586,7 @@ const styles = StyleSheet.create({
   badgeClienteSelect: {
     backgroundColor: '#333', padding: 10, borderRadius: 20, marginRight: 10
   },
-  
+
   inputRow: {
     flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: 12, borderRadius: 10, marginBottom: 8, shadowColor: "#000", shadowOpacity: 0.05, shadowRadius: 2, elevation: 1, justifyContent: 'space-between'
   },
@@ -627,6 +637,17 @@ const styles = StyleSheet.create({
 
   btnSalvar: {
     backgroundColor: '#F2C94C', padding: 18, borderRadius: 12, alignItems: 'center', marginTop: 30, marginBottom: 20
+  },
+
+  iconBox: {
+    width: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  itemImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
   },
 
   btnSalvarText: {
