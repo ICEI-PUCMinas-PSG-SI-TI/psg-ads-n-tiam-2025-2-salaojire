@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: "#000",
     paddingHorizontal: 18,
-    paddingTop: 50,
+    paddingTop: 25,
     paddingBottom: 15,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   backButton: {
     position: "absolute",
     left: 20,
-    top: 50,
+    top: 25,
     zIndex: 1,
   },
   title: {
