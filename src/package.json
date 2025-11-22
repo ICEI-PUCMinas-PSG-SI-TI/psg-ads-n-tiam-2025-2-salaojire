@@ -16,6 +16,8 @@
   ],
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-native-community/datetimepicker": "8.4.4",
+    "expo-image-picker": "~17.0.8",
     "expo-navigation-bar": "^5.0.9",
     "firebase": "^12.4.0"
   },
