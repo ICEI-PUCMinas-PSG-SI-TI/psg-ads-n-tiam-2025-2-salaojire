@@ -92,6 +92,16 @@ export default function GerenciarAgendamentos() {
     ]);
   };
 
+  const resetStates = () => {
+      setModoCriar(false);
+      setModoEditar(false);
+      setAgendamentoEditando(null);
+      setClienteDono(null);
+      setNovoAgendamento({ nomeEvento: "", dataInicio: "", dataFim: "", valorTotal: 0 });
+      setItensSelecionados([]);
+      carregarTudo();
+  }
+
   const handleSalvar = async () => {
     if (!novoAgendamento.dataInicio || !novoAgendamento.dataFim) return Alert.alert("Preencha as datas");
 
@@ -112,13 +122,7 @@ export default function GerenciarAgendamentos() {
         if (!clienteDono) { setLoading(false); return Alert.alert("Selecione um cliente"); }
         await FirebaseAPI.firestore.clientes.addAgendamentoToCliente(clienteDono.id, payload);
       }
-      setModoCriar(false);
-      setModoEditar(false);
-      setAgendamentoEditando(null);
-      setClienteDono(null);
-      setNovoAgendamento({ nomeEvento: "", dataInicio: "", dataFim: "", valorTotal: 0 });
-      setItensSelecionados([]);
-      carregarTudo();
+      resetStates();
     } catch (e) {
       console.error(e);
     } finally {
@@ -227,14 +231,15 @@ export default function GerenciarAgendamentos() {
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
 
         <View style={styles.headerTopo}>
-          <TouchableOpacity onPress={() => { setModoCriar(false); setModoEditar(false); }}>
+          <TouchableOpacity onPress={() => {resetStates();}}>
             <Ionicons name="arrow-back" size={24} color="#F2C94C" />
           </TouchableOpacity>
-          <Text style={styles.headerTitulo}>Visualizar agendamento</Text>
+          <Text style={styles.headerTitulo}>{modoCriar ? "Criar agendamento" : "Visualizar agendamento"}</Text>
         </View>
 
         <View style={styles.contentBody}>
 
+          {!modoCriar && (<>
           <View style={styles.cameraBox}>
             <Ionicons name="camera-outline" size={80} color="#000" />
           </View>
@@ -243,6 +248,7 @@ export default function GerenciarAgendamentos() {
             <View style={{ width: 20 }} />
             <Text style={{ fontWeight: 'bold' }}>{'>'}</Text>
           </View>
+          </>)}
 
           <View style={styles.rowTitle}>
             <TextInput
@@ -251,9 +257,11 @@ export default function GerenciarAgendamentos() {
               placeholder="Nome do Evento"
               onChangeText={t => setNovoAgendamento({ ...novoAgendamento, nomeEvento: t })}
             />
+            {!modoCriar && (
             <View style={styles.badgePago}>
               <Text style={styles.badgeText}>Pago</Text>
             </View>
+            )}
           </View>
 
           <Text style={styles.labelSection}>Cliente:</Text>
@@ -317,19 +325,23 @@ export default function GerenciarAgendamentos() {
             />
           )}
 
+          {!modoCriar && (
           <View style={styles.inputRow}>
             <Text style={styles.labelInput}>Valor Pago:</Text>
             <View style={styles.inputContainerRight}>
               <Text style={{ fontWeight: 'bold' }}>R$ 0,00</Text>
             </View>
           </View>
+          )}
 
+          {!modoCriar && (
           <View style={styles.inputRow}>
             <Text style={styles.labelInput}>Valor Pendente:</Text>
             <View style={styles.inputContainerRight}>
               <Text style={{ fontWeight: 'bold' }}>R$ 0,00</Text>
             </View>
           </View>
+          )}
 
           <View style={styles.inputRow}>
             <Text style={styles.labelInput}>Valor Total:</Text>
@@ -383,7 +395,7 @@ export default function GerenciarAgendamentos() {
           {mostrarSelecaoItens && (
             <View style={styles.listaSelecaoBox}>
               <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Toque para adicionar:</Text>
-              {itens.map(item => {
+              {itens.length != itensSelecionados.length ? itens.map(item => {
                 const selecionado = itensSelecionados.find(i => i.id === item.id);
                 if (selecionado) return null;
                 return (
@@ -392,7 +404,7 @@ export default function GerenciarAgendamentos() {
                     <Ionicons name="add-circle-outline" size={24} color="#F2C94C" />
                   </TouchableOpacity>
                 )
-              })}
+              }) : (<Text>Nenhum item disponivel para ser adicionado.</Text>)}
             </View>
           )}
 
