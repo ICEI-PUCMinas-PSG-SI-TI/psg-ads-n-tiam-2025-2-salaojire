@@ -1,6 +1,6 @@
 import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
-  SafeAreaView,
   View,
   Text,
   StyleSheet,
@@ -10,6 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useAuth } from "../context/AuthContext";
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 type ShortcutProps = {
   icon: React.ComponentProps<typeof Ionicons>["name"];
@@ -52,14 +53,18 @@ function PillButton({
 export default function HomepageScreen() {
   const router = useRouter();
   const { user } = useAuth();
+  const tabBarHeight = useBottomTabBarHeight();
 
   const raw = user?.email?.split("@")[0] ?? "Salaojire";
   const firstName = raw.charAt(0).toUpperCase() + raw.slice(1);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ScrollView
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[
+            styles.scrollContent, 
+            { paddingBottom: tabBarHeight + 20 }
+        ]}
         showsVerticalScrollIndicator={false}
       >
         {/* HEADER AMARELO */}
@@ -264,7 +269,7 @@ export default function HomepageScreen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
