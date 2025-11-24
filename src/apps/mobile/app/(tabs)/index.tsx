@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   View,
@@ -10,13 +10,43 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useAuth } from "../context/AuthContext";
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import FirebaseAPI from "@packages/firebase";
+
+// ---------- TIPOS ----------
 
 type ShortcutProps = {
   icon: React.ComponentProps<typeof Ionicons>["name"];
   label: string;
   onPress?: () => void;
 };
+
+type PillButtonProps = {
+  label: string;
+  onPress?: () => void;
+};
+
+type SolicitacaoHome = {
+  id: string;
+  cliente: string;
+  data: Date | null;
+};
+
+type AgendamentoHome = {
+  id: string;
+  nome: string;
+  dataInicio: Date | null;
+  valorTotal: number;
+  status?: string;
+};
+
+type FinanceiroHome = {
+  total: number;
+  eventos: number;
+  itens: number;
+};
+
+// ---------- COMPONENTES AUXILIARES ----------
 
 function ShortcutButton({ icon, label, onPress }: ShortcutProps) {
   return (
@@ -35,35 +65,184 @@ function ShortcutButton({ icon, label, onPress }: ShortcutProps) {
   );
 }
 
-function PillButton({
-  label,
-  onPress,
-}: {
-  label: string;
-  onPress?: () => void;
-}) {
+function PillButton({ label, onPress }: PillButtonProps) {
   return (
-    <TouchableOpacity style={styles.pillButton} activeOpacity={0.85} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.pillButton}
+      activeOpacity={0.85}
+      onPress={onPress}
+    >
       <Text style={styles.pillButtonText}>{label}</Text>
       <Ionicons name="arrow-forward" size={14} color="#000" />
     </TouchableOpacity>
   );
 }
 
+// Função auxiliar para converter qualquer tipo de dado de data do Firestore/string em um objeto Date
+function parseDate(d: any): Date | null {
+  if (!d) return null;
+  if (d instanceof Date) return d;
+
+  // Firestore Timestamp (seconds / nanoseconds)
+  if (typeof d === "object" && d !== null) {
+    if ("seconds" in d && typeof d.seconds === "number") {
+      const parsed = new Date(d.seconds * 1000);
+      return isNaN(parsed.getTime()) ? null : parsed;
+    }
+  }
+
+  if (typeof d === "string" || typeof d === "number") {
+    const parsed = new Date(d);
+    return isNaN(parsed.getTime()) ? null : parsed;
+  }
+
+  return null;
+}
+
+// ---------- HOMEPAGE ----------
+
 export default function HomepageScreen() {
   const router = useRouter();
   const { user } = useAuth();
   const tabBarHeight = useBottomTabBarHeight();
 
+  const [solicitacoes, setSolicitacoes] = useState<SolicitacaoHome[]>([]);
+  const [agendamentos, setAgendamentos] = useState<AgendamentoHome[]>([]);
+  const [financeiro, setFinanceiro] = useState<FinanceiroHome>({
+    total: 0,
+    eventos: 0,
+    itens: 0,
+  });
+  const [loading, setLoading] = useState<boolean>(true);
+
   const raw = user?.email?.split("@")[0] ?? "Salaojire";
   const firstName = raw.charAt(0).toUpperCase() + raw.slice(1);
 
+  useEffect(() => {
+    async function carregarDashboard() {
+      try {
+        setLoading(true);
+
+        // 1) Carrega todos os clientes para mapear id -> nome
+        const clientes: any[] =
+          await FirebaseAPI.firestore.clientes.getClientes();
+        const mapaClientes = new Map<string, string>();
+        clientes.forEach((c: any) => {
+          mapaClientes.set(c.id, c.nome ?? "Cliente");
+        });
+
+        // 2) Carrega TODAS as solicitações de TODOS os clientes
+        const solicitacoesGerais: any[] =
+          await FirebaseAPI.firestore.clientes.getAllSolicitacoes();
+
+        const solicitacoesTratadas: SolicitacaoHome[] = solicitacoesGerais
+          .map((s) => {
+            // tenta pegar dataSolicitacao, se não tiver tenta cair pra dataInicio ou dataFim
+            const dataBruta =
+              s.dataSolicitacao ?? s.dataInicio ?? s.dataFim ?? null;
+
+            return {
+              id: s.id,
+              cliente: mapaClientes.get(s.clienteId) ?? "Cliente",
+              data: parseDate(dataBruta),
+            };
+          })
+          .sort((a, b) => {
+            const ta = a.data ? a.data.getTime() : 0;
+            const tb = b.data ? b.data.getTime() : 0;
+            return tb - ta; // mais recentes primeiro
+          });
+
+        console.log(
+          "[HOME] Solicitações carregadas:",
+          solicitacoesTratadas.length,
+          solicitacoesTratadas
+        );
+
+        // Mostra só as 3 mais recentes
+        setSolicitacoes(solicitacoesTratadas.slice(0, 3));
+
+        // 3) Carregar agendamentos (pode usar getAllAgendamentos direto)
+        const agendamentosGerais: any[] =
+          await FirebaseAPI.firestore.clientes.getAllAgendamentos();
+
+        const todosAgendamentos: AgendamentoHome[] = agendamentosGerais.map(
+          (a) => ({
+            id: a.id,
+            nome: a.nome ?? "Evento",
+            dataInicio: parseDate(a.dataInicio),
+            valorTotal:
+              typeof a.valorTotal === "number" ? a.valorTotal : 0,
+            status: a.status,
+          })
+        );
+
+        // ============================
+        // PRÓXIMOS EVENTOS:
+        // - Apenas datas >= hoje
+        // - Em ordem crescente (mais perto de hoje primeiro)
+        // ============================
+
+        const agora = new Date();
+        const hojeZerado = new Date(
+          agora.getFullYear(),
+          agora.getMonth(),
+          agora.getDate(),
+          0,
+          0,
+          0,
+          0
+        );
+        const hojeTs = hojeZerado.getTime();
+
+        const agendamentosFuturos = todosAgendamentos
+          .filter((a) => a.dataInicio && a.dataInicio.getTime() >= hojeTs)
+          .sort((a, b) => {
+            const ta = a.dataInicio!.getTime();
+            const tb = b.dataInicio!.getTime();
+            return ta - tb; // mais perto de hoje primeiro
+          });
+
+        // Cálculo financeiro (últimos 30 dias)
+        const limite = new Date(
+          hojeTs - 30 * 24 * 60 * 60 * 1000
+        );
+
+        const agendsUlt30 = todosAgendamentos.filter(
+          (a) =>
+            a.dataInicio &&
+            a.dataInicio.getTime() >= limite.getTime() &&
+            a.dataInicio.getTime() <= agora.getTime()
+        );
+
+        const total = agendsUlt30.reduce(
+          (acc, cur) => acc + (cur.valorTotal || 0),
+          0
+        );
+
+        setFinanceiro({
+          total,
+          eventos: agendsUlt30.length,
+          itens: 15, // placeholder até integrar com itens alugados
+        });
+
+        setAgendamentos(agendamentosFuturos.slice(0, 3));
+      } catch (e) {
+        console.error("Erro ao carregar dashboard:", e);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregarDashboard();
+  }, [user]);
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView
         contentContainerStyle={[
-            styles.scrollContent, 
-            { paddingBottom: tabBarHeight + 20 }
+          styles.scrollContent,
+          { paddingBottom: tabBarHeight + 20 },
         ]}
         showsVerticalScrollIndicator={false}
       >
@@ -85,7 +264,7 @@ export default function HomepageScreen() {
                 <ShortcutButton
                   icon="cube-outline"
                   label="Itens"
-                  onPress={() => router.push("/relatorios")}
+                  onPress={() => {}}
                 />
                 <ShortcutButton
                   icon="calendar-outline"
@@ -95,8 +274,7 @@ export default function HomepageScreen() {
                 <ShortcutButton
                   icon="chatbox-ellipses-outline"
                   label="Solicitações"
-                // Quando a tela de solicitações existir:
-                // onPress={() => router.push("/solicitacoes")}
+                  onPress={() => router.push("/clientes")}
                 />
               </View>
 
@@ -110,16 +288,15 @@ export default function HomepageScreen() {
                 <ShortcutButton
                   icon="bar-chart-outline"
                   label="Relatórios"
-                // Quando a tela de relatórios financeiros existir:
-                // onPress={() => router.push("/relatoriosFinanceiros")}
+                  onPress={() => {}}
                 />
-             <ShortcutButton
-  icon="settings-outline"
-  label="Configurações"
-  onPress={() => router.push("/(pages)/configuracoes")}
-/>
+                <ShortcutButton
+                  icon="settings-outline"
+                  label="Configurações"
+                  onPress={() => router.push("/(pages)/configuracoes")}
+                />
 
-                {/* Espaço vazio para ficar visualmente alinhado em 4 colunas */}
+                {/* Espaço vazio para ficar alinhado em 4 colunas */}
                 <View style={[styles.shortcut, { opacity: 0 }]} />
               </View>
             </View>
@@ -133,89 +310,123 @@ export default function HomepageScreen() {
             <View style={styles.card}>
               <View style={styles.cardRow}>
                 <View style={styles.cardIconCircle}>
-                  <Ionicons name="chatbubbles-outline" size={22} color="#000" />
+                  <Ionicons
+                    name="chatbubbles-outline"
+                    size={22}
+                    color="#000"
+                  />
                 </View>
                 <View style={{ flex: 1, marginLeft: 12 }}>
                   <Text style={styles.cardTitle}>Novas Solicitações</Text>
                   <Text style={styles.cardText}>
-                    Houve 2 novas solicitações desde seu último login!
+                    {loading
+                      ? "Carregando..."
+                      : `Houve ${solicitacoes.length} novas solicitações recentes`}
                   </Text>
                 </View>
                 <TouchableOpacity
-                  // onPress={() => router.push("/solicitacoes")}
+                  onPress={() => {}}
                   style={styles.cardIconRight}
                 >
-                  <Ionicons name="ellipsis-horizontal" size={20} color="#F0B100" />
+                  <Ionicons
+                    name="ellipsis-horizontal"
+                    size={20}
+                    color="#F0B100"
+                  />
                 </TouchableOpacity>
               </View>
+
+              {!loading && solicitacoes.length === 0 && (
+                <Text
+                  style={{
+                    marginTop: 8,
+                    fontSize: 12,
+                    color: "#555",
+                  }}
+                >
+                  Nenhuma solicitação recente.
+                </Text>
+              )}
+
+              {!loading &&
+                solicitacoes.map((s) => (
+                  <Text
+                    key={s.id}
+                    style={{
+                      marginTop: 4,
+                      fontSize: 12,
+                      color: "#555",
+                    }}
+                  >
+                    • {s.cliente} —{" "}
+                    {s.data?.toLocaleDateString() ?? "--/--/----"}
+                  </Text>
+                ))}
             </View>
 
             {/* Card Próximos Agendamentos */}
             <View style={styles.card}>
               <View style={styles.cardHeaderRow}>
-                <Text style={styles.cardTitleEmphasis}>Próximos Agendamentos</Text>
-                <TouchableOpacity style={styles.yearBadge} activeOpacity={0.8}>
+                <Text style={styles.cardTitleEmphasis}>
+                  Próximos Agendamentos
+                </Text>
+                <TouchableOpacity
+                  style={styles.yearBadge}
+                  activeOpacity={0.8}
+                >
                   <Text style={styles.yearBadgeText}>2025</Text>
-                  <Ionicons name="chevron-down" size={14} color="#111" />
+                  <Ionicons
+                    name="chevron-down"
+                    size={14}
+                    color="#111"
+                  />
                 </TouchableOpacity>
               </View>
 
-              {/* Agendamento 1 */}
-              <View style={styles.agendamentoRow}>
-                <View style={styles.agendamentoLeft}>
-                  <Ionicons name="time-outline" size={18} color="#111" />
-                  <View style={{ marginLeft: 8 }}>
-                    <Text style={styles.agendamentoData}>07/10/2025</Text>
-                    <Text style={styles.agendamentoDescricao}>
-                      Maria | Festa de Aniversário
-                    </Text>
-                  </View>
-                </View>
-                <View style={styles.agendamentoRight}>
-                  <View style={[styles.statusTag, styles.statusPago]}>
-                    <Text style={styles.statusText}>Pago</Text>
-                  </View>
-                  <Text style={styles.agendamentoValor}>R$ 1125</Text>
-                </View>
-              </View>
+              {loading && (
+                <Text style={{ fontSize: 12, color: "#777" }}>
+                  Carregando agendamentos...
+                </Text>
+              )}
 
-              {/* Agendamento 2 */}
-              <View style={styles.agendamentoRow}>
-                <View style={styles.agendamentoLeft}>
-                  <Ionicons name="time-outline" size={18} color="#111" />
-                  <View style={{ marginLeft: 8 }}>
-                    <Text style={styles.agendamentoData}>14/10/2025</Text>
-                    <Text style={styles.agendamentoDescricao}>
-                      Leandro | Evento Corporativo
-                    </Text>
-                  </View>
-                </View>
-                <View style={styles.agendamentoRight}>
-                  <View style={[styles.statusTag, styles.statusParcial]}>
-                    <Text style={styles.statusText}>Parcialmente Pago</Text>
-                  </View>
-                  <Text style={styles.agendamentoValor}>R$ 750</Text>
-                </View>
-              </View>
+              {!loading && agendamentos.length === 0 && (
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: "#777",
+                    marginTop: 4,
+                  }}
+                >
+                  Nenhum agendamento futuro encontrado.
+                </Text>
+              )}
 
-              {/* Agendamento 3 */}
-              <View style={styles.agendamentoRow}>
-                <View style={styles.agendamentoLeft}>
-                  <Ionicons name="time-outline" size={18} color="#111" />
-                  <View style={{ marginLeft: 8 }}>
-                    <Text style={styles.agendamentoData}>17/10/2025</Text>
-                    <Text style={styles.agendamentoDescricao}>
-                      Raissa | 10 Jogos de Mesa
-                    </Text>
+              {!loading &&
+                agendamentos.map((a) => (
+                  <View key={a.id} style={styles.agendamentoRow}>
+                    <View style={styles.agendamentoLeft}>
+                      <Ionicons
+                        name="time-outline"
+                        size={18}
+                        color="#111"
+                      />
+                      <View style={{ marginLeft: 8 }}>
+                        <Text style={styles.agendamentoData}>
+                          {a.dataInicio?.toLocaleDateString() ??
+                            "--/--/----"}
+                        </Text>
+                        <Text style={styles.agendamentoDescricao}>
+                          {a.nome}
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={styles.agendamentoRight}>
+                      <Text style={styles.agendamentoValor}>
+                        R$ {a.valorTotal.toFixed(2)}
+                      </Text>
+                    </View>
                   </View>
-                </View>
-                <View style={styles.agendamentoRight}>
-                  <View style={[styles.statusTag, styles.statusParcial]}>
-                    <Text style={styles.statusText}>Parcialmente Pago</Text>
-                  </View>
-                  <Text style={styles.agendamentoValor}>R$ 130</Text>
-                </View>
-              </View>
+                ))}
 
               <View style={styles.cardFooterCenter}>
                 <PillButton
@@ -230,46 +441,47 @@ export default function HomepageScreen() {
               <View style={styles.cardHeaderRow}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <View style={styles.cardIconCircle}>
-                    <Ionicons name="cash-outline" size={22} color="#000" />
+                    <Ionicons
+                      name="cash-outline"
+                      size={22}
+                      color="#000"
+                    />
                   </View>
                   <View style={{ marginLeft: 10 }}>
                     <Text style={styles.cardTitle}>Atividade Financeira</Text>
-                    <Text style={styles.cardSubtitleBig}>R$ 1945</Text>
+                    <Text style={styles.cardSubtitleBig}>
+                      R$ {financeiro.total.toFixed(2)}
+                    </Text>
                   </View>
                 </View>
 
-                <Text style={styles.smallMuted}>7 dias</Text>
+                <Text style={styles.smallMuted}>Últimos 30 dias</Text>
               </View>
 
               <View style={styles.metricRow}>
                 <Text style={styles.metricLabel}>Eventos Realizados</Text>
-                <Text style={styles.metricValue}>2</Text>
-              </View>
-              <View style={styles.metricRow}>
-                <Text style={styles.metricLabel}>Valor Recebido</Text>
-                <Text style={styles.metricValue}>R$ 1750</Text>
+                <Text style={styles.metricValue}>
+                  {financeiro.eventos}
+                </Text>
               </View>
               <View style={styles.metricRow}>
                 <Text style={styles.metricLabel}>Itens Alugados</Text>
-                <Text style={styles.metricValue}>15</Text>
-              </View>
-              <View style={styles.metricRow}>
-                <Text style={styles.metricLabel}>Valor Recebido</Text>
-                <Text style={styles.metricValue}>R$ 195</Text>
+                <Text style={styles.metricValue}>
+                  {financeiro.itens}
+                </Text>
               </View>
 
               <View style={styles.cardFooterCenter}>
                 <PillButton
                   label="Relatórios"
-                // Quando a tela de relatórios existir:
-                // onPress={() => router.push("/relatoriosFinanceiros")}
+                  onPress={() => {}}
                 />
               </View>
             </View>
           </View>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -451,24 +663,6 @@ const styles = StyleSheet.create({
   agendamentoValor: {
     marginTop: 6,
     fontSize: 13,
-    fontWeight: "700",
-    color: "#111",
-  },
-
-  statusTag: {
-    borderRadius: 12,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    alignSelf: "flex-start",
-  },
-  statusPago: {
-    backgroundColor: "#E0F7EC",
-  },
-  statusParcial: {
-    backgroundColor: "#FFE7CC",
-  },
-  statusText: {
-    fontSize: 10,
     fontWeight: "700",
     color: "#111",
   },
