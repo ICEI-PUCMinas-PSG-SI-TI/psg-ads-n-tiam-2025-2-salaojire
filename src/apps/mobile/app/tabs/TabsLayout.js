@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Tabs, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import * as NavigationBar from 'expo-navigation-bar';
+
 import {
   View,
   ActivityIndicator,
@@ -9,6 +12,9 @@ import {
   Pressable,
   StyleSheet,
   Dimensions,
+  StatusBar,
+  Platform,
+  AppState
 } from "react-native";
 import { useAuth } from "../context/AuthContext";
 import LoginPage from "../(pages)/login";
@@ -44,6 +50,12 @@ export default function TabLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
 
+useEffect(() => {
+    if (Platform.OS === 'android') {
+      NavigationBar.setVisibilityAsync("hidden");
+    }
+  }, []);
+  
   if (initializing) {
     return (
       <View style={styles.centerContainer}>
@@ -67,10 +79,10 @@ export default function TabLayout() {
 
     const routes = {
       agendamentos: "/gerenciarAgendamentos",
-      itens: "/relatorios",
-      admins: "/calendario",
-      // solicitacoes: "/solicitacoes",
-      // config: "/configuracoes",
+      itens: "/(pages)/GerenciarItens",
+      admins: "/AdminManagerScreen",
+      solicitacoes: "/(pages)/Solicitacoes",
+      config: "/configuracoes",
     };
 
     if (key === "sair") {
@@ -97,7 +109,9 @@ export default function TabLayout() {
   );
 
   return (
-    <>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#000000" }} edges={['top']}>
+      <StatusBar barStyle="light-content" backgroundColor="#000000" />
+
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -225,7 +239,7 @@ export default function TabLayout() {
           </View>
         </View>
       )}
-    </>
+    </SafeAreaView>
   );
 }
 

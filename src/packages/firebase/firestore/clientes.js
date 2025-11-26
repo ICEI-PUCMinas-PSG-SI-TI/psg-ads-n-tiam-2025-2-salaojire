@@ -264,16 +264,6 @@ export async function removeMidiaFromAgendamento(clienteId, agendamentoId, midia
 
 // SOLICITAÇÕES
 
-/* Adiciona uma nova solicitação a um cliente. Exemplo:
-const novaSolicitacao = {
-    dataInicio: new Date(),
-    dataFim: new Date(),
-    dataSolicitacao: Date.now(),
-    descricao: "Descrição aqui",
-    itensSolicitados: [],
-};
-solicitacaoId = await FirebaseAPI.firestore.clientes.addSolicitacaoToCliente(IDCliente, novaSolicitacao);
-*/
 export async function addSolicitacaoToCliente(clienteId, solicitacaoData) {
   const solicitacoesRef = collection(firestore, 'Clientes', clienteId, 'solicitacoes');
   const docRef = await addDoc(solicitacoesRef, solicitacaoData);

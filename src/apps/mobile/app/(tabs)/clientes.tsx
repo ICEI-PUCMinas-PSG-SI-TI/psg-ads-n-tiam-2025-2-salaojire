@@ -10,10 +10,12 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  ActivityIndicator,
+  Image,
+  Dimensions
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-
 
 import { firestore } from "@packages/firebase/config";
 import {
@@ -49,6 +51,21 @@ type Agendamento = {
   itensAlugados?: any[];
 };
 
+//tratamento de imagens
+import * as ImagePicker from "expo-image-picker";
+import Constants from "expo-constants";
+import CryptoJS from "crypto-js";
+
+
+const {
+  CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_UPLOAD_PRESET,
+  CLOUDINARY_API_URL,
+  CLOUDINARY_API_SECRET,
+  CLOUDINARY_API_KEY
+} = Constants.expoConfig!.extra!;
+//fim
+
 function initials(name: string) {
   const p = (name || "").trim().split(/\s+/);
   return ((p[0]?.[0] ?? "") + (p[1]?.[0] ?? "")).toUpperCase();
@@ -59,7 +76,8 @@ function toDateString(d?: { seconds: number } | string | Date) {
   let date: Date;
   if (typeof d === "string") date = new Date(d);
   else if (d instanceof Date) date = d;
-  else if (typeof d === "object" && "seconds" in d) date = new Date(d.seconds * 1000);
+  else if (typeof d === "object" && "seconds" in d)
+    date = new Date(d.seconds * 1000);
   else return "";
   return date.toLocaleDateString();
 }
@@ -86,7 +104,7 @@ function money(v?: number) {
 export default function ClientesScreen() {
   const [q, setQ] = useState("");
   const [clients, setClients] = useState<Client[]>([]);
-   const router = useRouter(); 
+  const router = useRouter();
 
   const [confirmId, setConfirmId] = useState<string | null>(null);
   const [viewOpen, setViewOpen] = useState(false);
@@ -105,7 +123,8 @@ export default function ClientesScreen() {
 
   // Modal de detalhes do agendamento (apenas exibir)
   const [orderOpen, setOrderOpen] = useState(false);
-  const [pedidoSelecionado, setPedidoSelecionado] = useState<Agendamento | null>(null);
+  const [pedidoSelecionado, setPedidoSelecionado] =
+    useState<Agendamento | null>(null);
 
   const colRef = collection(firestore, "Clientes");
 
@@ -141,17 +160,20 @@ export default function ClientesScreen() {
     const s = q.toLowerCase();
     return s
       ? clients.filter(
-          (c) =>
-            c.nome.toLowerCase().includes(s) ||
-            c.email.toLowerCase().includes(s) ||
-            c.telefone?.toLowerCase?.().includes(s)
-        )
+        (c) =>
+          c.nome.toLowerCase().includes(s) ||
+          c.email.toLowerCase().includes(s) ||
+          c.telefone?.toLowerCase?.().includes(s)
+      )
       : clients;
   }, [q, clients]);
 
   async function carregarAgendamentos(clienteId: string) {
     try {
-      const lista = await FirebaseAPI.firestore.clientes.getAgendamentosFromCliente(clienteId);
+      const lista =
+        await FirebaseAPI.firestore.clientes.getAgendamentosFromCliente(
+          clienteId
+        );
       const formatada: Agendamento[] = (lista || []).map((a: any) => ({
         id: a.id,
         nome: a.nome || "Evento sem nome",
@@ -237,45 +259,276 @@ export default function ClientesScreen() {
     }
   }
 
+  //config para add imagens e videos ------------------------------------------------------------------------------------------------------------------------------
+  const CLOUD_NAME = CLOUDINARY_CLOUD_NAME;
+  const UPLOAD_PRESET = CLOUDINARY_UPLOAD_PRESET;
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [midias, setMidias] = useState<any[]>([]);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
+  const screenWidth = Dimensions.get("window").width;
+
+  // Carregar mídias do Firestore
+  useEffect(() => {
+    if (!viewClient?.id) return;
+
+    const q = query(
+      collection(firestore, "Clientes", viewClient.id, "midias"),
+      orderBy("criadoEm", "desc")
+    );
+
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const midiasArray: any[] = [];
+      querySnapshot.forEach((doc) => {
+        midiasArray.push({ id: doc.id, ...doc.data() });
+      });
+      setMidias(midiasArray);
+    });
+
+    return () => unsubscribe();
+  }, [viewClient?.id]);
+
+  const handlePickMedia = async () => {
+    try {
+      // Solicitar permissões
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Precisamos de acesso à galeria para enviar mídias.');
+        return;
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsMultipleSelection: true,
+        allowsEditing: false,
+        quality: 0.8, // Reduzindo um pouco a qualidade para upload mais rápido
+        aspect: [4, 3],
+      });
+
+      if (!result.canceled && result.assets.length > 0) {
+        setUploading(true);
+        setUploadProgress(0);
+
+        const totalFiles = result.assets.length;
+        let successfulUploads = 0;
+
+        for (let i = 0; i < totalFiles; i++) {
+          const file = result.assets[i];
+          const success = await uploadToCloudinary(file.uri);
+
+          if (success) {
+            successfulUploads++;
+          }
+
+          // Atualizar progresso
+          setUploadProgress(Math.round(((i + 1) / totalFiles) * 100));
+        }
+
+        setUploading(false);
+
+        if (successfulUploads === totalFiles) {
+          alert(`✅ ${successfulUploads} mídia(s) enviada(s) com sucesso!`);
+        } else {
+          alert(`⚠️ ${successfulUploads} de ${totalFiles} mídias enviadas.`);
+        }
+      }
+    } catch (err) {
+      setUploading(false);
+      console.log("Erro ao selecionar mídia:", err);
+      alert("Erro ao enviar mídias. Tente novamente.");
+    }
+  };
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const uploadToCloudinary = async (uri: string): Promise<boolean> => {
+    try {
+      // Detectar tipo de mídia
+      const fileExtension = uri.split('.').pop()?.toLowerCase();
+      let mimeType = 'image/jpeg';
+
+      if (fileExtension === 'mp4' || fileExtension === 'mov') {
+        mimeType = 'video/mp4';
+      } else if (fileExtension === 'png') {
+        mimeType = 'image/png';
+      }
+
+      const data = new FormData();
+      data.append("file", {
+        uri,
+        type: mimeType,
+        name: `upload_${Date.now()}.${fileExtension}`,
+      } as any);
+
+      data.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+      data.append("cloud_name", CLOUDINARY_CLOUD_NAME);
+
+      const response = await fetch(
+        `${CLOUDINARY_API_URL}/${CLOUDINARY_CLOUD_NAME}/upload`,
+        {
+          method: "POST",
+          body: data,
+          headers: {
+            'Accept': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result.secure_url) {
+        console.log("✔ URL Cloudinary:", result.secure_url);
+
+        // Salvar no Firestore
+        await addDoc(
+          collection(firestore, "Clientes", viewClient!.id, "midias"),
+          {
+            url: result.secure_url,
+            tipo: mimeType.startsWith('video') ? 'video' : 'imagem',
+            nome: `midia_${Date.now()}`,
+            criadoEm: new Date(),
+            tamanho: result.bytes,
+          }
+        );
+        return true;
+      }
+
+      return false;
+    } catch (err) {
+      console.log("❌ Erro Cloudinary:", err);
+      return false;
+    }
+  };
+
+  const handleDeleteMedia = async (mediaId: string, mediaUrl: string) => {
+    try {
+      // Confirmação antes de excluir
+      Alert.alert(
+        'Deseja excluir esta mídia?',
+        'Esta ação não pode ser desfeita.',
+        [
+          {
+            text: 'Cancelar',
+            style: 'cancel',
+          },
+          {
+            text: 'Excluir',
+            style: 'destructive',
+            onPress: async () => {
+              await deleteFromCloudinary(mediaUrl);
+              await deleteDoc(doc(firestore, "Clientes", viewClient!.id, "midias", mediaId));
+
+              Alert.alert('Mídia excluída com sucesso!');
+
+              // Fechar modal se estiver aberto
+              if (modalVisible) {
+                setModalVisible(false);
+              }
+            },
+          },
+        ]
+      );
+    } catch (err) {
+      console.log("❌ Erro ao excluir mídia:", err);
+      Alert.alert("Erro ao excluir mídia. Tente novamente.");
+    }
+  };
+
+  const deleteFromCloudinary = async (url: string) => {
+    try {
+      const parts = url.split('/');
+      const publicIdWithExtension = parts[parts.length - 1];
+      const publicId = publicIdWithExtension.replace(/\.[^/.]+$/, ""); // remove extensão
+
+      const timestamp = Math.floor(Date.now() / 1000);
+      const stringToSign = `public_id=${publicId}&timestamp=${timestamp}${CLOUDINARY_API_SECRET}`;
+      const signature = CryptoJS.SHA1(stringToSign).toString();
+
+      const formData = new FormData();
+      formData.append("public_id", publicId);
+      formData.append("signature", signature);
+      formData.append("api_key", CLOUDINARY_API_KEY);
+      formData.append("timestamp", String(timestamp));
+
+      await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/destroy`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      return true;
+    }
+    catch (err) {
+      console.log(err)
+    }
+  };
+
+  // Componente para mostrar a galeria de mídias
+  const GalleryGrid = () => {
+    if (midias.length === 0) {
+      return (
+        <View style={{ alignItems: 'center', padding: 20 }}>
+          <Text style={{ color: '#666', textAlign: 'center' }}>
+            Nenhuma mídia adicionada ainda.{'\n'}
+            Clique no botão acima para adicionar fotos e vídeos.
+          </Text>
+        </View>
+      );
+    }
+  }
+  // Componente carrossel de imagens 
+  const CarouselModal = () => {
+    if (!midias || midias.length === 0) return null;
+  }
+  // fim da manipulacao de imagens -------------------------------------------------------------------------------------------------------------------------------------------
+
   return (
+
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       {/* Header */}
-     <View style={styles.header}>
-  <View
-    style={{
-      flexDirection: "row",
-      alignItems: "center",
-      marginBottom: 10,
-    }}
-  >
-    <TouchableOpacity
-      onPress={() => router.push("/")} 
-      style={{ paddingRight: 8 }}
-    >
-      <Ionicons name="chevron-back" size={22} color="#F2C94C" />
-    </TouchableOpacity>
+      <View style={styles.header}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 10,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => router.push("/")}
+            style={{ paddingRight: 8 }}
+          >
+            <Ionicons name="chevron-back" size={22} color="#F2C94C" />
+          </TouchableOpacity>
 
-    <Text style={styles.headerTitle}>Gerenciar Clientes</Text>
-  </View>
+          <Text style={styles.headerTitle}>Gerenciar Clientes</Text>
+        </View>
 
-  {/* Busca */}
-  <View style={styles.ContainerBusca}>
-    <Ionicons
-      name="search"
-      size={20}
-      color="#FFD700"
-      style={{ marginRight: 8 }}
-    />
+        {/* Busca */}
+        <View style={styles.ContainerBusca}>
+          <Ionicons
+            name="search"
+            size={20}
+            color="#FFD700"
+            style={{ marginRight: 8 }}
+          />
 
-    <TextInput
-      placeholder="Pesquisar por um cliente"
-      placeholderTextColor="#ccc"
-      value={q}
-      onChangeText={setQ}
-      style={styles.InputBusca}
-    />
-  </View>
-</View>
+          <TextInput
+            placeholder="Pesquisar por um cliente"
+            placeholderTextColor="#ccc"
+            value={q}
+            onChangeText={setQ}
+            style={styles.InputBusca}
+          />
+        </View>
+      </View>
 
       {/* Botão adicionar */}
       <View>
@@ -288,7 +541,11 @@ export default function ClientesScreen() {
       <FlatList
         data={filtered}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 90, paddingTop: 12 }}
+        contentContainerStyle={{
+          paddingHorizontal: 16,
+          paddingBottom: 90,
+          paddingTop: 12,
+        }}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         renderItem={({ item }) => (
           <View style={styles.row}>
@@ -519,7 +776,9 @@ export default function ClientesScreen() {
             <View style={styles.cardHeader}>
               <Text style={styles.cardTitle}>PEDIDOS REALIZADOS</Text>
 
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+              >
                 <View style={styles.badgeYear}>
                   <Text style={{ fontWeight: "700", color: "#111" }}>2025</Text>
                 </View>
@@ -530,20 +789,41 @@ export default function ClientesScreen() {
 
             {/* Lista dinâmica dos agendamentos com status (toque abre apenas o modal de detalhes) */}
             {agendamentos.length === 0 ? (
-              <Text style={{ color: "#777", marginTop: 8 }}>Nenhum pedido encontrado.</Text>
+              <Text style={{ color: "#777", marginTop: 8 }}>
+                Nenhum pedido encontrado.
+              </Text>
             ) : (
               agendamentos.map((ped) => {
                 const st = statusStyle(ped.status);
                 return (
-                  <TouchableOpacity key={ped.id} activeOpacity={0.8} onPress={() => openPedido(ped)}>
+                  <TouchableOpacity
+                    key={ped.id}
+                    activeOpacity={0.8}
+                    onPress={() => openPedido(ped)}
+                  >
                     <View style={styles.orderRow}>
-                      <View style={{ flexDirection: "row", alignItems: "center", gap: 10, flex: 1 }}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 10,
+                          flex: 1,
+                        }}
+                      >
                         <Ionicons name="time" size={16} color="#777" />
                         <View style={{ flex: 1 }}>
-                          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                              gap: 8,
+                            }}
+                          >
                             <Text style={{ fontWeight: "700", color: "#111" }}>
                               {toDateString(ped.dataInicio)}
-                              {ped.dataFim ? ` — ${toDateString(ped.dataFim)}` : ""}
+                              {ped.dataFim
+                                ? ` — ${toDateString(ped.dataFim)}`
+                                : ""}
                             </Text>
 
                             <View
@@ -554,7 +834,13 @@ export default function ClientesScreen() {
                                 paddingVertical: 2,
                               }}
                             >
-                              <Text style={{ color: st.fg, fontWeight: "700", fontSize: 12 }}>
+                              <Text
+                                style={{
+                                  color: st.fg,
+                                  fontWeight: "700",
+                                  fontSize: 12,
+                                }}
+                              >
                                 {st.label}
                               </Text>
                             </View>
@@ -564,13 +850,235 @@ export default function ClientesScreen() {
                         </View>
                       </View>
 
-                      <Text style={{ fontWeight: "700", color: "#111" }}>{money(ped.valorTotal)}</Text>
+                      <Text style={{ fontWeight: "700", color: "#111" }}>
+                        {money(ped.valorTotal)}
+                      </Text>
                     </View>
                   </TouchableOpacity>
                 );
               })
             )}
           </View>
+          {/* Botão de Enviar Fotos e Vídeos AQUI QUE ESTOU MEXENDO ------------------------------------------------------------------------------------------------- */}
+          <View style={{ paddingHorizontal: 16, marginTop: 20 }}>
+            <TouchableOpacity
+              onPress={handlePickMedia}
+              disabled={uploading}
+              style={{
+                backgroundColor: uploading ? "#CCCCCC" : "#F2C94C",
+                paddingVertical: 12,
+                borderRadius: 10,
+                alignItems: "center",
+                opacity: uploading ? 0.7 : 1,
+              }}
+            >
+              {uploading ? (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <ActivityIndicator size="small" color="#111" />
+                  <Text style={{ fontWeight: "700", fontSize: 16, color: "#111", marginLeft: 8 }}>
+                    Enviando... {uploadProgress}%
+                  </Text>
+                </View>
+              ) : (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Ionicons name="cloud-upload-outline" size={20} color="#111" />
+                  <Text style={{ fontWeight: "700", fontSize: 16, color: "#111", marginLeft: 8 }}>
+                    Adicionar Fotos/Vídeos do Evento
+                  </Text>
+                </View>
+              )}
+            </TouchableOpacity>
+
+            {/* Texto de ajuda */}
+            <Text style={{
+              fontSize: 11,
+              color: "#666",
+              textAlign: 'center',
+              marginTop: 5
+            }}>
+              Toque para selecionar fotos e vídeos
+            </Text>
+          </View>
+
+          <View style={{ marginTop: 20 }}>
+            <Text style={{
+              fontWeight: '700',
+              fontSize: 16,
+              marginBottom: 10,
+              paddingHorizontal: 16
+            }}>
+              Galeria do Evento ({midias.length})
+            </Text>
+
+            <FlatList
+              data={midias}
+              numColumns={3}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={{ paddingHorizontal: 16 }}
+              renderItem={({ item, index }) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    setSelectedImageIndex(index);
+                    setModalVisible(true);
+                  }}
+                  style={{
+                    width: (screenWidth - 48) / 3,
+                    height: (screenWidth - 48) / 3,
+                    margin: 2,
+                    borderRadius: 8,
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Image
+                    source={{ uri: item.url }}
+                    style={{ width: '100%', height: '100%' }}
+                    resizeMode="cover"
+                  />
+                  {item.tipo === 'video' && (
+                    <View style={{
+                      position: 'absolute',
+                      top: 5,
+                      right: 5,
+                      backgroundColor: 'rgba(0,0,0,0.7)',
+                      borderRadius: 10,
+                      padding: 3,
+                    }}>
+                      <Text style={{ color: 'white', fontSize: 10 }}>▶</Text>
+                    </View>
+                  )}
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+
+          <Modal
+            visible={modalVisible}
+            transparent
+            animationType="fade"
+            onRequestClose={() => setModalVisible(false)}
+          >
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: "rgba(0,0,0,0.9)",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {/* Botão fechar */}
+              <TouchableOpacity
+                style={{
+                  position: "absolute",
+                  top: 80,
+                  right: 20,
+                  zIndex: 10,
+                  backgroundColor: "rgba(255, 255, 255, 0.32)",
+                  borderRadius: 13,
+                  padding: 10,
+                }}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>X</Text>
+              </TouchableOpacity>
+
+              {/* Botão excluir */}
+              <TouchableOpacity
+                style={{
+                  position: "absolute",
+                  top: 80,
+                  left: 20,
+                  zIndex: 20,
+                  backgroundColor: "rgba(255, 0, 0, 0.61)",
+                  borderRadius: 20,
+                  padding: 10,
+                }}
+                onPress={() =>
+                  handleDeleteMedia(
+                    midias[selectedImageIndex].id,
+                    midias[selectedImageIndex].url
+                  )
+                }
+              >
+                <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
+                  Excluir
+                </Text>
+              </TouchableOpacity>
+
+              {/* Carrossel */}
+              <FlatList
+                data={midias}
+                horizontal
+                pagingEnabled
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item) => String(item.id)}
+                initialScrollIndex={selectedImageIndex || 0}
+                getItemLayout={(_, index) => ({
+                  length: screenWidth,
+                  offset: screenWidth * index,
+                  index,
+                })}
+                onMomentumScrollEnd={(event) => {
+                  const newIndex = Math.round(
+                    event.nativeEvent.contentOffset.x / screenWidth
+                  );
+                  setSelectedImageIndex(newIndex);
+                }}
+                renderItem={({ item }) => (
+                  <View
+                    style={{
+                      width: screenWidth,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {item.tipo === "video" ? (
+                      <View style={{ alignItems: "center" }}>
+                        <Text style={{ color: "white", marginBottom: 20 }}>
+                          ⏯ Vídeo - Implemente o player conforme necessidade
+                        </Text>
+
+                        <Image
+                          source={{ uri: item.url }}
+                          style={{
+                            width: screenWidth * 0.9,
+                            height: screenWidth * 0.9,
+                            borderRadius: 10,
+                          }}
+                          resizeMode="contain"
+                        />
+                      </View>
+                    ) : (
+                      <Image
+                        source={{ uri: item.url }}
+                        style={{
+                          width: screenWidth * 0.9,
+                          height: screenWidth * 0.9,
+                          borderRadius: 10,
+                        }}
+                        resizeMode="contain"
+                      />
+                    )}
+                  </View>
+                )}
+              />
+
+              {/* Indicador */}
+              <View
+                style={{
+                  position: "absolute",
+                  bottom: 40,
+                  backgroundColor: "rgba(255,255,255,0.2)",
+                  borderRadius: 15,
+                  paddingHorizontal: 15,
+                  paddingVertical: 5,
+                }}
+              >
+                <Text style={{ color: "white", fontSize: 14 }}>
+                  {selectedImageIndex + 1} / {midias.length}
+                </Text>
+              </View>
+            </View>
+          </Modal>
         </SafeAreaView>
       </Modal>
 
@@ -588,13 +1096,18 @@ export default function ClientesScreen() {
                 <Ionicons name="clipboard" size={22} color="#111" />
               </View>
 
-              <TouchableOpacity onPress={() => setOrderOpen(false)} style={{ padding: 8 }}>
+              <TouchableOpacity
+                onPress={() => setOrderOpen(false)}
+                style={{ padding: 8 }}
+              >
                 <Ionicons name="close" size={18} color="#777" />
               </TouchableOpacity>
             </View>
 
             <Text style={styles.title2}>Detalhes do Agendamento</Text>
-            <Text style={styles.sub}>Veja as informações completas do pedido</Text>
+            <Text style={styles.sub}>
+              Veja as informações completas do pedido
+            </Text>
 
             <ScrollView style={{ marginTop: 8 }}>
               {/* Nome e status */}
@@ -606,12 +1119,23 @@ export default function ClientesScreen() {
               />
 
               <Text style={styles.label}>Status</Text>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+              >
                 {(() => {
                   const st = statusStyle(pedidoSelecionado?.status);
                   return (
-                    <View style={{ backgroundColor: st.bg, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4 }}>
-                      <Text style={{ color: st.fg, fontWeight: "700" }}>{st.label}</Text>
+                    <View
+                      style={{
+                        backgroundColor: st.bg,
+                        borderRadius: 8,
+                        paddingHorizontal: 8,
+                        paddingVertical: 4,
+                      }}
+                    >
+                      <Text style={{ color: st.fg, fontWeight: "700" }}>
+                        {st.label}
+                      </Text>
                     </View>
                   );
                 })()}
@@ -624,7 +1148,10 @@ export default function ClientesScreen() {
                 editable={false}
                 value={
                   pedidoSelecionado
-                    ? `${toDateString(pedidoSelecionado.dataInicio)}${pedidoSelecionado.dataFim ? ` — ${toDateString(pedidoSelecionado.dataFim)}` : ""}`
+                    ? `${toDateString(pedidoSelecionado.dataInicio)}${pedidoSelecionado.dataFim
+                      ? ` — ${toDateString(pedidoSelecionado.dataFim)}`
+                      : ""
+                    }`
                     : ""
                 }
               />
@@ -639,7 +1166,8 @@ export default function ClientesScreen() {
 
               {/* Itens alugados */}
               <Text style={styles.label}>Itens Alugados</Text>
-              {pedidoSelecionado?.itensAlugados && pedidoSelecionado?.itensAlugados.length > 0 ? (
+              {pedidoSelecionado?.itensAlugados &&
+                pedidoSelecionado?.itensAlugados.length > 0 ? (
                 <View style={{ gap: 6 }}>
                   {pedidoSelecionado.itensAlugados.map((it: any) => (
                     <View
@@ -655,8 +1183,12 @@ export default function ClientesScreen() {
                         borderColor: "#EEE",
                       }}
                     >
-                      <Text style={{ color: "#222", fontWeight: "600" }}>{it.nome || "Item"}</Text>
-                      <Text style={{ color: "#555" }}>{money(it.precoAluguel)}</Text>
+                      <Text style={{ color: "#222", fontWeight: "600" }}>
+                        {it.nome || "Item"}
+                      </Text>
+                      <Text style={{ color: "#555" }}>
+                        {money(it.precoAluguel)}
+                      </Text>
                     </View>
                   ))}
                 </View>
@@ -794,7 +1326,12 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
   },
-  title: { textAlign: "center", color: "#111", fontWeight: "800", fontSize: 16 },
+  title: {
+    textAlign: "center",
+    color: "#111",
+    fontWeight: "800",
+    fontSize: 16,
+  },
   sub: { color: "#666", marginTop: 8, marginBottom: 16 },
   actions: { flexDirection: "row", gap: 12, alignSelf: "stretch" },
   btn: {
@@ -904,4 +1441,5 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   badgePaidText: { color: "#1B5E20", fontWeight: "700", fontSize: 12 },
-});
+})
+

@@ -2,7 +2,7 @@
 
 ## RF-012
 
-* **Registro de Testes**: [Registro de Testes - RF-012](../../Registros%20de%20Teste/RF-012/README.md)
+* **Plano de Testes**: [Plano de Testes - RF-012](../../Planos%20de%20teste/RF-012/README.MD)
 
 ---
 

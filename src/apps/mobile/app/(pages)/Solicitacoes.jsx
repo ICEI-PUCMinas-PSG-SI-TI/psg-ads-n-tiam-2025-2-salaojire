@@ -4,6 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import FirebaseAPI from "@packages/firebase"; 
 import { useAuth } from "../context/AuthContext"
+import { doc, setDoc, addDoc, collection, Timestamp } from "firebase/firestore";
+import { firestore } from "@packages/firebase/config";
 
 export default function Solicitacoes() {
     const router = useRouter();
@@ -25,6 +27,78 @@ export default function Solicitacoes() {
         } catch (error) {
             console.error(error);
             Alert.alert("Erro", "Não foi possível carregar as solicitações.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const gerarDadosDeTeste = async () => {
+        try {
+            setLoading(true);
+
+            
+            const clienteRef = doc(firestore, "Clientes", "cliente_maria_01");
+            
+            await setDoc(clienteRef, {
+                nome: "Maria",
+                email: "mariaaparecida@gmail.com",
+                telefone: "(31) 98789-4563",
+                foto: null
+            }, { merge: true });
+
+            
+            const solicitacoesRef = collection(firestore, "Clientes", "cliente_maria_01", "solicitacoes");
+            
+            
+            const dataInicio = new Date(2025, 8, 10, 17, 0); // 10/09/2025 17:00
+            const dataFim = new Date(2025, 8, 11, 23, 0);    // 11/09/2025 23:00
+
+            await addDoc(solicitacoesRef, {
+                dataSolicitacao: Timestamp.now(),
+                dataInicio: Timestamp.fromDate(dataInicio),
+                dataFim: Timestamp.fromDate(dataFim),
+                descricao: "Eu quero fazer uma festa de aniversário, quanto estão os itens e o salão?",
+                status: "pendente",
+                itensSolicitados: [
+                    {
+                        id: "item_1",
+                        nome: "Forro vermelho",
+                        quantidade: 15,
+                        imageUrl: null // Se tiver URL de imagem real, coloque aqui
+                    },
+                    {
+                        id: "item_2",
+                        nome: "Piscina de Bolinhas",
+                        quantidade: 1,
+                        imageUrl: null
+                    },
+                    {
+                        id: "item_3",
+                        nome: "Cama Elástica",
+                        quantidade: 1,
+                        imageUrl: null
+                    },
+                    {
+                        id: "item_4",
+                        nome: "Cadeira",
+                        quantidade: 60,
+                        imageUrl: null
+                    },
+                    {
+                        id: "item_5",
+                        nome: "Mesa",
+                        quantidade: 15,
+                        imageUrl: null
+                    }
+                ]
+            });
+
+            Alert.alert("Sucesso", "Solicitação da Maria criada!");
+            fetchSolicitacoes(); // Recarrega a lista para aparecer na hora
+
+        } catch (error) {
+            console.error("Erro ao gerar teste:", error);
+            Alert.alert("Erro", "Falha ao criar dados: " + error.message);
         } finally {
             setLoading(false);
         }
@@ -107,7 +181,14 @@ export default function Solicitacoes() {
     const ListHeader = () => (
         <View style={styles.listHeaderContainer}>
             {}
-            
+            <TouchableOpacity 
+                onPress={gerarDadosDeTeste}
+                style={{ backgroundColor: '#FFD700', padding: 12, borderRadius: 8, marginBottom: 20, alignItems: 'center' }}
+            >
+                <Text style={{ fontWeight: 'bold', color: '#000' }}>
+                    <Ionicons name="add-circle-outline" size={18} /> GERAR DADO DE TESTE
+                </Text>
+            </TouchableOpacity>
 
             <View style={styles.sectionHeader}>
                 <Text style={styles.sectionTitle}>Mais recentes</Text>

@@ -1,9 +1,26 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged as firebaseOnAuthStateChanged, getAuth} from 'firebase/auth';
-import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
+
+
+//import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+
+
 import { auth, firestore } from './config';
 import { initializeApp, deleteApp } from 'firebase/app';
 import { getDocs, collection, query, where } from 'firebase/firestore';
-import { updatePassword, reauthenticateWithCredential, EmailAuthProvider, sendPasswordResetEmail } from 'firebase/auth';
+
+//import { updatePassword, reauthenticateWithCredential, EmailAuthProvider, sendPasswordResetEmail } from 'firebase/auth';
+
+import { 
+  updatePassword,
+  updateEmail,
+  verifyBeforeUpdateEmail,
+  reauthenticateWithCredential, 
+  EmailAuthProvider,
+  sendPasswordResetEmail
+} from 'firebase/auth';
+
+
 
 
 //Lembrem de usar try e catch quando for usar a API
@@ -221,3 +238,42 @@ export async function sendResetEmail(email) {
   }
 }
 
+
+// PAGE CONFIG FUNÇÃO PARA ALTERAR EMAIL DO ADMIN
+
+export async function alterarEmailAdmin(senhaAtual, novoEmail) {
+  try {
+    const user = auth.currentUser;
+    if (!user) throw new Error("Nenhum usuário logado.");
+
+    // Reautenticar
+    const credential = EmailAuthProvider.credential(user.email, senhaAtual);
+    await reauthenticateWithCredential(user, credential);
+
+    // Envia email de verificação para o novo email
+    await verifyBeforeUpdateEmail(user, novoEmail);
+
+    return { ok: true };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
+
+// PAGE CONFIG  FUNÇÃO PARA ALTERAR SENHA DO ADMIN
+
+export async function alterarSenhaAdmin(senhaAtual, novaSenha) {
+  try {
+    const user = auth.currentUser;
+    if (!user) throw new Error("Nenhum usuário logado.");
+
+    const credential = EmailAuthProvider.credential(user.email, senhaAtual);
+    await reauthenticateWithCredential(user, credential);
+
+    await updatePassword(user, novaSenha);
+
+    return { ok: true };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}

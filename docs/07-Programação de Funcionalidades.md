@@ -44,6 +44,25 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
     4.  Acesse a opção "Entrar"
     5.  Caso os campos estejam corretos, o usuário será autenticado e redirecionado para a Homepage do aplicativo.
 
+## RF-007
+
+* **Responsável:** Gabriel Assis Melo Noronha
+* **Descrição:**  Visualizar solicitações de clientes, permitindo edição e exclusão de itens adicionados
+
+* **Artefatos de Código-Fonte:**
+    * [src\apps\mobile\app\(pages)\Solicitacoes.jsx](/src/apps/mobile/app/(pages)/Solicitacoes.jsx): Pagina inicial para buscar todos as solicitações armanezadas no banco.
+    * [src\apps\mobile\app\(pages)\ViewSolicitacao.jsx](/src/apps/mobile/app/(pages)/GerenciarItens.js): Pagina para visualizar uma solicitação em específica de um cliente.
+    * [src\apps\mobile\components\ItemModalDelete.jsx](/src/apps/mobile/components/ItemModalDelete.jsx): Componente para criação de um modal de exclusão de itens.
+    * [src\apps\mobile\components\ItemModalEditCreate.jsx](/src/apps/mobile/components/ItemModalEditCreate.jsx): Componente para criação de um modal de atualização e criação de itens, customizado para aceitar manipulações de itens de solicitações.
+
+* **Instruções para Acesso e Verificação:**
+    1.  Inicialize o aplicativo.
+    2.  Toque no ícone "Solicitações".
+    3.  Caso não exista registros no banco de dados a mensagem "Nenhuma solicitação encontrada aparecerá"
+    4.  Caso exista registros, uma lista de solicitações será gerada.
+    5.  Toque no icone de visualizar em um card de uma solicitação.
+    6.  Edite campos, intens ou exclua itens.
+
 ## RF-009
 
 * **Responsável:** Gabriel Assis Melo Noronha
@@ -129,6 +148,56 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
     * Clique na lixeira → Confirmar exclusão.
     * Esperado: cliente removido da lista.
 
+## RF-014
+
+* **Responsável:** Isaque Caetano Nascimento
+* **Descrição:**  O sistema deve permitir a emissão de um relatório com o resumo mensal de eventos, contendo o número total de festas, o valor total faturado e o valor total pendente.
+
+* **Artefatos de Código-Fonte:**
+    * [src\apps\mobile\app\(tabs)\relatorios.js](/src/apps/mobile/app/(tabs)/relatorios.js): Tela do relatório, onde todos os dados do relatório é exibido, com a possibilidade de exportação em PDF.
+    * [src\apps\mobile\components\ItemGraficoBarra.js](/src/apps/mobile/components/ItemGraficoBarra.js): Componente para a exibição de um gráfico de barras com itens.
+    * [src\apps\mobile\services\RelatorioPDF.js](/src/apps/mobile/services/RelatorioPDF.js): Serviço que possibilita a exportação do relatório em PDF.
+    * [src\packages\firebase\firestore\clientes.js](/src/packages/firebase/firestore/clientes.js): Para se obter os dados necessários, como os agendamentos, é utilizado o FirebaseAPI.
+
+* **Instruções para Acesso e Verificação:**
+    1.  Navegue até a página Relatórios (Há um ícone no Footer).
+    2.  Toque no botão Exportar Relatório
+
+## RF-015
+
+* **Responsável:** Felipe de Oliveira Pereira
+* **Descrição:** O sistema deve permitir que o usuário visualize um calendário e os eventos nos dias agendados.
+
+**Artefatos de Código-Fonte:**
+* [/src/apps/mobile/app/(tabs)/calendario.js](/src/apps/mobile/app/(tabs)/calendario.tsx):  
+  Tela responsável pela exibição do calendário e dos eventos.  
+  - Renderiza o calendário do mês atual.  
+  - Permite avançar e voltar os meses.  
+  - Destaca os dias que possuem eventos cadastrados.  
+  - Filtra e exibe os eventos referentes ao dia selecionado.
+
+* [/src/apps/mobile/components/Calendar.js](/src/apps/mobile/components/CalendarWidget.tsx):  
+  Componente utilizado na renderização visual do calendário.  
+  - Geração da matriz de dias do mês.  
+  - Lógica para selecionar dias.  
+  - Estilização e marcação de dias com eventos.
+
+* [/src/apps/mobile/components/EventList.js](/src/apps/mobile/components/EventList.tsx):  
+  Responsável pela listagem dos eventos.  
+  - Recebe o dia selecionado.  
+  - Mostra os eventos vinculados a essa data.  
+  - Exibe detalhes do evento (como horário, cliente ou tipo).
+
+**Instruções para Acesso e Verificação**
+
+1. Acessar a aba **Calendário** no aplicativo.  
+2. Verificar se o calendário exibe corretamente o mês atual.  
+3. Navegar entre meses utilizando os botões de avanço/retorno.  
+4. Selecionar um dia específico e confirmar se os eventos daquele dia são exibidos na lista.  
+5. Validar se os dias que possuem eventos estão destacados visualmente.  
+6. Ao mudar de mês, garantir que o calendário renderiza corretamente os novos dias e eventos.  
+7. Confirmar se a lista de eventos atualiza automaticamente ao selecionar um novo dia.
+
 ## RF-017
 
 **Responsável:** Felipe de Oliveira Pereira  
@@ -173,4 +242,152 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
 * **Instruções para Acesso e Verificação:**
     1.  clicar no botao (+ novo admin)
     2.  clicar no icone com uma caneta para abrir o modal de editar
-    3. clicar na lixeira para abrir o modal de excluir 
+    3. clicar na lixeira para abrir o modal de excluir
+  
+---
+
+#  **Dashboard / Homepage**
+
+**Responsável:** Henrique Gonçalves (Módulo Dashboard / Página Inicial)
+
+**Descrição Geral:**
+A Homepage exibe um painel inicial com atalhos funcionais, solicitações recentes, próximos agendamentos e resumo financeiro dos últimos 30 dias. Todos os dados são carregados do **Firestore**.
+
+---
+
+##  **Artefatos de Código-Fonte**
+
+### **Tela: HomepageScreen**
+
+ [src/apps/mobile/app/(tabs)/index.tsx](/src/apps/mobile/app/%28tabs%29/index.tsx)
+
+**Implementações Principais:**
+
+* Saudação do usuário autenticado
+* Grade de atalhos: Agendamentos, Itens, Calendário, Solicitações, Clientes, Relatórios, Configurações
+* Card **“Novas Solicitações”** (Firestore – últimos registros da subcoleção *solicitacoes*)
+* Card **“Próximos Agendamentos”** (ordenado por data futura – Firestore)
+* Card **“Atividade Financeira”** (soma dos valores dos últimos 30 dias)
+* Navegação via Expo Router
+
+### **Integração com Firestore**
+
+* [src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/clientes.js)
+
+Funções utilizadas:
+
+* `getClientes()`
+* `getSolicitacoesFromCliente(clienteId)`
+* `getAgendamentosFromCliente(clienteId)`
+* `getAllSolicitacoes()`
+* `getAllAgendamentos()`
+* `parseDate()` — Converte *Timestamp* → `Date`
+
+---
+
+##  **Instruções para Verificação**
+
+### **1. Acesso ao Dashboard**
+
+* Abrir o app autenticado
+* Homepage carrega automaticamente
+  **Esperado:** Exibir título, saudação e atalhos
+
+### **2. Novas Solicitações**
+
+* No Firestore → *Clientes/{id}/solicitacoes*
+* Criar solicitação de teste
+  **Esperado:**
+* Card exibe até **3 solicitações recentes**
+* Se vazio → mensagem *“Nenhuma solicitação recente”*
+
+### **3. Próximos Agendamentos**
+
+* Firestore → adicionar agendamentos com `dateInicio` futura
+  **Esperado:**
+* Listar até **3 próximos eventos**
+* Datas passadas **não aparecem**
+* Botão **Calendário** → navega para `/calendario`
+
+### **4. Atividade Financeira**
+
+* Firestore → agendamentos com `valorTotal` nos últimos 30 dias
+  **Esperado:**
+* Total financeiro
+* Eventos realizados
+* Itens alugados (placeholder)
+
+### **5. Verificar Atalhos**
+
+| Atalho        | Rota                     | Resultado                |
+| ------------- | ------------------------ | ------------------------ |
+| Agendamentos  | `/gerenciarAgendamentos` | Abre tela                |
+| Itens         | `/GerenciarItens`        | Abre itens               |
+| Calendário    | `/calendario`            | Abre calendário          |
+| Solicitações  | `/clientes`              | Abre solicitações        |
+| Clientes      | `/clientes`              | Lista clientes           |
+| Relatórios    | `/relatorio`              | Aguardando implementação |
+| Configurações | `/configuracoes`         | Abre configs             |
+
+---
+
+#  **Menu “Outros” (Menu Lateral)**
+
+**Responsável:** Henrique Gonçalves (Navegação)
+
+**Descrição Geral:**
+O menu lateral é aberto pela aba **Outros**, oferecendo acesso rápido às principais áreas administrativas.
+
+---
+
+##  **Artefatos de Código-Fonte**
+
+ * [src/apps/mobile/app/(tabs)/outros.tsx](/src/apps/mobile/app/%28tabs%29/outros.tsx):
+   
+ * [src/apps/mobile/app/tabs/TabsLayout.js](/src/apps/mobile/app/tabs/TabsLayout.js):
+ 
+
+**Funcionalidades Implementadas:**
+
+* Menu lateral customizado
+* Botão "Outros" substituído por abertura do drawer
+* Estados: `menuOpen`, `setMenuOpen`, `handleMenuItemPress`
+* Integrações:
+
+  * Logout
+  * Navegação entre módulos
+
+---
+
+##  **Instruções para Verificação**
+
+### **1. Acesso ao Menu**
+
+* Abrir app
+* Clicar em **Outros**
+  **Esperado:** Menu lateral amarelo com avatar e dados do usuário
+
+### **2. Funcionamento das Opções**
+
+| Item            | Rota                     | Resultado Esperado  |
+| --------------- | ------------------------ | ------------------- |
+| Agendamentos    | `/gerenciarAgendamentos` | Abrir tela          |
+| Itens           | `/GerenciarItens`        | Gerenciar itens     |
+| Administradores | `/calendario`            | Abre calendário     |
+| Solicitações    | `/solicitacoes`          | Listar solicitações |
+| Configurações   | `/configuracoes`         | Abrir configurações |
+| Sair            | `logout()`               | Finaliza sessão     |
+
+### **3. Fechamento do Menu**
+
+* Tocar fora da área amarela → menu fecha automaticamente
+
+### **4. Responsividade**
+
+* Compatível com telas pequenas, médias e tablets
+* Layout ajusta automaticamente largura e posicionamento
+
+---
+
+
+
