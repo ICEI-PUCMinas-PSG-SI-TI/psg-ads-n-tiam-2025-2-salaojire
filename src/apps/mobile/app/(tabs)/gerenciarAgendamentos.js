@@ -113,7 +113,7 @@ export default function GerenciarAgendamentos() {
   const handleSalvar = async () => {
     if (!novoAgendamento.dataInicio || !novoAgendamento.dataFim) return Alert.alert("Preencha as datas");
 
-    const valorPago = 0; 
+    let valorPago = 0; 
     if (modoEditar)
       valorPago = parseFloat((parseFloat(agendamentoEditando.valorPago || 0) / 100).toFixed(2));
     
