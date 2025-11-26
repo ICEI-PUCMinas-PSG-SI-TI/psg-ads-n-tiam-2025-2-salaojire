@@ -4,7 +4,8 @@
 
 ## **Imagem 1 — HomePage**
 
-![Home1](docs/img/Registros%20de%20Testes/Home1.jpg)
+![Home1](/docs/img/Registros%20de%20Testes/Home1.jpg)
+
 
 
 
@@ -14,7 +15,8 @@ Exibidos corretamente: título “Jiré Festas – Gerência”, saudação, ata
 
 ## **Imagem 2 — Homepage**
 
-![Home2](docs/img/Registros%20de%20Testes/Home2.jpg)
+![Home2](/docs/img/Registros%20de%20Testes/Home2.jpg)
+
 
 
 
@@ -28,7 +30,8 @@ Exibidos corretamente: lista de próximos agendamentos ordenados por data, botã
 
 ## **Imagem 3 — Outros **
 
-![Outros](docs/img/Registros%20de%20Testes/Outros.jpg)
+![Outros](/docs/img/Registros%20de%20Testes/Outros.jpg)
+
 
 
 
