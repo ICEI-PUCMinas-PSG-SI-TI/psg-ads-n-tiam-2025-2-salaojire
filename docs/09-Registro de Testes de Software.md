@@ -13,6 +13,7 @@ Acesse o código RF para ir até o registro de teste específico.
 | **[RF-014](/docs/testes/Registros%20de%20Teste/RF-014/README.MD)** | Geração e Exportação de Relatórios | Isaque |
 | **[RF-017](/docs/testes/Registros%20de%20Teste/RF-017/README.md)** | Recuperação de senha | Felipe |
 | **[RF-018](/docs/testes/Registros%20de%20Teste/RF-018/README.md)** | Gerenciar administradores | João |
+| **[Configurações](/docs/testes/Registros%20de%20Teste/configuracoes/README.MD)** | Configurações administradores | Washington |
 
 ## Avaliação
 

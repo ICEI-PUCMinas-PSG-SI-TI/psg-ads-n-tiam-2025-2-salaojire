@@ -31,3 +31,4 @@ Acesse o código RF para ir até o plano de teste específico.
 | **[RF-014](/docs/testes/Planos%20de%20teste/RF-014/README.MD)** | Geração e Exportação de Relatórios | Isaque |
 | **[RF-017](/docs/testes/Planos%20de%20teste/RF-017/README.MD)** | Recuperação de senha | Felipe |
 | **[RF-018](/docs/testes/Planos%20de%20teste/RF-018/README.MD)** | Gerenciar administradores | João |
+| **[Configurações](/docs/testes/Planos%20de%20teste/configuracoes/README.MD)** | Configurações administradores | Washington |
