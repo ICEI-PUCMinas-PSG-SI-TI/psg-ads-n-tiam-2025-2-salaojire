@@ -3,7 +3,7 @@
 ## RF-007:
 * **Descrição do Requisito**: O sistema deve notificar o administrador sobre novas solicitações de contato e de orçamento recebido
 * **Objetivo**: Validar funcionalidades e persistencia das solicitações no sitema.
-* **Registro de Testes**: [Registro de Testes - RF-007](../../Registros%20de%20Teste/RF-007/README.md)
+* **Registro de Testes**: [Registro de Testes - RF-007](../../Registros%20de%20Teste/RF-007/README.MD)
 
 ###  Caso de Teste 1 — Carregar solicitações
 | Item | Descrição |
