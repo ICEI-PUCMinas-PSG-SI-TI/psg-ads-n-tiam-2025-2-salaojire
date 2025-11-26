@@ -12,6 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter, useFocusEffect } from "expo-router";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import FirebaseAPI from "@packages/firebase";
+import ItemGraficoBarra from "../../components/ItemGraficoBarra";
 
 export default function Relatorios() {
   const router = useRouter();
@@ -19,13 +20,13 @@ export default function Relatorios() {
   const [agendamentos, setAgendamentos] = useState([]);
 
   const [dataInicio, setDataInicio] = useState(new Date(2025, 0, 1));
-  const [dataFim, setDataFim] = useState(new Date(2026, 0, 1));
+  const [dataFim, setDataFim] = useState(new Date(2026, 0, 5));
 
   const [showPicker, setShowPicker] = useState(false);
   const [activeDateInput, setActiveDateInput] = useState(null);
   const [tempDate, setTempDate] = useState(new Date());
 
-    const formatarData = (data) => {
+  const formatarData = (data) => {
     const dia = String(data.getDate()).padStart(2, '0');
     const mes = String(data.getMonth() + 1).padStart(2, '0');
     const ano = data.getFullYear();
@@ -33,11 +34,22 @@ export default function Relatorios() {
   };
 
   const agendamentosFiltrados = useMemo(() => {
-    return agendamentos.filter((x) => {
+    const filtrados = agendamentos.filter((x) => {
       const dataX = new Date(x.dataFim.seconds * 1000);
-
       return dataX >= dataInicio.getTime() && dataX <= dataFim.getTime();
-    })
+    });
+
+    const ordenados = filtrados.sort((a, b) => {
+      const secA = a.dataInicio?.seconds || 0;
+      const secB = b.dataInicio?.seconds || 0;
+
+      if (secA < 0) return 1;
+      if (secB < 0) return -1;
+
+      return secA - secB;
+    });
+
+    return ordenados;
   }, [agendamentos, dataInicio, dataFim])
 
   const dadosGerais = useMemo(() => {
@@ -56,25 +68,35 @@ export default function Relatorios() {
         diaMaisRentavelFaturado = x.valorPago
         diaMaisRentavelData = x.dataFim.seconds
       }
-
-      let horasAlugadas = (x.dataFim.seconds - x.dataInicio.seconds) * 60 * 60;
-
+      let horasAlugadas = (x.dataFim.seconds - x.dataInicio.seconds) / 60 / 60;
+      console.log(horasAlugadas)
       x.itensAlugados.forEach((item) => {
         somaItens += item.quantidade;
 
         if (!dadosItens[item.nome]) {
+          console.log("criando " + item.nome)
           dadosItens[item.nome] = {
             nome: item.nome,
             totalQuantidade: 0,
-            totalHorasAlugado: 0
+            totalHorasAlugadas: 0,
+            totalEventos: 0,
+            imageUrl: item.imageUrl,
+            precoAluguel: item.precoAluguel
           }
         }
 
         dadosItens[item.nome].totalQuantidade += item.quantidade
-        dadosItens[item.nome].totalHorasAlugado += horasAlugadas;
+        dadosItens[item.nome].totalHorasAlugadas += Math.round(horasAlugadas * 10) / 10;
+        dadosItens[item.nome].totalEventos += 1;
       })
     })
-    console.log(dadosItens)
+
+    const arrayDadosItens = Object.values(dadosItens).map(item => ({
+      ...item,
+      mediaPorEvento: Math.round((item.totalQuantidade / item.totalEventos) * 10) / 10,
+      totalFaturado: (item.totalQuantidade * item.precoAluguel).toFixed(2)
+    }))
+
     return {
       faturado: somaFaturado,
       pendente: somaPendente,
@@ -82,7 +104,8 @@ export default function Relatorios() {
       itens: somaItens,
       medio: somaFaturado / (agendamentosFiltrados?.length || 1),
       diaRentavel: diaMaisRentavelData ? formatarData(new Date(diaMaisRentavelData * 1000)) : "Nenhum",
-      diaRentavelFaturado: diaMaisRentavelFaturado
+      diaRentavelFaturado: diaMaisRentavelFaturado,
+      dadosItens: arrayDadosItens || []
     };
   }, [agendamentosFiltrados]);
 
@@ -135,8 +158,13 @@ export default function Relatorios() {
         </View>
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
 
+        {/* Filtro do Periodo */}
         <View style={styles.filterContainer}>
           <Text style={styles.filterLabel}>Período:</Text>
 
@@ -162,15 +190,17 @@ export default function Relatorios() {
           />
         )}
 
-        <TouchableOpacity style={styles.exportButton}>
+        {/* Botão Exportar */}
+        <TouchableOpacity style={styles.exportButton} onPress={() => Alert.alert("Exportar", "Funcionalidade em breve!")}>
           <Text style={styles.exportText}>Exportar relatório</Text>
           <Ionicons name="download-outline" size={18} color="#000" style={{ marginLeft: 5 }} />
           <View style={styles.pdfBadge}>
-            <Text style={{ fontSize: 10, fontWeight: 'bold' }}>pdf</Text>
+            <Text style={styles.pdfBadgeText}>pdf</Text>
             <Ionicons name="chevron-down" size={10} color="#000" />
           </View>
         </TouchableOpacity>
 
+        {/* Dados Coletados */}
         <View style={styles.cardWhite}>
           <Text style={styles.sectionTitle}>Dados Coletados</Text>
 
@@ -182,16 +212,59 @@ export default function Relatorios() {
           <InfoRow label="Dia mais rentável:" value={`R$ ${dadosGerais.diaRentavelFaturado.toFixed(2)} - ${dadosGerais.diaRentavel}`} icon="calendar" />
         </View>
 
+        {/* Gráficos */}
+        <ItemGraficoBarra
+          dados={dadosGerais.dadosItens}
+          titulo="Itens mais usados"
+          valor="totalHorasAlugadas"
+          unidade="Horas"
+        />
+
+        <ItemGraficoBarra
+          dados={dadosGerais.dadosItens}
+          titulo="Itens mais rentáveis"
+          valor="totalFaturado"
+          unidade="R$"
+          esquerda={true}
+        />
+
+        <ItemGraficoBarra
+          dados={dadosGerais.dadosItens}
+          titulo="Média de Itens por evento"
+          valor="mediaPorEvento"
+          unidade="unidades"
+        />
+
+        {/* Lista de Agendamentos */}
+        <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Agendamentos realizados:</Text>
+
+        {agendamentosFiltrados.length === 0 && (
+          <Text style={styles.emptyText}>Nenhum agendamento neste período.</Text>
+        )}
+
+        {agendamentosFiltrados.map((item) => (
+          <TouchableOpacity key={item.id} onPress={() => router.push("/gerenciarAgendamentos")}>
+            <View style={styles.cardBeige}>
+              <Ionicons name="balloon" size={20} color="#000" style={{ marginRight: 10 }} />
+              <Text style={styles.listName} numberOfLines={1}>{item.nome || "Sem nome"}</Text>
+              <Text style={styles.listDate}>
+                {item.dataInicio?.seconds ? formatarData(new Date(item.dataInicio.seconds * 1000)) : "-"}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+
         <View style={{ height: 30 }} />
       </ScrollView>
     </View>
   );
 }
 
-const InfoRow = ({ label, value, bold, centered, icon }) => (
+// Componente para os dados coletados
+const InfoRow = ({ label, value, bold, icon, centered }) => (
   <View style={styles.infoRow}>
     <Text style={styles.infoLabel}>{label}</Text>
-    <View style={styles.infoValueBox}>
+    <View style={[styles.infoValueBox, centered && { justifyContent: 'center', minWidth: 60 }]}>
       <Text style={[styles.infoValueText, bold && { fontWeight: 'bold' }]}>{value}</Text>
       {icon && <Ionicons name={icon} size={14} color="#000" style={{ marginLeft: 5 }} />}
     </View>
@@ -199,13 +272,31 @@ const InfoRow = ({ label, value, bold, centered, icon }) => (
 );
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#F5F5F5" },
+  container: {
+    flex: 1,
+    backgroundColor: "#F5F5F5"
+  },
+  scrollContent: {
+    padding: 20,
+    paddingBottom: 40
+  },
 
-  headerWrapper: { backgroundColor: "#000", paddingTop: 40, paddingBottom: 15 },
-  header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 20 },
-  titulo: { color: "#F2C94C", fontSize: 20, fontWeight: "bold", marginLeft: 15 },
-
-  scrollContent: { padding: 20 },
+  headerWrapper: {
+    backgroundColor: "#000",
+    paddingTop: 40,
+    paddingBottom: 15
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 20
+  },
+  titulo: {
+    color: "#F2C94C",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginLeft: 15
+  },
 
   filterContainer: {
     flexDirection: 'row',
@@ -217,7 +308,11 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     elevation: 2
   },
-  filterLabel: { fontWeight: 'bold', fontSize: 16, marginHorizontal: 10 },
+  filterLabel: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginHorizontal: 10
+  },
   dateButton: {
     backgroundColor: '#FFF',
     flexDirection: 'row',
@@ -226,7 +321,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: 8,
   },
-  dateText: { fontWeight: 'bold', marginRight: 5, fontSize: 13 },
+  dateText: {
+    fontWeight: 'bold',
+    marginRight: 5, fontSize: 13
+  },
 
   exportButton: {
     backgroundColor: '#F2C94C',
@@ -237,8 +335,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 20,
     marginBottom: 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
   },
-  exportText: { fontWeight: 'bold', fontSize: 14 },
+  exportText: {
+    fontWeight: 'bold',
+    fontSize: 14
+  },
   pdfBadge: {
     backgroundColor: '#fff',
     flexDirection: 'row',
@@ -247,6 +352,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginLeft: 10,
     height: 20
+  },
+  pdfBadgeText: {
+    fontSize: 10,
+    fontWeight: 'bold'
   },
 
   cardWhite: {
@@ -265,6 +374,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 15,
   },
+
   infoRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -287,86 +397,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     minWidth: 100,
-    justifyContent: 'center'
   },
   infoValueText: {
     fontSize: 14,
     color: '#000'
   },
 
-  chartTitle: {
-    color: '#2C3E50',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  horizontalBarRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  iconContainerSmall: { width: 30, alignItems: 'center' },
-  barLabelName: { width: 60, fontSize: 12, color: '#777' },
-  barTrack: { flex: 1, height: 20, borderRadius: 4, backgroundColor: 'transparent', marginHorizontal: 10 },
-  barFill: { height: '100%', borderRadius: 4 },
-  barValue: { fontSize: 12, color: '#555', width: 30 },
-
-  chartContainer: {
-    height: 200,
-    marginTop: 10,
-    position: 'relative',
-    justifyContent: 'flex-end',
-  },
-  gridContainer: {
-    position: 'absolute',
-    top: 0, left: 0, right: 0, bottom: 24,
-    justifyContent: 'space-between'
-  },
-  gridLineRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  gridLabel: {
-    width: 40,
-    fontSize: 10,
-    color: '#AAA',
-    textAlign: 'right',
-    marginRight: 5
-  },
-  gridLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#EEE',
-    borderStyle: 'dashed',
-  },
-  barsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'flex-end',
-    height: '100%',
-    paddingLeft: 40,
-    paddingBottom: 0,
-  },
-  barColumn: {
-    alignItems: 'center',
-    height: '100%',
-    justifyContent: 'flex-end',
-    width: 20,
-  },
-  verticalBar: {
-    width: 12,
-    borderRadius: 6,
-    marginBottom: 5,
-  },
-
   cardBeige: {
     backgroundColor: '#EAE2D6',
-    borderRadius: 20,
+    borderRadius: 15,
     paddingVertical: 15,
     paddingHorizontal: 20,
     marginBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    elevation: 1,
   },
   listName: {
     flex: 1,
@@ -376,6 +421,12 @@ const styles = StyleSheet.create({
   },
   listDate: {
     fontSize: 14,
-    color: '#333'
+    color: '#555'
+  },
+  emptyText: {
+    textAlign: 'center',
+    color: '#999',
+    marginTop: 10,
+    marginBottom: 20,
   }
 });
