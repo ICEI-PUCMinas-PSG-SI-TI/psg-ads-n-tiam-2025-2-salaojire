@@ -285,8 +285,10 @@ O sistema deve exibir um menu lateral acessado pela aba “Outros”, permitindo
 
 **Artefatos de Código-Fonte**
 
-[src/apps/mobile/app/(tabs)/outros.tsx](/src/apps/mobile/app/(tabs)/outros.tsx)
+
 [src/apps/mobile/app/tabs/TabsLayout.js](src/apps/mobile/app/tabs/TabsLayout.js) 
+
+[src/apps/mobile/app/(tabs)/outros.tsx](/src/apps/mobile/app/(tabs)/outros.tsx)
 
 Implementação do menu lateral customizado.
 
