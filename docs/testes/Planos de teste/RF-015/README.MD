@@ -3,7 +3,7 @@
 ## RF-015
 * **Descrição do Requisito:** O sistema deve permitir que o usuário visualize um calendário e os eventos nos dias agendados.  
 * **Objetivo:** Garantir que o calendário exiba corretamente os dias do mês, permita alternância de meses, retorne ao mês atual quando solicitado e mostre eventos conforme o dia selecionado.  
-* **Registro de Testes:** [Registro de Testes - RF-015](../../Registros%20de%20Teste/RF-015/README.md)
+* **Registro de Testes**: [Registro de Testes - RF-015](../../Registros%20de%20Teste/RF-015/README.MD)
 
 
 ### Caso de Teste 1 — Exibir calendário do mês atual
