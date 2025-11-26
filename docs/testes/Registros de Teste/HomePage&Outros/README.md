@@ -4,7 +4,7 @@
 
 ## **Imagem 1 — HomePage**
 
-![Home1](https://github.com/user-attachments/assets/4ad3a200-3793-4e47-8ff3-b8a5d9c9b43b)
+![Teste](docs/img/Registros%20de%20Testes/Home1.jpg)
 
 
 
@@ -13,7 +13,8 @@ Exibidos corretamente: título “Jiré Festas – Gerência”, saudação, ata
 
 ## **Imagem 2 — Homepage**
 
-![Registro de Teste - 2](docs/img/Registros%20de%20Testes/Home2.jpg)
+![Teste](docs/img/Registros%20de%20Testes/Home2.jpg)
+
 
 
 ### **Validação**
@@ -25,7 +26,7 @@ Exibidos corretamente: lista de próximos agendamentos ordenados por data, botã
 
 ## **Imagem 3 — Outros **
 
-![Registro de Teste - 3](docs/img/Registros%20de%20Testes/Outros.jpg)
+![Registro de Teste - 3]((../../../img/Registros%20de%20Testes/Outros.jpg)
 
 
 ### **Validação**
