@@ -4,7 +4,8 @@
 
 ## **Imagem 1 — HomePage**
 
-![Registro de Teste - 1](docs/img/Registros%20de%20Testes/Home1.jpg)
+![Home 1](docs/img/Registros%20de%20Testes/Home1.jpg)
+
 
 
 **Descrição:**  
