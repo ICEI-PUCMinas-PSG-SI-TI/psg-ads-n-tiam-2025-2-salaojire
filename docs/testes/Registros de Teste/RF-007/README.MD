@@ -2,7 +2,7 @@
 
 ## RF-007
 
-* **Plano de Testes**: [Plano de Testes - RF-007](../../Planos%20de%20teste/RF-007/README.md)
+* **Plano de Testes**: [Plano de Testes - RF-007](../../Planos%20de%20teste/RF-007/README.MD)
 
 ## Seções
 
