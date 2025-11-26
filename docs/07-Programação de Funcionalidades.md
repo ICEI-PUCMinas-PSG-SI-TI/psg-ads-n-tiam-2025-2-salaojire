@@ -173,4 +173,114 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
 * **Instruções para Acesso e Verificação:**
     1.  clicar no botao (+ novo admin)
     2.  clicar no icone com uma caneta para abrir o modal de editar
-    3. clicar na lixeira para abrir o modal de excluir 
+    3. clicar na lixeira para abrir o modal de excluir
+  
+
+
+## Dashboard / Homepage 
+Responsável: Henrique Gonçalves (Módulo Dashboard / Página Inicial)
+
+Descrição:
+O sistema deve exibir um painel inicial contendo atalhos funcionais, solicitações recentes, próximos agendamentos e resumo financeiro dos últimos 30 dias. Os dados devem ser carregados dinamicamente do Firestore.
+
+**Artefatos de Código-Fonte**
+
+[src/apps/mobile/app/(tabs)/index.tsx](src/apps/mobile/app/(tabs)/index.tsx) — Tela HomepageScreen:
+
+Exibição da saudação ao usuário conectado.
+Renderização da grade de atalhos (Agendamentos, Itens, Calendário, Solicitações, Clientes, Relatórios e Configurações).
+Card "Novas Solicitações" (integrado com Firestore).
+Card "Próximos Agendamentos" (ordenado por data futura).
+Card "Atividade Financeira" (total financeiro dos últimos 30 dias).
+Navegação integrada ao router.
+
+Integração com Firestore:
+[src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/clientes.js)
+
+getClientes()
+getSolicitacoesFromCliente(clienteId)
+getAgendamentosFromCliente(clienteId)
+getAllSolicitacoes() (adicionado por você)
+getAllAgendamentos()
+Função utilitária usada na homepage:
+parseDate() para converter Firestore Timestamp → Date.
+
+Instruções para Acesso e Verificação
+1. Acesso ao Dashboard
+Abra o app autenticado.
+A homepage é carregada automaticamente após login.
+Esperado: Exibir título, saudação e atalhos.
+
+2. Verificar Novas Solicitações
+No Firestore → Clientes/{id}/solicitacoes, crie uma solicitação de teste.
+Retorne ao aplicativo.
+Esperado:
+O card “Novas Solicitações” mostra até 3 itens mais recentes, ordenados por data.
+Se não houver nenhuma: exibir “Nenhuma solicitação recente”.
+
+3. Verificar Próximos Agendamentos
+No Firestore → adicione agendamentos com dataInicio futura.
+Na homepage:
+O card deve listar até 3 eventos mais próximos, ordenados por data.
+Datas passadas NÃO devem aparecer.
+Ao clicar no botão “Calendário”, usuário deve ser levado para /calendario.
+
+5. Verificar Atividade Financeira
+No Firestore →  agendamentos com valores (valorTotal) dentro dos últimos 30 dias.
+
+Esperado:
+A soma aparece no card “Atividade Financeira”.
+“Eventos Realizados” → número de eventos no período.
+“Itens Alugados” (placeholder atual).
+
+5. Verificar os Atalhos
+Todos os atalhos devem navegar corretamente:
+Atalho	Rota Esperada
+Agendamentos	/gerenciarAgendamentos
+Itens (/itens)	/GerenciarItens
+Calendário	/calendario
+Solicitações	/clientes
+Clientes	/clientes
+Relatórios	vazio (aguardando implementação)
+Configurações	/configuracoes
+
+ ## Menu “Outros” (Menu Lateral)
+Responsável: Henrique Gonçalves (Módulo Navegação)
+
+Descrição:
+O sistema deve exibir um menu lateral acessado pela aba “Outros”, permitindo acesso às seções de Agendamentos, Itens, Administradores, Solicitações, Configurações e Sair.
+
+**Artefatos de Código-Fonte**
+
+[src/apps/mobile/app/(tabs)/outros.tsx](/src/apps/mobile/apps/(tabs)/outros.tsx)
+[src/apps/mobile/app/tabs/TabsLayout.js](src/apps/mobile/app/tabs/TabsLayout.js) 
+
+Implementação do menu lateral customizado.
+Ícone “Outros” substituído por botão que abre o drawer.
+Uso de menuOpen, setMenuOpen e handleMenuItemPress.
+Integrações:
+Logout
+Navegação para módulos principais.
+Instruções para Acesso e Verificação
+
+1. Acesso ao Menu
+Abra o app.
+Clique na aba “Outros”.
+Esperado: abrir menu lateral amarelo com avatar e informações do usuário.
+
+2. Funcionalidades do Menu
+Item	Função	Resultado Esperado
+Agendamentos	/gerenciarAgendamentos	Abre tela de Gerenciar Agendamentos
+Itens		/GerenciarItens		Abre tela de itens
+Administradores	/calendario	Abre calendário 
+Solicitações	/solicitacoes 	Abre tela de solicitações
+Configurações	/configuracoes	Abre tela de configurações
+Sair	logout()	Usuário deslogado e redirecionado
+
+4. Fechar o Menu
+Toque fora do menu (área escura).
+Menu deve fechar automaticamente.
+
+5. Responsividade
+Em telas pequenas e tablets.
+Larguras diferentes ajustam automaticamente.
