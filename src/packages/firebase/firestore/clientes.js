@@ -301,6 +301,47 @@ export async function getSolicitacoesFromCliente(clienteId) {
   return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
 
+export async function getAllSolicitacoes() {
+  try {
+    const solicitacoesQuery = collectionGroup(firestore, 'solicitacoes');
+    const querySnapshot = await getDocs(solicitacoesQuery);
+    
+    const solicitacoesPromises = querySnapshot.docs.map(async (solicitacaoDoc) => {
+      const solicitacaoData = solicitacaoDoc.data();
+      
+      const clienteDocRef = solicitacaoDoc.ref.parent.parent;
+      let clienteData = { nome: 'Desconhecido', email: '' };
+
+      if (clienteDocRef) {
+        const clienteSnap = await getDoc(clienteDocRef);
+        if (clienteSnap.exists()) {
+          clienteData = clienteSnap.data();
+        }
+      }
+
+      return { 
+        id: solicitacaoDoc.id, 
+        clienteId: clienteDocRef ? clienteDocRef.id : null,
+        clienteNome: clienteData.nome || "Cliente Sem Nome",
+        clienteEmail: clienteData.email || "",
+        ...solicitacaoData 
+      };
+    });
+
+    const results = await Promise.all(solicitacoesPromises);
+    
+    return results.sort((a, b) => {
+        const dataA = a.dataSolicitacao?.toDate ? a.dataSolicitacao.toDate() : new Date(a.dataSolicitacao);
+        const dataB = b.dataSolicitacao?.toDate ? b.dataSolicitacao.toDate() : new Date(b.dataSolicitacao);
+        return dataB - dataA;
+    });
+
+  } catch (error) {
+    console.error("Erro ao buscar todas as solicitações:", error);
+    throw new Error("Falha ao buscar solicitações gerais.");
+  }
+}
+
 /* Adiciona um item ao array 'itensSolicitados' de uma solicitação específica. Exemplo:
 const itemSolicitado = { id: 'item_xyz_012', precoUnitario: 300 };
 await FirebaseAPI.firestore.clientes.addItemToSolicitacao(ClienteID, solicitacaoId, itemSolicitado);

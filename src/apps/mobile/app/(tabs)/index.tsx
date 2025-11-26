@@ -274,7 +274,11 @@ export default function HomepageScreen() {
                 <ShortcutButton
                   icon="chatbox-ellipses-outline"
                   label="Solicitações"
+
                   onPress={() => router.push("/clientes")}
+
+                  onPress={() => router.push("/(pages)/Solicitacoes")}
+
                 />
               </View>
 
