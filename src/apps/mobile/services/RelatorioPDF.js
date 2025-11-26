@@ -23,6 +23,13 @@ const formatDateExportar = (date) => {
   return data.replaceAll('/', '-');
 }
 
+const getTimestamp = () => {
+  const now = new Date();
+  const horas = String(now.getHours()).padStart(2, '0');
+  const minutos = String(now.getMinutes()).padStart(2, '0');
+  return `${horas}h${minutos}`;
+};
+
 export const gerarRelatorioPDF = async (dadosGerais, agendamentos, dataInicio, dataFim) => {
   try {
     const itensMaisUsados = [...dadosGerais.dadosItens]
@@ -185,9 +192,14 @@ export const gerarRelatorioPDF = async (dadosGerais, agendamentos, dataInicio, d
 
     // Gerar arquivo PDF
     const { uri } = await Print.printToFileAsync({ html, base64: false });
-    const nomeLimpo = `Relatorio_${formatDateExportar(dataInicio)}_a_${formatDateExportar(dataFim)}.pdf`;
+    const nomeLimpo = `Relatorio_${formatDateExportar(dataInicio)}_a_${formatDateExportar(dataFim)}__${getTimestamp()}.pdf`;
     const arquivoTemp = new File(uri);
     const arquivoDestino = new File(Paths.document, nomeLimpo);
+
+        if (arquivoDestino.exists) {
+        arquivoDestino.delete();
+    }
+
     await arquivoTemp.move(arquivoDestino);
 
     // Exportar PDF
