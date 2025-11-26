@@ -2,15 +2,6 @@
 
 - **Plano de Testes**: [Plano de Testes - RF-011](../../Planos%20de%20teste/HomePage&Outros/README.md)
 
-## Seções
-## Seções
-
-1. [Home1 — Imagem 1](#Home1--imagem-1)
-2. [Home2 — Imagem 2](#Home2--imagem-2)
-3. [Outros — Imagem 3](#Outros--imagem-3)
-
-
-
 ## **Imagem 1 — HomePage**
 
 ![Home1](/docs/img/Registros%20de%20Testes/Home1.jpg)
