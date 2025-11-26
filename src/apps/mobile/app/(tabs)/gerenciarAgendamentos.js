@@ -9,7 +9,8 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
-  Image
+  Image,
+  Modal
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import FirebaseAPI from "@packages/firebase";
@@ -38,6 +39,11 @@ export default function GerenciarAgendamentos() {
   const [pickerMode, setPickerMode] = useState('date')
   const [campoEditando, setCampoEditando] = useState(null);
   const [tempDate, setTempDate] = useState(new Date());
+
+  const [modalEdicaoVisible, setModalEdicaoVisible] = useState(false);
+  const [itemParaEditar, setItemParaEditar] = useState(null);
+  const [qtdEdicao, setQtdEdicao] = useState("1");
+  const [precoEdicao, setPrecoEdicao] = useState("0");
 
   const [imagensEvento, setImagensEvento] = useState([
     "https://picsum.photos/200/300",
@@ -101,22 +107,22 @@ export default function GerenciarAgendamentos() {
   };
 
   const resetStates = () => {
-      setModoCriar(false);
-      setModoEditar(false);
-      setAgendamentoEditando(null);
-      setClienteDono(null);
-      setNovoAgendamento({ nomeEvento: "", dataInicio: "", dataFim: "", valorTotal: 0 });
-      setItensSelecionados([]);
-      carregarTudo();
+    setModoCriar(false);
+    setModoEditar(false);
+    setAgendamentoEditando(null);
+    setClienteDono(null);
+    setNovoAgendamento({ nomeEvento: "", dataInicio: "", dataFim: "", valorTotal: 0 });
+    setItensSelecionados([]);
+    carregarTudo();
   }
 
   const handleSalvar = async () => {
     if (!novoAgendamento.dataInicio || !novoAgendamento.dataFim) return Alert.alert("Preencha as datas");
 
-    let valorPago = 0; 
+    let valorPago = 0;
     if (modoEditar)
       valorPago = parseFloat((parseFloat(agendamentoEditando.valorPago || 0) / 100).toFixed(2));
-    
+
     setLoading(true);
     try {
       const payload = {
@@ -126,8 +132,8 @@ export default function GerenciarAgendamentos() {
         valorTotal: novoAgendamento.valorTotal,
         itensAlugados: itensSelecionados,
         valorPago: valorPago,
-        status: valorPago == 0 ? 'Não Pago' 
-        : (valorPago == novoAgendamento.valorTotal) ? "Pago" : "Parcialmente Pago"
+        status: valorPago == 0 ? 'Não Pago'
+          : (valorPago == novoAgendamento.valorTotal) ? "Pago" : "Parcialmente Pago"
       };
 
       console.log(payload.valorPago);
@@ -208,8 +214,8 @@ export default function GerenciarAgendamentos() {
   };
 
   function formatarValor(v) {
-  const numero = (parseFloat(v || 0) / 100).toFixed(2);
-  return "R$ " + numero.replace(".", ",");
+    const numero = (parseFloat(v || 0) / 100).toFixed(2);
+    return "R$ " + numero.replace(".", ",");
   }
 
   const abrirCalendario = (campo) => {
@@ -248,7 +254,7 @@ export default function GerenciarAgendamentos() {
       });
     }
   };
-  
+
   const proximaImagem = () => {
     if (indiceImagemAtual < imagensEvento.length) {
       setIndiceImagemAtual(indiceImagemAtual + 1);
@@ -265,14 +271,48 @@ export default function GerenciarAgendamentos() {
     }
   };
 
- // ------------RENDER------------
+
+  const abrirModalEdicaoItem = (item) => {
+    setItemParaEditar(item);
+    setQtdEdicao(item.quantidade ? String(item.quantidade) : "1");
+    setPrecoEdicao(item.precoAluguel ? item.precoAluguel.toFixed(2) : "0.00");
+    setModalEdicaoVisible(true);
+  };
+
+  const salvarEdicaoItem = () => {
+    if (!itemParaEditar) return;
+
+    const novaQuantidade = parseInt(qtdEdicao) || 1;
+    const novoPreco = parseFloat(precoEdicao.replace(',', '.')) || 0;
+
+    const novaListaItens = itensSelecionados.map((item) => {
+      if (item.id === itemParaEditar.id) {
+        return { ...item, quantidade: novaQuantidade, precoAluguel: novoPreco };
+      }
+      return item;
+    });
+
+    setItensSelecionados(novaListaItens);
+
+    const novoTotal = novaListaItens.reduce((acc, item) => acc + item.precoAluguel, 0);
+
+    setNovoAgendamento((prev) => ({
+      ...prev,
+      valorTotal: novoTotal
+    }));
+
+    setModalEdicaoVisible(false);
+    setItemParaEditar(null);
+  };
+
+  // ------------RENDER------------
 
   if (modoCriar || modoEditar) {
     return (
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
 
         <View style={styles.headerTopo}>
-          <TouchableOpacity onPress={() => {resetStates();}}>
+          <TouchableOpacity onPress={() => { resetStates(); }}>
             <Ionicons name="arrow-back" size={24} color="#F2C94C" />
           </TouchableOpacity>
           <Text style={styles.headerTitulo}>{modoCriar ? "Criar agendamento" : "Visualizar agendamento"}</Text>
@@ -284,15 +324,15 @@ export default function GerenciarAgendamentos() {
             <>
               <View style={styles.cameraBox}>
                 {indiceImagemAtual < imagensEvento.length ? (
-                  <Image 
-                    source={{ uri: imagensEvento[indiceImagemAtual] }} 
-                    style={{ width: '100%', height: '100%', borderRadius: 30 }} 
+                  <Image
+                    source={{ uri: imagensEvento[indiceImagemAtual] }}
+                    style={{ width: '100%', height: '100%', borderRadius: 30 }}
                     resizeMode="cover"
                   />
                 ) : (
-                  <TouchableOpacity style={{alignItems:'center'}} onPress={() => Alert.alert("Em breve", "Funcionalidade de adicionar foto em breve.")}>
+                  <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => Alert.alert("Em breve", "Funcionalidade de adicionar foto em breve.")}>
                     <Ionicons name="add-circle-outline" size={50} color="#000" />
-                    <Text style={{fontWeight:'bold', marginTop: 5}}>Adicionar Foto</Text>
+                    <Text style={{ fontWeight: 'bold', marginTop: 5 }}>Adicionar Foto</Text>
                   </TouchableOpacity>
                 )}
               </View>
@@ -301,11 +341,11 @@ export default function GerenciarAgendamentos() {
                 <TouchableOpacity onPress={anteriorImagem}>
                   <Text style={{ fontWeight: 'bold', fontSize: 18, paddingHorizontal: 10 }}>{'<'}</Text>
                 </TouchableOpacity>
-                
-                <View style={{ width: 40, alignItems:'center' }}>
-                   <Text style={{ fontSize: 12, fontWeight:'bold' }}>
-                     {indiceImagemAtual + 1} / {imagensEvento.length + 1}
-                   </Text>
+
+                <View style={{ width: 40, alignItems: 'center' }}>
+                  <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
+                    {indiceImagemAtual + 1} / {imagensEvento.length + 1}
+                  </Text>
                 </View>
 
                 <TouchableOpacity onPress={proximaImagem}>
@@ -324,17 +364,17 @@ export default function GerenciarAgendamentos() {
             />
 
             {!modoCriar && (
-            <View style={
-              (() => {
-              switch (agendamentoEditando.status.toLowerCase()) {
-                case 'pago': return styles.badgePago;
-                case 'não pago': return styles.badgeNaoPago;
-                case 'parcialmente pago': return styles.badgeParcialmentePago;
-                default: return styles.badgeParcialmentePago;
-              }
-            })()}>
-              <Text style={styles.badgeText}>{agendamentoEditando.status}</Text>
-            </View>
+              <View style={
+                (() => {
+                  switch (agendamentoEditando.status.toLowerCase()) {
+                    case 'pago': return styles.badgePago;
+                    case 'não pago': return styles.badgeNaoPago;
+                    case 'parcialmente pago': return styles.badgeParcialmentePago;
+                    default: return styles.badgeParcialmentePago;
+                  }
+                })()}>
+                <Text style={styles.badgeText}>{agendamentoEditando.status}</Text>
+              </View>
             )}
 
           </View>
@@ -401,31 +441,31 @@ export default function GerenciarAgendamentos() {
           )}
 
           {!modoCriar && (
-          <View style={styles.inputRow}>
-            <Text style={styles.labelInput}>Valor Pago:</Text>
-            <View style={styles.inputContainerRight}>
-              <TextInput 
-              style={{ fontWeight: 'bold', textAlign: 'right'  }}
-              value={formatarValor(agendamentoEditando.valorPago)}
-              onChangeText={text => {
-                const apenasNumeros = text.replace(/\D/g, "")
-                setAgendamentoEditando(prev => ({...prev, valorPago: apenasNumeros}))
-                
-              }}
-              />
+            <View style={styles.inputRow}>
+              <Text style={styles.labelInput}>Valor Pago:</Text>
+              <View style={styles.inputContainerRight}>
+                <TextInput
+                  style={{ fontWeight: 'bold', textAlign: 'right' }}
+                  value={formatarValor(agendamentoEditando.valorPago)}
+                  onChangeText={text => {
+                    const apenasNumeros = text.replace(/\D/g, "")
+                    setAgendamentoEditando(prev => ({ ...prev, valorPago: apenasNumeros }))
+
+                  }}
+                />
+              </View>
             </View>
-          </View>
           )}
 
           {!modoCriar && (
-          <View style={styles.inputRow}>
-            <Text style={styles.labelInput}>Valor Pendente:</Text>
-            <View style={styles.inputContainerRight}>
-              <Text style={{ fontWeight: 'bold' }}>
-                {`R$ ${(agendamentoEditando.valorTotal - parseFloat(agendamentoEditando.valorPago || 0) / 100).toFixed(2)}`}
+            <View style={styles.inputRow}>
+              <Text style={styles.labelInput}>Valor Pendente:</Text>
+              <View style={styles.inputContainerRight}>
+                <Text style={{ fontWeight: 'bold' }}>
+                  {`R$ ${(agendamentoEditando.valorTotal - parseFloat(agendamentoEditando.valorPago || 0) / 100).toFixed(2)}`}
                 </Text>
+              </View>
             </View>
-          </View>
           )}
 
           <View style={styles.inputRow}>
@@ -461,7 +501,9 @@ export default function GerenciarAgendamentos() {
                 </Text>
               </View>
               <View style={{ flexDirection: 'row', gap: 10 }}>
-                <TouchableOpacity><Ionicons name="pencil" size={20} color="#000" /></TouchableOpacity>
+                <TouchableOpacity onPress={() => abrirModalEdicaoItem(item)}>
+                  <Ionicons name="pencil" size={20} color="#000" />
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => alternarItem(item)}>
                   <Ionicons name="trash-outline" size={20} color="#000" />
                 </TouchableOpacity>
@@ -498,6 +540,52 @@ export default function GerenciarAgendamentos() {
           </TouchableOpacity>
 
         </View>
+
+        {/* MODAL DE EDIÇÃO DE ITEM */}
+        <Modal
+          visible={modalEdicaoVisible}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={() => setModalEdicaoVisible(false)}
+        >
+          <View style={styles.sheetBackdrop}>
+            <View style={styles.sheet}>
+              <View style={styles.rowTop}>
+                <View style={styles.iconBoxModal}>
+                  <Ionicons name="create" size={22} color="#111" />
+                </View>
+                <TouchableOpacity onPress={() => setModalEdicaoVisible(false)} style={{ padding: 8 }}>
+                  <Ionicons name="close" size={20} color="#777" />
+                </TouchableOpacity>
+              </View>
+
+              <Text style={styles.title2}>Editar Item</Text>
+              <Text style={styles.sub}>{itemParaEditar?.nome}</Text>
+
+              <Text style={styles.label}>Quantidade</Text>
+              <TextInput
+                style={styles.input}
+                value={qtdEdicao}
+                onChangeText={setQtdEdicao}
+                keyboardType="numeric"
+                placeholder="Qtd"
+              />
+
+              <Text style={styles.label}>Preço do Aluguel (R$)</Text>
+              <TextInput
+                style={styles.input}
+                value={precoEdicao}
+                onChangeText={setPrecoEdicao}
+                keyboardType="numeric"
+                placeholder="0.00"
+              />
+
+              <TouchableOpacity style={styles.btnPrimaryBig} onPress={salvarEdicaoItem}>
+                <Text style={styles.btnText}>Salvar Alterações</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     );
   }
@@ -757,5 +845,71 @@ const styles = StyleSheet.create({
 
   btnSalvarText: {
     fontWeight: 'bold', fontSize: 18, color: '#000'
+  },
+
+  sheetBackdrop: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.35)",
+    justifyContent: "flex-end",
+  },
+  sheet: {
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 18,
+    borderTopRightRadius: 18,
+    padding: 20,
+    elevation: 5,
+  },
+  rowTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10
+  },
+  iconBoxModal: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    backgroundColor: "#F2F2F2",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  title2: { 
+    fontSize: 18, 
+    fontWeight: "800", 
+    color: "#111", 
+    marginTop: 8 
+  },
+  sub: { 
+    color: "#666", 
+    marginTop: 4, 
+    marginBottom: 16 
+  },
+  label: { 
+    color: "#111", 
+    fontWeight: "700", 
+    marginTop: 10, 
+    marginBottom: 6 
+  },
+  input: {
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    fontSize: 16,
+    color: "#111",
+  },
+  btnPrimaryBig: {
+    marginTop: 20,
+    backgroundColor: "#F2C94C",
+    borderRadius: 10,
+    alignItems: "center",
+    paddingVertical: 15,
+  },
+  btnText: {
+    fontWeight: "800",
+    fontSize: 16,
+    color: "#111"
   }
 });
