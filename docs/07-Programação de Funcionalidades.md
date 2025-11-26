@@ -129,6 +129,21 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
     * Clique na lixeira → Confirmar exclusão.
     * Esperado: cliente removido da lista.
 
+## RF-014
+
+* **Responsável:** Isaque Caetano Nascimento
+* **Descrição:**  O sistema deve permitir a emissão de um relatório com o resumo mensal de eventos, contendo o número total de festas, o valor total faturado e o valor total pendente.
+
+* **Artefatos de Código-Fonte:**
+    * [src\apps\mobile\app\(tabs)\relatorios.js](/src/apps/mobile/app/(tabs)/relatorios.js): Tela do relatório, onde todos os dados do relatório é exibido, com a possibilidade de exportação em PDF.
+    * [src\apps\mobile\components\ItemGraficoBarra.js](/src/apps/mobile/components/ItemGraficoBarra.js): Componente para a exibição de um gráfico de barras com itens.
+    * [src\apps\mobile\services\RelatorioPDF.js](/src/apps/mobile/services/RelatorioPDF.js): Serviço que possibilita a exportação do relatório em PDF.
+    * [src\packages\firebase\firestore\clientes.js](/src/packages/firebase/firestore/clientes.js): Para se obter os dados necessários, como os agendamentos, é utilizado o FirebaseAPI.
+
+* **Instruções para Acesso e Verificação:**
+    1.  Navegue até a página Relatórios (Há um ícone no Footer).
+    2.  Toque no botão Exportar Relatório
+
 ## RF-017
 
 **Responsável:** Felipe de Oliveira Pereira  

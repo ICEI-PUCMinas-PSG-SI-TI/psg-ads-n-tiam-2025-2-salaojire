@@ -209,7 +209,6 @@ export default function Relatorios() {
           <Ionicons name="download-outline" size={18} color="#000" style={{ marginLeft: 5 }} />
           <View style={styles.pdfBadge}>
             <Text style={styles.pdfBadgeText}>pdf</Text>
-            <Ionicons name="chevron-down" size={10} color="#000" />
           </View>
         </TouchableOpacity>
 
