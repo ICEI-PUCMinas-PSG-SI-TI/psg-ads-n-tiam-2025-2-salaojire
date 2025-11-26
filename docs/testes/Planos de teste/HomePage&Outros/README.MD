@@ -6,7 +6,7 @@
 - **Descrição do Requisito**:O sistema deve exibir a tela inicial com informações resumidas (atalhos, solicitações e agendamentos) e permitir acesso ao menu Outros com opções adicionais.
 
 - **Objetivo**: Verificar se a Homepage apresenta corretamente os dados, atalhos e métricas, e validar o funcionamento do menu lateral Outros.
-- **Registro de Testes**: [Registro de Testes - HomePage & Outros](../Registros%20de%20Teste/HomePage&Outros/README.md)
+- **Registro de Testes**: [Registro de Testes - HomePage & Outros](https://github.com/ICEI-PUCMinas-PSG-SI-TI/psg-ads-n-tiam-2025-2-salaojire/tree/riksousa-patch-1/docs/testes/Registros%20de%20Teste/HomePage%26Outros20Teste/HomePage&Outros/README.md)
 
 ### Caso de Teste 1 — Carregamento da Homepage
 
