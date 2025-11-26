@@ -1,8 +1,8 @@
 # Registros de Testes de Software
 
-## RF-009
+## RF-007
 
-* **Plano de Testes**: [Plano de Testes - RF-007](../../Planos%20de%20teste/RF-007/README.MD)
+* **Plano de Testes**: [Plano de Testes - RF-007](../../Planos%20de%20teste/RF-007/README.md)
 
 ## Seções
 
@@ -17,13 +17,15 @@
 
 ###  Caso de Teste 1 — Carregar solicitações
 
-![Registro de Teste - Carregar itens](../../../img/Registros%20de%20Testes//Solicitacao.jpeg)
+![Registro de Teste - Carregar solicitações](../../../img/Registros%20de%20Testes//Solicitacao.jpeg)
+
+![Registro de Teste - Carregar vazio](../../../img/Registros%20de%20Testes//SolicitacaoNull.jpeg)
 
 ###  Caso de Teste 2 — Visualização de solicitação
 
-![Registro de Teste - Criação de item](../../../img/Registros%20de%20Testes//Solicitacao1.jpeg)
+![Registro de Teste - Visualização de solicitação](../../../img/Registros%20de%20Testes//Solicitacao1.jpeg)
 
-![Registro de Teste - Criação de item](../../../img/Registros%20de%20Testes//Solicitacao2.jpeg)
+![Registro de Teste - Visualização de solicitação](../../../img/Registros%20de%20Testes//Solicitacao2.jpeg)
 
 
 ###  Caso de Teste 3 — Atualização de item
