@@ -14,7 +14,7 @@
 ---
 
 ### Caso de Teste 1 e 2 — Dados do relatório e Alteração do Período
-[![Registro de Teste - 1 e 2](../../../img/Registros%20de%20Testes/Relatorio-VideoThumbnail.jpeg)](../../../videos/RegistroTeste-Relatorio.mp4)
+https://github.com/user-attachments/assets/442f781a-2d53-4fea-9216-e489636b688c
 
 ---
 

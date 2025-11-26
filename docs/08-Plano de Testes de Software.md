@@ -28,5 +28,6 @@ Acesse o código RF para ir até o plano de teste específico.
 | **[RF-010](/docs/testes/Planos%20de%20teste/RF-010/README.MD)** | Gerenciamento de Agendamentos | Washington |
 | **[RF-011](/docs/testes/Planos%20de%20teste/RF-011/README.MD)** | Visualizar informações de clientes | Henrique |
 | **[RF-012](/docs/testes/Planos%20de%20teste/RF-012/README.MD)** | Atualizar/cadastrar dados de clientes | Henrique |
+| **[RF-014](/docs/testes/Planos%20de%20teste/RF-014/README.MD)** | Geração e Exportação de Relatórios | Isaque |
 | **[RF-017](/docs/testes/Planos%20de%20teste/RF-017/README.MD)** | Recuperação de senha | Felipe |
 | **[RF-018](/docs/testes/Planos%20de%20teste/RF-018/README.MD)** | Gerenciar administradores | João |

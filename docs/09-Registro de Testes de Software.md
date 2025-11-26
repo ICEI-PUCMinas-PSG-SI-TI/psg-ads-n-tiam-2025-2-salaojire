@@ -10,6 +10,7 @@ Acesse o código RF para ir até o registro de teste específico.
 | **[RF-010](/docs/testes/Registros%20de%20Teste/RF-010/README.md)** | Gerenciamento de Agendamentos | Washington |
 | **[RF-011](/docs/testes/Registros%20de%20Teste/RF-011/README.md)** | Visualizar informações de clientes | Henrique |
 | **[RF-012](/docs/testes/Registros%20de%20Teste/RF-012/README.md)** | Atualizar/cadastrar dados de clientes | Henrique |
+| **[RF-014](/docs/testes/Registros%20de%20Teste/RF-014/README.MD)** | Geração e Exportação de Relatórios | Isaque |
 | **[RF-017](/docs/testes/Registros%20de%20Teste/RF-017/README.md)** | Recuperação de senha | Felipe |
 | **[RF-018](/docs/testes/Registros%20de%20Teste/RF-018/README.md)** | Gerenciar administradores | João |
 
