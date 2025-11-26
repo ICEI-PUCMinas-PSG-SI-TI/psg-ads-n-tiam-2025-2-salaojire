@@ -185,8 +185,8 @@ Descrição:
 O sistema deve exibir um painel inicial contendo atalhos funcionais, solicitações recentes, próximos agendamentos e resumo financeiro dos últimos 30 dias. Os dados devem ser carregados dinamicamente do Firestore.
 
 **Artefatos de Código-Fonte**
-
-[src/apps/mobile/app/(tabs)/index.tsx](src/apps/mobile/app/(tabs)/index.tsx) — Tela HomepageScreen:
+ Tela HomepageScreen:
+* [src/apps/mobile/app/(tabs)/index.tsx](src/apps/mobile/app/(tabs)/index.tsx): 
 
 Exibição da saudação ao usuário conectado.
 
@@ -202,7 +202,7 @@ Navegação integrada ao router.
 
 Integração com Firestore:
 
-[src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/clientes.js)
+* [src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/clientes.js):
 
 getClientes()
 
@@ -285,10 +285,9 @@ O sistema deve exibir um menu lateral acessado pela aba “Outros”, permitindo
 
 **Artefatos de Código-Fonte**
 
+* [src/apps/mobile/app/(tabs)/outros.tsx](/src/apps/mobile/app/(tabs)/outros.tsx):
+* [src/apps/mobile/app/tabs/TabsLayout.js](src/apps/mobile/app/tabs/TabsLayout.js):
 
-[src/apps/mobile/app/tabs/TabsLayout.js](src/apps/mobile/app/tabs/TabsLayout.js) 
-
-[src/apps/mobile/app/(tabs)/outros.tsx](/src/apps/mobile/app/(tabs)/outros.tsx)
 
 Implementação do menu lateral customizado.
 
