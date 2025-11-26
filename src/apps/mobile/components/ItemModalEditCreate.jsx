@@ -3,7 +3,7 @@ import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Scro
 import { Ionicons } from "@expo/vector-icons";
 import FirebaseAPI from "@packages/firebase"; 
 
-export default function ItemModal({ visible, onClose, onSave, isEditing, itemData }) {
+export default function ItemModal({ visible, onClose, onSave, isEditing, itemData, customSubmit}) {
     const [nome, setNome] = useState("");
     const [quantidade, setQuantidade] = useState("");
     const [valorBase, setValorBase] = useState("");
@@ -42,20 +42,29 @@ export default function ItemModal({ visible, onClose, onSave, isEditing, itemDat
         };
 
         try {
-            if (isEditing) {
-                await FirebaseAPI.firestore.itens.updateItem(itemData.id, dadosItem);
-                Alert.alert("Sucesso", "Item atualizado com sucesso!");
+            
+            if (customSubmit) {
+                await customSubmit(dadosItem);
             } else {
-                await FirebaseAPI.firestore.itens.createItem(dadosItem);
-                Alert.alert("Sucesso", "Item cadastrado com sucesso!");
+                
+                if (isEditing) {
+                    await FirebaseAPI.firestore.itens.updateItem(itemData.id, dadosItem);
+                    Alert.alert("Sucesso", "Item atualizado com sucesso!");
+                } else {
+                    await FirebaseAPI.firestore.itens.createItem(dadosItem);
+                    Alert.alert("Sucesso", "Item cadastrado com sucesso!");
+                }
             }
-            onSave();  
+            
+            onSave(); 
             onClose(); 
         } catch (error) {
             console.error("Erro ao salvar o item:", error);
-            Alert.alert("Erro", "Não foi possível salvar o item.");
-        }
+            
+            if (!customSubmit) Alert.alert("Erro", "Não foi possível salvar o item.");
+        };
     };
+    
 
     return (
         <Modal visible={visible} animationType="fade" transparent onRequestClose={onClose}>
@@ -90,6 +99,7 @@ export default function ItemModal({ visible, onClose, onSave, isEditing, itemDat
         </Modal>
     );
 }
+
 
 const styles = StyleSheet.create({
     overlay: {
