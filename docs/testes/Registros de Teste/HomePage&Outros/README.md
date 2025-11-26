@@ -4,14 +4,16 @@
 
 ## **Imagem 1 — HomePage**
 
-![Registro de Teste - 1](../../../img/Registros%20de%20Testes/Home1.jpg)
+![Registro de Teste - 1](docs/img/Registros%20de%20Testes/Home1.jpg)
+
 
 **Descrição:**  
 Exibidos corretamente: título “Jiré Festas – Gerência”, saudação, atalhos (Agendamentos, Itens, Calendário, Solicitações, Clientes, Relatórios, Configurações), card de Novas Solicitações
 
 ## **Imagem 2 — Homepage**
 
-![Registro de Teste - 2](../../../img/Registros%20de%20Testes/Home2.jpg)
+![Registro de Teste - 2](docs/img/Registros%20de%20Testes/Home2.jpg)
+
 
 ### **Validação**
 
@@ -22,7 +24,8 @@ Exibidos corretamente: lista de próximos agendamentos ordenados por data, botã
 
 ## **Imagem 3 — Outros **
 
-![Registro de Teste - 3](../../../img/Registros%20de%20Testes/Outros.jpg)
+![Registro de Teste - 3](docs/img/Registros%20de%20Testes/Outros.jpg)
+
 
 ### **Validação**
 
