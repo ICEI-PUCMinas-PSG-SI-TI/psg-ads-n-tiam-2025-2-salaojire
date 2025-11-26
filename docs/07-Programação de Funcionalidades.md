@@ -197,7 +197,8 @@ A Homepage exibe um painel inicial com atalhos funcionais, solicitações recent
 
 ### **Tela: HomepageScreen**
 
- [src/apps/mobile/app/(tabs)/index.tsx](/src/apps/mobile/app/%28tabs%29/index.tsx)
+ * [src/apps/mobile/app/(tabs)/index.tsx]
+   (/src/apps/mobile/app/%28tabs%29/index.tsx)
 
 **Implementações Principais:**
 
@@ -264,7 +265,7 @@ Funções utilizadas:
 | Calendário    | `/calendario`            | Abre calendário          |
 | Solicitações  | `/clientes`              | Abre solicitações        |
 | Clientes      | `/clientes`              | Lista clientes           |
-| Relatórios    | —                        | Aguardando implementação |
+| Relatórios    | `/relatorio`              | Aguardando implementação |
 | Configurações | `/configuracoes`         | Abre configs             |
 
 ---
@@ -280,8 +281,9 @@ O menu lateral é aberto pela aba **Outros**, oferecendo acesso rápido às prin
 
 ##  **Artefatos de Código-Fonte**
 
- [src/apps/mobile/app/(tabs)/outros.tsx](/src/apps/mobile/app/%28tabs%29/outros.tsx)
- [src/apps/mobile/app/tabs/TabsLayout.js](/src/apps/mobile/app/tabs/TabsLayout.js)
+* [src/apps/mobile/app/(tabs)/outros.tsx](/src/apps/mobile/app/%28tabs%29/outros.tsx):
+ 
+* [src/apps/mobile/app/tabs/TabsLayout.js](/src/apps/mobile/app/tabs/TabsLayout.js):
 
 **Funcionalidades Implementadas:**
 
