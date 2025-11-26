@@ -1,6 +1,6 @@
 # Registro de Testes — Homepage e Menu Outros
 
-- **Plano de Testes**: [Plano de Testes - RF-011](../../Planos%20de%20teste/HomePage&Outros/README.MD)
+- **Plano de Testes**: [Plano de Testes - RF-011](../../Planos%20de%20teste/HomePage&Outros/README.md)
 
 ## **Imagem 1 — HomePage**
 
