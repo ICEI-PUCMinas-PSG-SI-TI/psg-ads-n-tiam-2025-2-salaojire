@@ -150,20 +150,20 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
 * **Descrição:** O sistema deve permitir que o usuário visualize um calendário e os eventos nos dias agendados.
 
 **Artefatos de Código-Fonte:**
-* [/src/apps/mobile/app/(tabs)/calendario.js](/src/apps/mobile/app/(tabs)/calendario.js):  
+* [/src/apps/mobile/app/(tabs)/calendario.js](/src/apps/mobile/app/(tabs)/calendario.tsx):  
   Tela responsável pela exibição do calendário e dos eventos.  
   - Renderiza o calendário do mês atual.  
   - Permite avançar e voltar os meses.  
   - Destaca os dias que possuem eventos cadastrados.  
   - Filtra e exibe os eventos referentes ao dia selecionado.
 
-* [/src/apps/mobile/components/Calendar.js](/src/apps/mobile/components/Calendar.js):  
+* [/src/apps/mobile/components/Calendar.js](/src/apps/mobile/components/CalendarWidget.tsx):  
   Componente utilizado na renderização visual do calendário.  
   - Geração da matriz de dias do mês.  
   - Lógica para selecionar dias.  
   - Estilização e marcação de dias com eventos.
 
-* [/src/apps/mobile/components/EventList.js](/src/apps/mobile/components/EventList.js):  
+* [/src/apps/mobile/components/EventList.js](/src/apps/mobile/components/EventList.tsx):  
   Responsável pela listagem dos eventos.  
   - Recebe o dia selecionado.  
   - Mostra os eventos vinculados a essa data.  
