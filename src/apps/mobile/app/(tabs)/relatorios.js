@@ -13,6 +13,7 @@ import { useRouter, useFocusEffect } from "expo-router";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import FirebaseAPI from "@packages/firebase";
 import ItemGraficoBarra from "../../components/ItemGraficoBarra";
+import { gerarRelatorioPDF } from "../../services/RelatorioPDF";
 
 export default function Relatorios() {
   const router = useRouter();
@@ -69,12 +70,11 @@ export default function Relatorios() {
         diaMaisRentavelData = x.dataFim.seconds
       }
       let horasAlugadas = (x.dataFim.seconds - x.dataInicio.seconds) / 60 / 60;
-      console.log(horasAlugadas)
+
       x.itensAlugados.forEach((item) => {
         somaItens += item.quantidade;
 
         if (!dadosItens[item.nome]) {
-          console.log("criando " + item.nome)
           dadosItens[item.nome] = {
             nome: item.nome,
             totalQuantidade: 0,
@@ -147,6 +147,19 @@ export default function Relatorios() {
     carregarTudo();
   };
 
+  const exportarPDF = async () => {
+  try {
+    await gerarRelatorioPDF(
+      dadosGerais, 
+      agendamentosFiltrados, 
+      dataInicio, 
+      dataFim
+    );
+  } catch (error) {
+    Alert.alert("Erro", "Não foi possível gerar o PDF.");
+  }
+};
+
   return (
     <View style={styles.container}>
       <View style={styles.headerWrapper}>
@@ -191,7 +204,7 @@ export default function Relatorios() {
         )}
 
         {/* Botão Exportar */}
-        <TouchableOpacity style={styles.exportButton} onPress={() => Alert.alert("Exportar", "Funcionalidade em breve!")}>
+        <TouchableOpacity style={styles.exportButton} onPress={exportarPDF}>
           <Text style={styles.exportText}>Exportar relatório</Text>
           <Ionicons name="download-outline" size={18} color="#000" style={{ marginLeft: 5 }} />
           <View style={styles.pdfBadge}>
