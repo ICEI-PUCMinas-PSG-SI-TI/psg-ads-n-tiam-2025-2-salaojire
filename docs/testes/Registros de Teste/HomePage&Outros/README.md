@@ -5,9 +5,9 @@
 ## Seções
 ## Seções
 
-1. [Home — Imagem 1](#home--imagem-1)
-2. [Home — Imagem 2](#home--imagem-2)
-3. [Outros — Imagem 3](#outros--imagem-3)
+1. [Home1 — Imagem 1](#Home1--imagem-1)
+2. [Home2 — Imagem 2](#Home2--imagem-2)
+3. [Outros — Imagem 3](#Outros--imagem-3)
 
 
 
