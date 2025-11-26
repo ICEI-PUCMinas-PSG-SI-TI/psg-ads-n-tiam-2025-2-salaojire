@@ -273,8 +273,10 @@ O menu lateral é aberto pela aba **Outros**, oferecendo acesso rápido às prin
 
 ##  **Artefatos de Código-Fonte**
 
- [src/apps/mobile/app/(tabs)/outros.tsx](/src/apps/mobile/app/%28tabs%29/outros.tsx)
- [src/apps/mobile/app/tabs/TabsLayout.js](/src/apps/mobile/app/tabs/TabsLayout.js)
+ * [src/apps/mobile/app/(tabs)/outros.tsx](/src/apps/mobile/app/%28tabs%29/outros.tsx):
+   
+ * [src/apps/mobile/app/tabs/TabsLayout.js](/src/apps/mobile/app/tabs/TabsLayout.js):
+ 
 
 **Funcionalidades Implementadas:**
 
