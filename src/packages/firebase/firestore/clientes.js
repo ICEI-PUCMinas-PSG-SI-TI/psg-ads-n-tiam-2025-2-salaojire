@@ -264,27 +264,6 @@ export async function removeMidiaFromAgendamento(clienteId, agendamentoId, midia
 
 // SOLICITAÇÕES
 
-export async function getAllSolicitacoes() {
-  try {
-    const solicitacoesQuery = collectionGroup(firestore, 'solicitacoes');
-    const querySnapshot = await getDocs(solicitacoesQuery);
-
-    return querySnapshot.docs.map((doc) => {
-      const clienteId = doc.ref.parent.parent ? doc.ref.parent.parent.id : null;
-
-      return {
-        id: doc.id,
-        clienteId: clienteId,
-        ...doc.data(),
-      };
-    });
-  } catch (error) {
-    console.error("Erro ao buscar todas as solicitações:", error);
-    throw new Error("Falha ao buscar solicitações gerais.");
-  }
-}
-
-
 export async function addSolicitacaoToCliente(clienteId, solicitacaoData) {
   const solicitacoesRef = collection(firestore, 'Clientes', clienteId, 'solicitacoes');
   const docRef = await addDoc(solicitacoesRef, solicitacaoData);
