@@ -180,7 +180,7 @@ export default function Configuracoes() {
 
                 <TouchableOpacity
                     style={styles.cardItem}
-                    onPress={() => router.push("/calendario")}
+                    onPress={() => router.push("/AdminManagerScreen")}
                 >
                     <Ionicons name="people-outline" size={22} color="#000" />
                     <Text style={styles.cardText}>Gerenciar administradores</Text>

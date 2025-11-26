@@ -80,7 +80,7 @@ useEffect(() => {
     const routes = {
       agendamentos: "/gerenciarAgendamentos",
       itens: "/relatorios",
-      admins: "/calendario",
+      admins: "/AdminManagerScreen",
       // solicitacoes: "/solicitacoes",
         config: "/configuracoes",
     };
