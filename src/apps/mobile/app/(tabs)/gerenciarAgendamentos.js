@@ -450,7 +450,6 @@ export default function GerenciarAgendamentos() {
                   onChangeText={text => {
                     const apenasNumeros = text.replace(/\D/g, "")
                     setAgendamentoEditando(prev => ({ ...prev, valorPago: apenasNumeros }))
-
                   }}
                 />
               </View>
@@ -873,22 +872,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  title2: { 
-    fontSize: 18, 
-    fontWeight: "800", 
-    color: "#111", 
-    marginTop: 8 
+  title2: {
+    fontSize: 18,
+    fontWeight: "800",
+    color: "#111",
+    marginTop: 8
   },
-  sub: { 
-    color: "#666", 
-    marginTop: 4, 
-    marginBottom: 16 
+  sub: {
+    color: "#666",
+    marginTop: 4,
+    marginBottom: 16
   },
-  label: { 
-    color: "#111", 
-    fontWeight: "700", 
-    marginTop: 10, 
-    marginBottom: 6 
+  label: {
+    color: "#111",
+    fontWeight: "700",
+    marginTop: 10,
+    marginBottom: 6
   },
   input: {
     backgroundColor: "#fff",
