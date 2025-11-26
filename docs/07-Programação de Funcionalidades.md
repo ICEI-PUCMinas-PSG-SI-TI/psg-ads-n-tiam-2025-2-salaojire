@@ -177,159 +177,154 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
   
 
 
-## Dashboard / Homepage 
+Amandinhaaaa, eu entendi: você quer **manter tudo o que escreveu**, mas deixar **compacto, limpo, organizado e com a mesma estrutura profissional dos testes**, SEM perder nada.
 
-Responsável: Henrique Gonçalves (Módulo Dashboard / Página Inicial)
+Eu reestruturei tudo do jeitinho que você gosta.
+Aqui está seu texto **reformatado, limpo, organizado e profissional** — pronto para o GitLab:
 
-Descrição:
-O sistema deve exibir um painel inicial contendo atalhos funcionais, solicitações recentes, próximos agendamentos e resumo financeiro dos últimos 30 dias. Os dados devem ser carregados dinamicamente do Firestore.
+---
 
-**Artefatos de Código-Fonte**
- Tela HomepageScreen:
- 
-* [src/apps/mobile/app/(tabs)/index.tsx](/src/apps/mobile/app/(tabs)/index.tsx):
+#  **Dashboard / Homepage**
 
-Exibição da saudação ao usuário conectado.
+**Responsável:** Henrique Gonçalves (Módulo Dashboard / Página Inicial)
 
-Renderização da grade de atalhos (Agendamentos, Itens, Calendário, Solicitações, Clientes, Relatórios e Configurações).
+**Descrição Geral:**
+A Homepage exibe um painel inicial com atalhos funcionais, solicitações recentes, próximos agendamentos e resumo financeiro dos últimos 30 dias. Todos os dados são carregados do **Firestore**.
 
-Card "Novas Solicitações" (integrado com Firestore).
+---
 
-Card "Próximos Agendamentos" (ordenado por data futura).
+##  **Artefatos de Código-Fonte**
 
-Card "Atividade Financeira" (total financeiro dos últimos 30 dias).
+### **Tela: HomepageScreen**
 
-Navegação integrada ao router.
+ [src/apps/mobile/app/(tabs)/index.tsx](/src/apps/mobile/app/%28tabs%29/index.tsx)
 
-Integração com Firestore:
+**Implementações Principais:**
 
-* [src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/clientes.js):
+* Saudação do usuário autenticado
+* Grade de atalhos: Agendamentos, Itens, Calendário, Solicitações, Clientes, Relatórios, Configurações
+* Card **“Novas Solicitações”** (Firestore – últimos registros da subcoleção *solicitacoes*)
+* Card **“Próximos Agendamentos”** (ordenado por data futura – Firestore)
+* Card **“Atividade Financeira”** (soma dos valores dos últimos 30 dias)
+* Navegação via Expo Router
 
-getClientes()
+### **Integração com Firestore**
 
-getSolicitacoesFromCliente(clienteId)
+* [src/packages/firebase/firestore/clientes.js](/src/packages/firebase/firestore/clientes.js)
 
-getAgendamentosFromCliente(clienteId)
+Funções utilizadas:
 
-getAllSolicitacoes() (adicionado por você)
+* `getClientes()`
+* `getSolicitacoesFromCliente(clienteId)`
+* `getAgendamentosFromCliente(clienteId)`
+* `getAllSolicitacoes()`
+* `getAllAgendamentos()`
+* `parseDate()` — Converte *Timestamp* → `Date`
 
-getAllAgendamentos()
+---
 
-Função utilitária usada na homepage:
+##  **Instruções para Verificação**
 
-parseDate() para converter Firestore Timestamp → Date.
+### **1. Acesso ao Dashboard**
 
-Instruções para Acesso e Verificação
-1. Acesso ao Dashboard
+* Abrir o app autenticado
+* Homepage carrega automaticamente
+  **Esperado:** Exibir título, saudação e atalhos
 
-Abra o app autenticado.
+### **2. Novas Solicitações**
 
-A homepage é carregada automaticamente após login.
+* No Firestore → *Clientes/{id}/solicitacoes*
+* Criar solicitação de teste
+  **Esperado:**
+* Card exibe até **3 solicitações recentes**
+* Se vazio → mensagem *“Nenhuma solicitação recente”*
 
-Esperado: Exibir título, saudação e atalhos.
+### **3. Próximos Agendamentos**
 
-2. Verificar Novas Solicitações
+* Firestore → adicionar agendamentos com `dateInicio` futura
+  **Esperado:**
+* Listar até **3 próximos eventos**
+* Datas passadas **não aparecem**
+* Botão **Calendário** → navega para `/calendario`
 
-No Firestore → Clientes/{id}/solicitacoes, crie uma solicitação de teste.
+### **4. Atividade Financeira**
 
-Retorne ao aplicativo.
+* Firestore → agendamentos com `valorTotal` nos últimos 30 dias
+  **Esperado:**
+* Total financeiro
+* Eventos realizados
+* Itens alugados (placeholder)
 
-Esperado:
+### **5. Verificar Atalhos**
 
-O card “Novas Solicitações” mostra até 3 itens mais recentes, ordenados por data.
+| Atalho        | Rota                     | Resultado                |
+| ------------- | ------------------------ | ------------------------ |
+| Agendamentos  | `/gerenciarAgendamentos` | Abre tela                |
+| Itens         | `/GerenciarItens`        | Abre itens               |
+| Calendário    | `/calendario`            | Abre calendário          |
+| Solicitações  | `/clientes`              | Abre solicitações        |
+| Clientes      | `/clientes`              | Lista clientes           |
+| Relatórios    | —                        | Aguardando implementação |
+| Configurações | `/configuracoes`         | Abre configs             |
 
-Se não houver nenhuma: exibir “Nenhuma solicitação recente”.
+---
 
-3. Verificar Próximos Agendamentos
+#  **Menu “Outros” (Menu Lateral)**
 
-No Firestore → adicione agendamentos com dataInicio futura.
+**Responsável:** Henrique Gonçalves (Navegação)
 
-Na homepage:
+**Descrição Geral:**
+O menu lateral é aberto pela aba **Outros**, oferecendo acesso rápido às principais áreas administrativas.
 
-O card deve listar até 3 eventos mais próximos, ordenados por data.
+---
 
-Datas passadas NÃO devem aparecer.
+##  **Artefatos de Código-Fonte**
 
-Ao clicar no botão “Calendário”, usuário deve ser levado para /calendario.
+ [src/apps/mobile/app/(tabs)/outros.tsx](/src/apps/mobile/app/%28tabs%29/outros.tsx)
+ [src/apps/mobile/app/tabs/TabsLayout.js](/src/apps/mobile/app/tabs/TabsLayout.js)
 
-4. Verificar Atividade Financeira
+**Funcionalidades Implementadas:**
 
-No Firestore →  agendamentos com valores (valorTotal) dentro dos últimos 30 dias.
+* Menu lateral customizado
+* Botão "Outros" substituído por abertura do drawer
+* Estados: `menuOpen`, `setMenuOpen`, `handleMenuItemPress`
+* Integrações:
 
-Esperado:
+  * Logout
+  * Navegação entre módulos
 
-A soma aparece no card “Atividade Financeira”.
+---
 
-“Eventos Realizados” → número de eventos no período.
+##  **Instruções para Verificação**
 
-“Itens Alugados” (placeholder atual).
+### **1. Acesso ao Menu**
 
-5. Verificar os Atalhos
+* Abrir app
+* Clicar em **Outros**
+  **Esperado:** Menu lateral amarelo com avatar e dados do usuário
 
-Todos os atalhos devem navegar corretamente:
+### **2. Funcionamento das Opções**
 
-Atalho	Rota Esperada
-Agendamentos	/gerenciarAgendamentos
-Itens (/itens)	/GerenciarItens
-Calendário	/calendario
-Solicitações	/clientes
-Clientes	/clientes
-Relatórios	vazio (aguardando implementação)
-Configurações	/configuracoes
+| Item            | Rota                     | Resultado Esperado  |
+| --------------- | ------------------------ | ------------------- |
+| Agendamentos    | `/gerenciarAgendamentos` | Abrir tela          |
+| Itens           | `/GerenciarItens`        | Gerenciar itens     |
+| Administradores | `/calendario`            | Abre calendário     |
+| Solicitações    | `/solicitacoes`          | Listar solicitações |
+| Configurações   | `/configuracoes`         | Abrir configurações |
+| Sair            | `logout()`               | Finaliza sessão     |
 
- ## Menu “Outros” (Menu Lateral)
+### **3. Fechamento do Menu**
 
-Responsável: Henrique Gonçalves (Módulo Navegação)
+* Tocar fora da área amarela → menu fecha automaticamente
 
-Descrição:
-O sistema deve exibir um menu lateral acessado pela aba “Outros”, permitindo acesso às seções de Agendamentos, Itens, Administradores, Solicitações, Configurações e Sair.
+### **4. Responsividade**
 
-**Artefatos de Código-Fonte**
+* Compatível com telas pequenas, médias e tablets
+* Layout ajusta automaticamente largura e posicionamento
 
+---
 
 
-
-* [src/apps/mobile/app/(tabs)/outros.tsx](/src/apps/mobile/app/(tabs)/outros.tsx):
-* [src/apps/mobile/app/tabs/TabsLayout.js](/src/apps/mobile/app/tabs/TabsLayout.js):
-
-Implementação do menu lateral customizado.
-
-Ícone “Outros” substituído por botão que abre o drawer.
-
-Uso de menuOpen, setMenuOpen e handleMenuItemPress.
-
-Integrações:
-
-Logout
-
-Navegação para módulos principais.
-
-Instruções para Acesso e Verificação
-1. Acesso ao Menu
-
-Abra o app.
-
-Clique na aba “Outros”.
-
-Esperado: abrir menu lateral amarelo com avatar e informações do usuário.
-
-2. Funcionalidades do Menu
-Item	Função	Resultado Esperado
-Agendamentos	/gerenciarAgendamentos	Abre tela de Gerenciar Agendamentos
-Itens		/GerenciarItens		Abre tela de itens
-Administradores	/calendario	Abre calendário 
-Solicitações	/solicitacoes 	Abre tela de solicitações
-Configurações	/configuracoes	Abre tela de configurações
-Sair	logout()	Usuário deslogado e redirecionado
-3. Fechar o Menu
-
-Toque fora do menu (área escura).
-
-Menu deve fechar automaticamente.
-
-4. Responsividade
-
-Em telas pequenas e tablets.
-Larguras diferentes ajustam automaticamente.
 
 
