@@ -186,7 +186,8 @@ O sistema deve exibir um painel inicial contendo atalhos funcionais, solicitaç�
 
 **Artefatos de Código-Fonte**
  Tela HomepageScreen:
-* [src\apps\mobile\app\(tabs)\index.tsx](psg-ads-n-tiam-2025-2-salaojire/src/apps/mobile/app/(tabs)/index.tsx): 
+ 
+* [src/apps/mobile/app/(tabs)/index.tsx](/src/apps/mobile/app/(tabs)/index.tsx):
 
 Exibição da saudação ao usuário conectado.
 
@@ -286,10 +287,11 @@ O sistema deve exibir um menu lateral acessado pela aba “Outros”, permitindo
 **Artefatos de Código-Fonte**
 
 
-* [src\apps\mobile\app/tabs\TabsLayout.js](psg-ads-n-tiam-2025-2-salaojire/src/apps/mobile/app/tabs/TabsLayout.js):
+
 
 * [src/apps/mobile/app/(tabs)/outros.tsx](/src/apps/mobile/app/(tabs)/outros.tsx):
-* 
+* [src/apps/mobile/app/tabs/TabsLayout.js](/src/apps/mobile/app/tabs/TabsLayout.js):
+
 Implementação do menu lateral customizado.
 
 Ícone “Outros” substituído por botão que abre o drawer.
