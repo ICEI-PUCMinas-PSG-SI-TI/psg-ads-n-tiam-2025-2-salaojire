@@ -39,9 +39,9 @@ Para este preenchimento será necessário ir até o Firebase Console, caso não 
 
 Além disto no Firebase Console, vá até Authentication e habilite a autenticação por email e senha, para que a autenticação funcione corretamente.
 
-### 3. Use o Expo para iniciar a aplicação
+### 3. Inicie a aplicação
 ``` powershell
-npx expo start
+npm run start
 ```
 
 ### 4. Escaneie o QR Code que irá aparecer no terminal com o aplicativo "Expo Go" em um dispositivo físico para rodar o app diretamente no seu celular.

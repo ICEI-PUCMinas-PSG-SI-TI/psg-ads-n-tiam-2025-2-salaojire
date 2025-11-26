@@ -1,10 +1,10 @@
 # Registro de Testes — Homepage e Menu Outros
 
-- **Plano de Testes**: [Plano de Testes - RF-011](../../Planos%20de%20teste/HomePage&Outros/README.md)
+- **Plano de Testes**: [Plano de Testes - ](../../Planos%20de%20teste/HomePage&Outros/README.md)
 
 ## **Imagem 1 — HomePage**
 
-![Home1](/docs/img/Registros%20de%20Testes/Home1.jpg)
+![Home1](/docs/img/Registros%20de%20Testes/Home1.png)
 
 
 
@@ -15,7 +15,7 @@ Exibidos corretamente: título “Jiré Festas – Gerência”, saudação, ata
 
 ## **Imagem 2 — Homepage**
 
-![Home2](/docs/img/Registros%20de%20Testes/Home2.jpg)
+![Home2](/docs/img/Registros%20de%20Testes/Home2.png)
 
 
 
@@ -30,7 +30,7 @@ Exibidos corretamente: lista de próximos agendamentos ordenados por data, botã
 
 ## **Imagem 3 — Outros **
 
-![Outros](/docs/img/Registros%20de%20Testes/Outros.jpg)
+![Outros](/docs/img/Registros%20de%20Testes/Outros.png)
 
 
 

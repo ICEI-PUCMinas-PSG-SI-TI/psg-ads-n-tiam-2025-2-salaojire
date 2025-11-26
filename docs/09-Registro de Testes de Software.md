@@ -16,7 +16,7 @@ Acesse o código RF para ir até o registro de teste específico.
 | **[RF-017](/docs/testes/Registros%20de%20Teste/RF-017/README.md)** | Recuperação de senha | Felipe |
 | **[RF-018](/docs/testes/Registros%20de%20Teste/RF-018/README.md)** | Gerenciar administradores | João |
 | **[Configurações](/docs/testes/Registros%20de%20Teste/configuracoes/README.MD)** | Configurações administradores | Washington |
-
+| **[HomePage e Outros](/docs/testes/Registros%20de%20Teste/HomePage&Outros/README.md)** | Tela principal e Outros| Henrique |
 ## Avaliação
 
 Os resultados dos testes foram bem-sucedidos, sem falhas detectadas nas funcionalidades implementadas.

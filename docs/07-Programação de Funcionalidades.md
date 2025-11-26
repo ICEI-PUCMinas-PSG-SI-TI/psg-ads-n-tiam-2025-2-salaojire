@@ -147,6 +147,29 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
 5. Excluir
     * Clique na lixeira → Confirmar exclusão.
     * Esperado: cliente removido da lista.
+    
+## RF-013
+
+**Responsável:** João Pedro Ferreira 
+**Descrição:** O sistema deve possibilitar o upload de fotos e vídeos para registro de festas no histórico do cliente.
+
+**Artefatos de Código-Fonte:**
+* [src/apps/mobile/app/(tabs)/clientes.tsx](/src/apps/mobile/app/(tabs)/clientes.tsx): — Ao final da tela e adicional um botão com funcinalidades de enviar arquivos como imagem e vídeo.
+- Também é feito uma grade de vizualição e um modal de ampliação dessas mídeas, dentro desse modal também há mais dois botões: Fechar e Exlcluir mídeia.
+ 
+**Instruções para Acesso e Verificação:**
+1. Envio
+    * Acesse Clientes → FInal da tela; CLique no botão para enviar os arquivos.
+    * Esperado: cliente aparece na lista após salvar.
+2. Permissão
+    * Permita o acesso do app as sua galeria.
+3. Confirmação
+    * Após a confirmação, selecione os arquivos desejados e envie.
+4. Visualização
+    * Clique nos arquivos aparente na grade de imagens, Abrirá um modal de ampliação.
+5. Excluir
+    * Clique na lixeira → Confirmar exclusão.
+    * Esperado: mídea removida da galeria.
 
 ## RF-014
 
