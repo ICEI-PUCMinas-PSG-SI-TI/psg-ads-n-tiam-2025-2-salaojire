@@ -144,6 +144,41 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
     1.  Navegue até a página Relatórios (Há um ícone no Footer).
     2.  Toque no botão Exportar Relatório
 
+## RF-015
+
+**Responsável:** Felipe de Oliveira Pereira
+**Descrição:** O sistema deve permitir que o usuário visualize um calendário e os eventos nos dias agendados.
+
+**Artefatos de Código-Fonte:**
+* [/src/apps/mobile/app/(tabs)/calendario.js](/src/apps/mobile/app/(tabs)/calendario.js):  
+  Tela responsável pela exibição do calendário e dos eventos.  
+  - Renderiza o calendário do mês atual.  
+  - Permite avançar e voltar os meses.  
+  - Destaca os dias que possuem eventos cadastrados.  
+  - Filtra e exibe os eventos referentes ao dia selecionado.
+
+* [/src/apps/mobile/components/Calendar.js](/src/apps/mobile/components/Calendar.js):  
+  Componente utilizado na renderização visual do calendário.  
+  - Geração da matriz de dias do mês.  
+  - Lógica para selecionar dias.  
+  - Estilização e marcação de dias com eventos.
+
+* [/src/apps/mobile/components/EventList.js](/src/apps/mobile/components/EventList.js):  
+  Responsável pela listagem dos eventos.  
+  - Recebe o dia selecionado.  
+  - Mostra os eventos vinculados a essa data.  
+  - Exibe detalhes do evento (como horário, cliente ou tipo).
+
+**Instruções para Acesso e Verificação**
+
+1. Acessar a aba **Calendário** no aplicativo.  
+2. Verificar se o calendário exibe corretamente o mês atual.  
+3. Navegar entre meses utilizando os botões de avanço/retorno.  
+4. Selecionar um dia específico e confirmar se os eventos daquele dia são exibidos na lista.  
+5. Validar se os dias que possuem eventos estão destacados visualmente.  
+6. Ao mudar de mês, garantir que o calendário renderiza corretamente os novos dias e eventos.  
+7. Confirmar se a lista de eventos atualiza automaticamente ao selecionar um novo dia.
+
 ## RF-017
 
 **Responsável:** Felipe de Oliveira Pereira  
