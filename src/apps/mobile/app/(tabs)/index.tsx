@@ -264,7 +264,7 @@ export default function HomepageScreen() {
                 <ShortcutButton
                   icon="cube-outline"
                   label="Itens"
-                  onPress={() => {}}
+                  onPress={() => {router.push("/GerenciarItens")}}
                 />
                 <ShortcutButton
                   icon="calendar-outline"
@@ -274,11 +274,7 @@ export default function HomepageScreen() {
                 <ShortcutButton
                   icon="chatbox-ellipses-outline"
                   label="Solicitações"
-
-                  onPress={() => router.push("/clientes")}
-
                   onPress={() => router.push("/(pages)/Solicitacoes")}
-
                 />
               </View>
 
@@ -292,7 +288,7 @@ export default function HomepageScreen() {
                 <ShortcutButton
                   icon="bar-chart-outline"
                   label="Relatórios"
-                  onPress={() => {}}
+                  onPress={() => router.push("/relatorios")}
                 />
                 <ShortcutButton
                   icon="settings-outline"
@@ -478,7 +474,7 @@ export default function HomepageScreen() {
               <View style={styles.cardFooterCenter}>
                 <PillButton
                   label="Relatórios"
-                  onPress={() => {}}
+                  onPress={() => router.push("/relatorios")}
                 />
               </View>
             </View>

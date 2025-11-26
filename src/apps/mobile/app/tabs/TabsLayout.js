@@ -79,10 +79,10 @@ useEffect(() => {
 
     const routes = {
       agendamentos: "/gerenciarAgendamentos",
-      itens: "/relatorios",
+      itens: "/(pages)/GerenciarItens",
       admins: "/AdminManagerScreen",
-      // solicitacoes: "/solicitacoes",
-        config: "/configuracoes",
+      solicitacoes: "/(pages)/Solicitacoes",
+      config: "/configuracoes",
     };
 
     if (key === "sair") {
