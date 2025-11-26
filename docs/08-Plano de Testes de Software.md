@@ -34,5 +34,5 @@ Acesse o código RF para ir até o plano de teste específico.
 | **[RF-017](/docs/testes/Planos%20de%20teste/RF-017/README.MD)** | Recuperação de senha | Felipe |
 | **[RF-018](/docs/testes/Planos%20de%20teste/RF-018/README.MD)** | Gerenciar administradores | João |
 | **[Configurações](/docs/testes/Planos%20de%20teste/configuracoes/README.MD)** | Configurações administradores | Washington |
-| **[Plano de Testes - ](../../Planos%20de%20teste/HomePage&Outros/README.md)** | HomePage&Outros| Henrique|
+| **[HomePage e Outros - ](../../Planos%20de%20teste/HomePage&Outros/README.md)** | Tela Principal e Outros| Henrique|
 
