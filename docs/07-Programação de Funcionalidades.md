@@ -146,8 +146,8 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
 
 ## RF-015
 
-**Responsável:** Felipe de Oliveira Pereira
-**Descrição:** O sistema deve permitir que o usuário visualize um calendário e os eventos nos dias agendados.
+* **Responsável:** Felipe de Oliveira Pereira
+* **Descrição:** O sistema deve permitir que o usuário visualize um calendário e os eventos nos dias agendados.
 
 **Artefatos de Código-Fonte:**
 * [/src/apps/mobile/app/(tabs)/calendario.js](/src/apps/mobile/app/(tabs)/calendario.js):  
