@@ -90,8 +90,7 @@ export default function HomepageScreen() {
                 <ShortcutButton
                   icon="chatbox-ellipses-outline"
                   label="Solicitações"
-                  // Quando a tela de solicitações existir:
-                  // onPress={() => router.push("/solicitacoes")}
+                  onPress={() => router.push("/(pages)/Solicitacoes")}
                 />
               </View>
 
