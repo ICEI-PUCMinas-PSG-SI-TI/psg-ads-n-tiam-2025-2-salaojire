@@ -24,6 +24,7 @@ Acesse o código RF para ir até o plano de teste específico.
 | Código RF | Requisito Funcional | Responsável |
 |------------|--------------------|--------------|
 | **[RF-004](/docs/testes/Planos%20de%20teste/Autenticacao%20Mobile/README.MD)** | Implementação do login Firebase | Isaque |
+|**[RF-007](/docs/testes/Planos%20de%20teste/RF-007/README.MD)** | Visualizar solicitações | Gabriel Assis |
 | **[RF-009](/docs/testes/Planos%20de%20teste/RF-009/README.MD)** | CRUD de Itens | Gabriel Assis |
 | **[RF-010](/docs/testes/Planos%20de%20teste/RF-010/README.MD)** | Gerenciamento de Agendamentos | Washington |
 | **[RF-011](/docs/testes/Planos%20de%20teste/RF-011/README.MD)** | Visualizar informações de clientes | Henrique |

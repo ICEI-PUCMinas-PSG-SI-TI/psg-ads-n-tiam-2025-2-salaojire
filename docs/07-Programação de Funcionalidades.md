@@ -44,6 +44,25 @@ A implementação do sistema é descrita abaixo, requisito por requisito. Para c
     4.  Acesse a opção "Entrar"
     5.  Caso os campos estejam corretos, o usuário será autenticado e redirecionado para a Homepage do aplicativo.
 
+## RF-007
+
+* **Responsável:** Gabriel Assis Melo Noronha
+* **Descrição:**  Visualizar solicitações de clientes, permitindo edição e exclusão de itens adicionados
+
+* **Artefatos de Código-Fonte:**
+    * [src\apps\mobile\app\(pages)\Solicitacoes.jsx](/src/apps/mobile/app/(pages)/Solicitacoes.jsx): Pagina inicial para buscar todos as solicitações armanezadas no banco.
+    * [src\apps\mobile\app\(pages)\ViewSolicitacao.jsx](/src/apps/mobile/app/(pages)/GerenciarItens.js): Pagina para visualizar uma solicitação em específica de um cliente.
+    * [src\apps\mobile\components\ItemModalDelete.jsx](/src/apps/mobile/components/ItemModalDelete.jsx): Componente para criação de um modal de exclusão de itens.
+    * [src\apps\mobile\components\ItemModalEditCreate.jsx](/src/apps/mobile/components/ItemModalEditCreate.jsx): Componente para criação de um modal de atualização e criação de itens, customizado para aceitar manipulações de itens de solicitações.
+
+* **Instruções para Acesso e Verificação:**
+    1.  Inicialize o aplicativo.
+    2.  Toque no ícone "Solicitações".
+    3.  Caso não exista registros no banco de dados a mensagem "Nenhuma solicitação encontrada aparecerá"
+    4.  Caso exista registros, uma lista de solicitações será gerada.
+    5.  Toque no icone de visualizar em um card de uma solicitação.
+    6.  Edite campos, intens ou exclua itens.
+
 ## RF-009
 
 * **Responsável:** Gabriel Assis Melo Noronha

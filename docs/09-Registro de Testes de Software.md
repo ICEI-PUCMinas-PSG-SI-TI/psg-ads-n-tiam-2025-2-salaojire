@@ -6,6 +6,7 @@ Acesse o código RF para ir até o registro de teste específico.
 | Código RF | Requisito Funcional | Responsável 
 |------------|--------------------|--------------
 | **[RF-004](/docs/testes/Registros%20de%20Teste/Autenticacao%20Mobile/README.md)** | Implementação do login Firebase | Isaque |
+| **[RF-007](/docs/testes/Registros%20de%20Teste/RF-007/README.md)** | Visualizar solicitações | Gabriel Assis |
 | **[RF-009](/docs/testes/Registros%20de%20Teste/RF-009/README.md)** | CRUD de Itens | Gabriel Assis |
 | **[RF-010](/docs/testes/Registros%20de%20Teste/RF-010/README.md)** | Gerenciamento de Agendamentos | Washington |
 | **[RF-011](/docs/testes/Registros%20de%20Teste/RF-011/README.md)** | Visualizar informações de clientes | Henrique |
