@@ -59,14 +59,14 @@ export async function getAllAgendamentos() {
   try {
     const agendamentosQuery = collectionGroup(firestore, 'agendamentos');
     const querySnapshot = await getDocs(agendamentosQuery);
-    
+
     return querySnapshot.docs.map(doc => {
       const clienteId = doc.ref.parent.parent ? doc.ref.parent.parent.id : null;
-      
-      return { 
-        id: doc.id, 
+
+      return {
+        id: doc.id,
         clienteId: clienteId,
-        ...doc.data() 
+        ...doc.data()
       };
     });
   } catch (error) {
@@ -88,7 +88,7 @@ agendamentoId = await FirebaseAPI.firestore.clientes.addAgendamentoToCliente(IDC
 */
 export async function addAgendamentoToCliente(clienteId, agendamentoData) {
   const dataCorrigida = {
-  ...agendamentoData,
+    ...agendamentoData,
     itensAlugados: agendamentoData.itensAlugados || [],
     midias: agendamentoData.Midias || [],
   };
@@ -193,7 +193,7 @@ export async function removeItemEmAgendamento(clienteId, agendamentoId, itemIdTo
 
   const agendamento = agendamentoSnap.data();
   const itens = agendamento.itensAlugados || [];
-  const updatedItens = itens.filter(item => item.id!== itemIdToRemove);
+  const updatedItens = itens.filter(item => item.id !== itemIdToRemove);
 
   await updateDoc(agendamentoRef, {
     itensAlugados: updatedItens
@@ -232,7 +232,7 @@ export async function updateMidiaEmAgendamento(clienteId, agendamentoId, midiaId
   const midias = agendamento.Midias || [];
   const updatedMidias = midias.map(midia => {
     if (midia.id === midiaIdToUpdate) {
-      return {...midia,...newMidiaData };
+      return { ...midia, ...newMidiaData };
     }
     return midia;
   });
@@ -255,7 +255,7 @@ export async function removeMidiaFromAgendamento(clienteId, agendamentoId, midia
 
   const agendamento = agendamentoSnap.data();
   const midias = agendamento.Midias || [];
-  const updatedMidias = midias.filter(midia => midia.id!== midiaIdToRemove);
+  const updatedMidias = midias.filter(midia => midia.id !== midiaIdToRemove);
 
   await updateDoc(agendamentoRef, {
     midias: updatedMidias
@@ -284,10 +284,10 @@ export async function getAllSolicitacoes() {
   try {
     const solicitacoesQuery = collectionGroup(firestore, 'solicitacoes');
     const querySnapshot = await getDocs(solicitacoesQuery);
-    
+
     const solicitacoesPromises = querySnapshot.docs.map(async (solicitacaoDoc) => {
       const solicitacaoData = solicitacaoDoc.data();
-      
+
       const clienteDocRef = solicitacaoDoc.ref.parent.parent;
       let clienteData = { nome: 'Desconhecido', email: '' };
 
@@ -298,21 +298,21 @@ export async function getAllSolicitacoes() {
         }
       }
 
-      return { 
-        id: solicitacaoDoc.id, 
+      return {
+        id: solicitacaoDoc.id,
         clienteId: clienteDocRef ? clienteDocRef.id : null,
         clienteNome: clienteData.nome || "Cliente Sem Nome",
         clienteEmail: clienteData.email || "",
-        ...solicitacaoData 
+        ...solicitacaoData
       };
     });
 
     const results = await Promise.all(solicitacoesPromises);
-    
+
     return results.sort((a, b) => {
-        const dataA = a.dataSolicitacao?.toDate ? a.dataSolicitacao.toDate() : new Date(a.dataSolicitacao);
-        const dataB = b.dataSolicitacao?.toDate ? b.dataSolicitacao.toDate() : new Date(b.dataSolicitacao);
-        return dataB - dataA;
+      const dataA = a.dataSolicitacao?.toDate ? a.dataSolicitacao.toDate() : new Date(a.dataSolicitacao);
+      const dataB = b.dataSolicitacao?.toDate ? b.dataSolicitacao.toDate() : new Date(b.dataSolicitacao);
+      return dataB - dataA;
     });
 
   } catch (error) {
@@ -370,9 +370,75 @@ export async function removeItemEmSolicitacao(clienteId, solicitacaoId, itemIdTo
 
   const solicitacao = solicitacaoSnap.data();
   const itens = solicitacao.itensSolicitados || [];
-  const updatedItens = itens.filter(item => item.id!== itemIdToRemove);
+  const updatedItens = itens.filter(item => item.id !== itemIdToRemove);
 
   await updateDoc(solicitacaoRef, {
     itensSolicitados: updatedItens
   });
 }
+
+// testeeeeeeeeeee
+
+export async function getHistoricoDeFestas(clienteId) {
+  try {
+    const agendamentos = [
+      { id: "ag1", dataFim: new Date("2024-02-01"), status: "finalizado", valorTotal: 350 },
+      { id: "ag2", dataFim: new Date("2023-12-20"), status: "cancelado", valorTotal: 0 },
+      { id: "ag3", dataFim: new Date("2023-10-15"), status: "finalizado", valorTotal: 580 },
+      { id: "ag4", dataFim: new Date("2023-08-12"), status: "finalizado", valorTotal: 720 },
+      { id: "ag5", dataFim: new Date("2023-07-03"), status: "cancelado", valorTotal: 0 },
+      { id: "ag6", dataFim: new Date("2023-05-28"), status: "finalizado", valorTotal: 450 },
+      { id: "ag7", dataFim: new Date("2023-03-15"), status: "finalizado", valorTotal: 980 },
+      { id: "ag8", dataFim: new Date("2022-12-02"), status: "pendente", valorTotal: 150 },
+      { id: "ag9", dataFim: new Date("2022-10-18"), status: "finalizado", valorTotal: 640 },
+      { id: "ag10", dataFim: new Date("2022-08-05"), status: "cancelado", valorTotal: 0 },
+      { id: "ag11", dataFim: new Date("2022-06-21"), status: "finalizado", valorTotal: 890 },
+      { id: "ag12", dataFim: new Date("2022-04-09"), status: "pendente", valorTotal: 230 },
+      { id: "ag13", dataFim: new Date("2022-02-14"), status: "finalizado", valorTotal: 1120 },
+      { id: "ag14", dataFim: new Date("2021-11-30"), status: "cancelado", valorTotal: 0 },
+      { id: "ag15", dataFim: new Date("2021-09-02"), status: "finalizado", valorTotal: 760 },
+      { id: "ag16", dataFim: new Date("2021-06-17"), status: "finalizado", valorTotal: 520 },
+      { id: "ag17", dataFim: new Date("2021-03-10"), status: "finalizado", valorTotal: 1340 },
+      { id: "ag18", dataFim: new Date("2020-12-19"), status: "finalizado", valorTotal: 980 },
+    ];
+
+    const hoje = new Date();
+    const historico = agendamentos.filter(ag => ag.dataFim < hoje);
+    historico.sort((a, b) => b.dataFim - a.dataFim);
+    return historico;
+
+  } catch (error) {
+    console.error("Erro ao buscar histórico de festas:", error);
+    throw new Error("Falha ao buscar histórico.");
+  }
+}
+
+
+
+/*export async function getHistoricoDeFestas(clienteId) {
+  try {
+    const hoje = new Date();
+
+    // Busca todos os agendamentos do cliente
+    const agendamentos = await getAgendamentosFromCliente(clienteId);
+
+    // Filtra apenas os eventos finalizados / anteriores
+    const historico = agendamentos.filter(ag => {
+      const dataFim = ag.dataFim?.toDate ? ag.dataFim.toDate() : new Date(ag.dataFim);
+      return dataFim < hoje;
+    });
+
+    // Ordena do mais recente para o mais antigo
+    historico.sort((a, b) => {
+      const dataA = a.dataFim?.toDate ? a.dataFim.toDate() : new Date(a.dataFim);
+      const dataB = b.dataFim?.toDate ? b.dataFim.toDate() : new Date(b.dataFim);
+      return dataB - dataA;
+    });
+
+    return historico;
+
+  } catch (error) {
+    console.error("Erro ao buscar histórico de festas:", error);
+    throw new Error("Falha ao buscar histórico.");
+  }
+}*/
