@@ -59,4 +59,8 @@ Tela apresentada usuario recebendo email.
 ![Confirmação de e-mail](../../../img/Registros%20de%20Testes/config08.jpg)   
 <br><br>
 
+Tela apresentada mensagem de sucesso na alteração de email 
+<br>  
+![Sucesso na alteração do email ](../../../img/Registros%20de%20Testes/config11.jpg)   
+<br><br>
 ---
