@@ -54,13 +54,15 @@ Mostra o alerta informando que um e-mail de confirmação foi enviado.
 **Evidências:**  
 
 #### Página de confirmação de e-mail  
-Tela apresentada usuario recebendo email.  
+Tela apresentada ao usuário após receber o e-mail de verificação.  
 <br>  
 ![Confirmação de e-mail](../../../img/Registros%20de%20Testes/config08.jpg)   
 <br><br>
 
-Tela apresentada mensagem de sucesso na alteração de email 
+#### Página de sucesso na alteração do e-mail  
+Tela exibida após o usuário confirmar a alteração pelo link enviado.  
 <br>  
-![Sucesso na alteração do email ](../../../img/Registros%20de%20Testes/config11.jpg)   
+![Sucesso na alteração do email](../../../img/Registros%20de%20Testes/config11.jpg)   
 <br><br>
+
 ---
