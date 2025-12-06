@@ -2,6 +2,7 @@ import { alterarSenhaAdmin, alterarEmailAdmin } from "../../../../packages/fireb
 import { useRouter } from "expo-router";
 import { useAuth } from "../context/AuthContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { testeEmail } from "../../../../packages/firebase/auth";
 
 
 import React, { useState } from "react";
@@ -170,7 +171,6 @@ export default function Configuracoes() {
                     <Text style={styles.cardText}>Notificações</Text>
                 </TouchableOpacity>
 
-
             </View>
 
             {/* ---------------------- SEÇÃO AÇÕES ---------------------- */}
@@ -186,9 +186,9 @@ export default function Configuracoes() {
                     <Text style={styles.cardText}>Gerenciar administradores</Text>
                 </TouchableOpacity>
 
-
-
             </View>
+
+            
 
             {/* --------------------- MODAL ALTERAR SENHA --------------------- */}
             <Modal visible={modalSenha} transparent animationType="fade">
@@ -247,7 +247,9 @@ export default function Configuracoes() {
             </Modal>
 
 
+
             {/* --------------------- MODAL ALTERAR EMAIL --------------------- */}
+            
             <Modal visible={modalEmail} transparent animationType="fade">
                 <View style={styles.modalOverlay}>
                     <View style={styles.modalBox}>
@@ -360,6 +362,9 @@ export default function Configuracoes() {
         </View>
     );
 }
+
+
+
 
 /* ------------------- ESTILOS ------------------- */
 const styles = StyleSheet.create({
