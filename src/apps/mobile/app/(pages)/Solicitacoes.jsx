@@ -64,7 +64,7 @@ export default function Solicitacoes() {
                         id: "item_1",
                         nome: "Forro vermelho",
                         quantidade: 15,
-                        imageUrl: null // Se tiver URL de imagem real, coloque aqui
+                        imageUrl: null 
                     },
                     {
                         id: "item_2",
@@ -94,7 +94,7 @@ export default function Solicitacoes() {
             });
 
             Alert.alert("Sucesso", "Solicitação da Maria criada!");
-            fetchSolicitacoes(); // Recarrega a lista para aparecer na hora
+            fetchSolicitacoes(); 
 
         } catch (error) {
             console.error("Erro ao gerar teste:", error);

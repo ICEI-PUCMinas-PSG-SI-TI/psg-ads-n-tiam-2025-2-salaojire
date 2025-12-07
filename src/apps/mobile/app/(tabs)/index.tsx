@@ -12,6 +12,7 @@ import { useRouter } from "expo-router";
 import { useAuth } from "../context/AuthContext";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import FirebaseAPI from "@packages/firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // ---------- TIPOS ----------
 
@@ -30,6 +31,7 @@ type SolicitacaoHome = {
   id: string;
   cliente: string;
   data: Date | null;
+  status?: string;
 };
 
 type AgendamentoHome = {
@@ -114,6 +116,8 @@ export default function HomepageScreen() {
     itens: 0,
   });
   const [loading, setLoading] = useState<boolean>(true);
+  const [pendentesTotal, setPendentesTotal] = useState(0);
+  const [novasNotificacoes, setNovasNotificacoes] = useState(0);
 
   const raw = user?.email?.split("@")[0] ?? "Salaojire";
   const firstName = raw.charAt(0).toUpperCase() + raw.slice(1);
@@ -143,21 +147,42 @@ export default function HomepageScreen() {
 
             return {
               id: s.id,
-              cliente: mapaClientes.get(s.clienteId) ?? "Cliente",
+              cliente: mapaClientes.get(s.clienteId) ?? s.clienteNome ?? "Cliente", 
               data: parseDate(dataBruta),
+              status: s.status,
             };
           })
           .sort((a, b) => {
             const ta = a.data ? a.data.getTime() : 0;
             const tb = b.data ? b.data.getTime() : 0;
             return tb - ta; // mais recentes primeiro
+            
           });
 
+          
         console.log(
           "[HOME] Solicitações carregadas:",
           solicitacoesTratadas.length,
           solicitacoesTratadas
         );
+
+        const listaPendentes = solicitacoesTratadas.filter(
+          (s) => s.status === "pendente"
+        );
+        const totalAtualNoBanco = listaPendentes.length;
+        setPendentesTotal(totalAtualNoBanco);
+
+        
+        const ultimoVistoString = await AsyncStorage.getItem('@last_seen_count');
+        const ultimoVisto = ultimoVistoString ? parseInt(ultimoVistoString) : 0;
+
+        const diferenca = totalAtualNoBanco - ultimoVisto;
+        
+        if (diferenca > 0) {
+            setNovasNotificacoes(diferenca);
+        } else {
+            setNovasNotificacoes(0);
+        }
 
         // Mostra só as 3 mais recentes
         setSolicitacoes(solicitacoesTratadas.slice(0, 3));
@@ -237,6 +262,13 @@ export default function HomepageScreen() {
     carregarDashboard();
   }, [user]);
 
+  const handleVerSolicitacoes = async () => {
+      await AsyncStorage.setItem('@last_seen_count', pendentesTotal.toString());
+      
+      setNovasNotificacoes(0);
+      router.push("/(pages)/Solicitacoes");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -306,63 +338,48 @@ export default function HomepageScreen() {
         {/* CORPO BRANCO / CARDS */}
         <View style={styles.body}>
           <View style={styles.bodyInner}>
-            {/* Card Novas Solicitações */}
-            <View style={styles.card}>
+            <TouchableOpacity 
+                activeOpacity={0.9}
+                onPress={handleVerSolicitacoes} // <--- USA A NOVA FUNÇÃO
+                style={styles.card}
+            >
               <View style={styles.cardRow}>
-                <View style={styles.cardIconCircle}>
+                {/* Ícone muda de cor se tiver novidade */}
+                <View style={[styles.cardIconCircle, { backgroundColor: novasNotificacoes > 0 ? '#ffcc00ff' : '#FFF5CC' }]}>
                   <Ionicons
-                    name="chatbubbles-outline"
+                    name={novasNotificacoes > 0 ? "notifications" : "chatbubble-outline"}
                     size={22}
-                    color="#000"
+                    color={novasNotificacoes > 0 ? "#FFF" : "#000000ff"}
                   />
                 </View>
+                
                 <View style={{ flex: 1, marginLeft: 12 }}>
                   <Text style={styles.cardTitle}>Novas Solicitações</Text>
+         
                   <Text style={styles.cardText}>
-                    {loading
-                      ? "Carregando..."
-                      : `Houve ${solicitacoes.length} novas solicitações recentes`}
+                    {loading ? "Carregando..." : (
+                        novasNotificacoes > 0 
+                        ? `Houve ${novasNotificacoes} ${novasNotificacoes === 1 ? 'nova solicitação desde seu último login!' : 'novas solicitações desde seu último login!'}!`
+                        : `Tudo visto. Solicitações pendentes: ${pendentesTotal}`
+                    )}
                   </Text>
                 </View>
-                <TouchableOpacity
-                  onPress={() => {}}
-                  style={styles.cardIconRight}
-                >
-                  <Ionicons
-                    name="ellipsis-horizontal"
-                    size={20}
-                    color="#F0B100"
-                  />
-                </TouchableOpacity>
+
+                {!loading && novasNotificacoes > 0 && (
+                    <View style={{
+                        backgroundColor: 'red', borderRadius: 12, paddingHorizontal: 6, paddingVertical: 2, marginRight: 10
+                    }}>
+                        <Text style={{color: 'white', fontSize: 10, fontWeight: 'bold'}}>
+                            +{novasNotificacoes}
+                        </Text>
+                    </View>
+                )}
+
+                <View style={styles.cardIconRight}>
+                  <Ionicons name="chevron-forward" size={20} color="#818181ff" />
+                </View>
               </View>
-
-              {!loading && solicitacoes.length === 0 && (
-                <Text
-                  style={{
-                    marginTop: 8,
-                    fontSize: 12,
-                    color: "#555",
-                  }}
-                >
-                  Nenhuma solicitação recente.
-                </Text>
-              )}
-
-              {!loading &&
-                solicitacoes.map((s) => (
-                  <Text
-                    key={s.id}
-                    style={{
-                      marginTop: 4,
-                      fontSize: 12,
-                      color: "#555",
-                    }}
-                  >
-                    • {s.cliente} —{" "}
-                    {s.data?.toLocaleDateString() ?? "--/--/----"}
-                  </Text>
-                ))}
-            </View>
+            </TouchableOpacity>
 
             {/* Card Próximos Agendamentos */}
             <View style={styles.card}>
