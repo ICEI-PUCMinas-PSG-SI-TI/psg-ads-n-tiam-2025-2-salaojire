@@ -1,100 +1,174 @@
 import { useEffect, useState } from "react";
-import { getHistoricoDeFestas } from "@packages/firebase/firestore/clientes";
+import { getAllAgendamentos } from "@packages/firebase/firestore/clientes";
 
-export default function HistoricoFestas({ clienteId }) {
+export default function HistoricoFestas() {
   const [festas, setFestas] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState(null); 
+
+  useEffect(() => {
+  document.body.style.height = "auto";
+  document.documentElement.style.height = "auto";
+  document.body.style.overflow = "auto";
+  document.documentElement.style.overflow = "auto";
+
+  return () => {
+    
+  };
+}, []);
+
 
   useEffect(() => {
     async function load() {
       try {
-        const historico = await getHistoricoDeFestas(clienteId);
+        const lista = await getAllAgendamentos();
 
-        console.log("QUANTAS FESTAS CHEGARAM?", historico.length);
+        lista.sort((a, b) => {
+          const dataA = a.dataFim?.toDate ? a.dataFim.toDate() : new Date(a.dataFim);
+          const dataB = b.dataFim?.toDate ? b.dataFim.toDate() : new Date(b.dataFim);
+          return dataB - dataA;
+        });
 
-        // AQUI ESTAVA O ERRO: VOCÊ NÃO TINHA ISSO
-        setFestas(historico);
-
+        setFestas(lista);
       } catch (e) {
         console.error("Erro:", e);
       } finally {
         setLoading(false);
       }
     }
+
     load();
-  }, [clienteId]);
+  }, []);
 
   if (loading)
     return <div style={styles.loading}>Carregando...</div>;
 
   if (festas.length === 0)
-    return <div style={styles.empty}>Nenhuma festa encontrada.</div>;
+    return <div style={styles.empty}>Nenhum agendamento encontrado.</div>;
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.title}>Histórico de Festas</h1>
+      <h1 style={styles.title}>Todos os Agendamentos</h1>
 
       <div style={styles.list}>
         {festas.map((f) => {
-          const dataFmt =
-            f.dataFim instanceof Date
-              ? f.dataFim.toLocaleDateString()
-              : "—";
+          const inicioFmt = f.dataInicio?.toDate
+            ? f.dataInicio.toDate().toLocaleDateString()
+            : "—";
+
+          const entregaFmt = f.dataFim?.toDate
+            ? f.dataFim.toDate().toLocaleDateString()
+            : "—";
+
+          const valorTotal = f.valorTotal || 0;
+          const valorPago = f.valorPago || 0;
+          const valorPendente = valorTotal - valorPago;
 
           return (
             <div key={f.id} style={styles.card}>
-              <div style={styles.cardLeft}>
-                <div style={styles.festaTitle}>Festa #{f.id}</div>
 
-                <div style={styles.infoItem}>
-                  <span style={styles.label}>Data:</span> {dataFmt}
-                </div>
+              <div style={styles.festaTitle}>Agendamento #{f.id}</div>
 
-                <div style={styles.infoItem}>
-                  <span style={styles.label}>Valor Total:</span> R$ {f.valorTotal}
-                </div>
-
-                <div style={styles.infoItem}>
-                  <span style={styles.label}>Status:</span>
-                  <span style={{ ...styles.statusText, color: getStatusColor(f.status) }}>
-                    {f.status.toUpperCase()}
-                  </span>
-                </div>
+              <div style={styles.infoItem}>
+                <span style={styles.label}>Cliente:</span> {f.clienteNome}
               </div>
 
-              <button style={styles.button}>
-                Ver detalhes
+              <div style={styles.infoItem}>
+                <span style={styles.label}>Início:</span> {inicioFmt}
+              </div>
+
+              <div style={styles.infoItem}>
+                <span style={styles.label}>Entrega:</span> {entregaFmt}
+              </div>
+
+              <div style={styles.infoItem}>
+                <span style={styles.label}>Valor Total:</span> R$ {valorTotal}
+              </div>
+
+              <div style={styles.infoItem}>
+                <span style={styles.label}>Valor Pago:</span> R$ {valorPago}
+              </div>
+
+              <div style={styles.infoItem}>
+                <span style={styles.label}>Pendente:</span>
+                <strong style={{ color: "#c62828" }}> R$ {valorPendente} </strong>
+              </div>
+
+              <button style={styles.button} onClick={() => setSelected(f)}>
+                Visualizar mais
               </button>
+
             </div>
           );
         })}
       </div>
+
+      {/* ===========================
+                MODAL
+      =========================== */}
+      {selected && (
+        <div style={modalStyles.overlay}>
+          <div style={modalStyles.modal}>
+
+            <h2 style={{ marginBottom: 15 }}>Itens Alugados</h2>
+
+            {selected.itensAlugados?.length > 0 ? (
+              selected.itensAlugados.map((item, i) => {
+                const total = (item.precoUnitario || 0) * (item.qtd || 1);
+
+                return (
+                  <div key={i} style={modalStyles.item}>
+                    <strong>{item.nome || item.id}</strong>
+
+                    <div>Quantidade: {item.qtd || 1}</div>
+                    <div>Preço Unitário: R$ {item.precoUnitario || 0}</div>
+                    <div>Total: R$ {total}</div>
+
+                    {item.url && (
+                      <img 
+                        src={item.url} 
+                        style={{ width: 80, borderRadius: 8, marginTop: 8 }}
+                      />
+                    )}
+                  </div>
+                );
+              })
+            ) : (
+              <p>Nenhum item alugado.</p>
+            )}
+
+            <button 
+              style={modalStyles.closeButton}
+              onClick={() => setSelected(null)}
+            >
+              Fechar
+            </button>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
+
 /* ===========================
-      ESTILOS
+      ESTILOS ORIGINAIS
    =========================== */
 
 const gold = "#e3b23c";  
 const textDark = "#2a2a2a";
 const textGray = "#666";
 
-function getStatusColor(status) {
-  if (status === "finalizado") return "#2e7d32";
-  if (status === "cancelado") return "#c62828";
-  return "#c5941a";
-}
-
 const styles = {
-container: {
-  width: "100%",
-  maxWidth: "2000px",
-  margin: "40px auto",
-  padding: "20px",
-  fontFamily: "Inter, sans-serif",
-},
+  container: {
+    width: "100%",
+    maxWidth: "2000px",
+    margin: "40px auto",
+    padding: "20px",
+    fontFamily: "Inter, sans-serif",
+     minHeight: "100vh",
+  },
 
   title: {
     fontSize: "32px",
@@ -105,9 +179,9 @@ container: {
     paddingLeft: "12px",
   },
 
-list: {
+ list: {
   display: "grid",
-  gridTemplateColumns: "repeat(4, 1fr)", 
+  gridTemplateColumns: "repeat(3, 1fr)",
   gap: "25px",
   width: "100%",
 },
@@ -120,9 +194,7 @@ list: {
     border: `1px solid ${gold}33`,
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
-    minHeight: "160px",
-    transition: "0.2s ease",
+    minHeight: "240px",
   },
 
   festaTitle: {
@@ -138,6 +210,11 @@ list: {
     marginTop: "4px",
   },
 
+  label: {
+    fontWeight: "600",
+    color: textDark,
+  },
+
   button: {
     marginTop: "15px",
     padding: "10px 16px",
@@ -148,6 +225,54 @@ list: {
     cursor: "pointer",
     fontWeight: "600",
     width: "150px",
-    alignSelf: "flex-start",
+  },
+};
+
+
+/* ===========================
+            MODAL
+   =========================== */
+
+const modalStyles = {
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+    background: "rgba(0,0,0,0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 9999,
+     overflowY: "auto", 
+  },
+
+  modal: {
+    width: "480px",
+    background: "#fff",
+    padding: "25px",
+    borderRadius: "10px",
+    border: `2px solid ${gold}`,
+    maxHeight: "80vh",
+    overflowY: "auto",
+  },
+
+  item: {
+    padding: "10px",
+    marginBottom: "15px",
+    borderBottom: "1px solid #ddd",
+  },
+
+  closeButton: {
+    marginTop: "20px",
+    width: "100%",
+    padding: "10px",
+    background: gold,
+    border: "none",
+    color: "#fff",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontWeight: "600",
   },
 };
