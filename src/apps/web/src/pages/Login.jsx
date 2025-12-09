@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Phone, User, Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import FirebaseAPI from "@packages/firebase";
 
 export default function Login() {
