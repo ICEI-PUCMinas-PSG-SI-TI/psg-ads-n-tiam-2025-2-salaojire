@@ -1,7 +1,7 @@
 import React from 'react';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, MapPin } from 'lucide-react';
 import Logo from '../assets/Logo';
-import { Instagram, WhatsApp, Facebook} from '../assets/SocialMedia'
+import { Instagram, WhatsApp} from '../assets/SocialMedia'
 
 export default function Footer() {
   return (
