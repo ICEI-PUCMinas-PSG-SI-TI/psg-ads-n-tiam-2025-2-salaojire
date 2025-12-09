@@ -19,7 +19,7 @@ export default function Localizacao() {
         {/* Mapa */}
         <div className="w-full h-[500px] rounded-xl overflow-hidden shadow-2xl border border-white/10 shadow-[0px_0px_40px_rgba(255,191,0,0.35)]">
           <iframe
-            src={`https://maps.google.com/maps?q=${latitude},${longitude}&z=16&output=embed`}
+            src={`https://maps.google.com/maps/embed?pb=!1m18!1m12!1m3!1d175223.59958910022!2d-43.94196699138951!3d-19.88893107848237!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa69b427da7ffd1%3A0xb71cc665e8b8cdc!2sJir%C3%A9%20Festas%20e%20Eventos!5e0!3m2!1spt-BR!2sbr!4v1765310829508!5m2!1spt-BR!2sbr&z=16&output=embed`}
             className="w-full h-full"
             loading="lazy"
             allowFullScreen
