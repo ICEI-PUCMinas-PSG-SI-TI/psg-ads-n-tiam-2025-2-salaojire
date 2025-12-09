@@ -1,26 +1,32 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(),
-  ],
-  resolve: {
-    // Isso é crucial para Monorepos: Evita que o React seja carregado duas vezes
-    dedupe: ['react', 'react-dom'],
-    alias: {
-      // Seu alias para os pacotes compartilhados
-      '@packages': path.resolve(__dirname, '../../packages'), 
+export default defineConfig(({ mode }) => {
+  // Carrega as variáveis de ambiente baseadas no modo atual (development/production)
+  // O terceiro argumento '' permite carregar todas as variáveis, não só as que começam com VITE_
+  const env = loadEnv(mode, process.cwd(), '');
+
+  return {
+    plugins: [
+      react(),
+      tailwindcss(),
+    ],
+    resolve: {
+      dedupe: ['react', 'react-dom'],
+      alias: {
+        '@packages': path.resolve(__dirname, '../../packages'), 
+      },
     },
-  },
-  server: {
-    fs: {
-      // Permite importar arquivos fora da pasta do projeto (caso precise do @packages)
-      allow: ['..'],
+    //  corrige erro "process is not defined"
+    define: {
+      'process.env': env
     },
-  },
+    server: {
+      fs: {
+        allow: ['..'],
+      },
+    },
+  }
 })
