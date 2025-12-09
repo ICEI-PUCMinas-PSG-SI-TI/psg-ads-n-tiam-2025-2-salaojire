@@ -12,7 +12,7 @@ const firebaseConfig = {
   appId: process.env.EXPO_PUBLIC_APP_ID
 };
 
-console.log(firebaseConfig.projectId)
+console.log(`Conectado ao banco de dados: ${firebaseConfig.projectId}`)
 const app = initializeApp(firebaseConfig);
 export const firestore = getFirestore(app);
 export const auth = getAuth(app);
