@@ -1,9 +1,6 @@
 import React from "react";
 
 export default function Localizacao() {
-  const latitude = -19.854910106991262; 
-  const longitude = -43.93028148680557;
-
   return (
     <section id="localizacao" className="section-padding bg-neutral-900">
       <div className="max-w-5xl mx-auto text-center">
