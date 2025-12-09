@@ -6,6 +6,7 @@ import FirebaseAPI from "@packages/firebase";
 import { useAuth } from "../context/AuthContext"
 import { doc, setDoc, addDoc, collection, Timestamp } from "firebase/firestore";
 import { firestore } from "@packages/firebase/config";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Solicitacoes() {
     const router = useRouter();
@@ -199,7 +200,7 @@ export default function Solicitacoes() {
 
     
     const renderItem = ({ item }) => (
-        <View style={styles.itemContainer}>
+        <View style={styles.itemContainer} >
             <View style={styles.avatarContainer}>
                 <Text style={styles.avatarText}>{getInitials(item.clienteNome)}</Text>
             </View>
@@ -219,19 +220,18 @@ export default function Solicitacoes() {
     );
 
     return (
-        <View style={styles.container}>
-            <StatusBar barStyle="light-content" backgroundColor="#000" />
-            
+        <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
+            <StatusBar backgroundColor="#000000ff" barStyle="light-content" />
             <View style={styles.header}>
                 <View style={styles.headerTop}>
                     <TouchableOpacity onPress={voltar} style={styles.backButton}>
-                        <Ionicons name="arrow-back" size={24} color="#FFD700" />
+                        <Ionicons name="arrow-back" size={24} color="#FFCC3C" />
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>Solicitações</Text>
                 </View>
 
                 <View style={styles.ContainerBusca}>
-                    <Ionicons name="search" size={20} color="#FFD700" />
+                    <Ionicons name="search" size={20} color="#FFCC3C" />
                     <TextInput
                         placeholder="Pesquisar solicitação"
                         placeholderTextColor="#ccc"
@@ -257,12 +257,13 @@ export default function Solicitacoes() {
                     }
                 />
             )}
-        </View>
+        </SafeAreaView>
+        
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#fff' },
+    container: { flex: 1, backgroundColor: "#F5F5F5" },
     header: {
         backgroundColor: "#000",
         paddingTop: 40,
@@ -275,7 +276,7 @@ const styles = StyleSheet.create({
     },
     headerTop: { flexDirection: 'row', alignItems: 'center', marginBottom: 15 },
     backButton: { marginRight: 10 },
-    headerTitle: { color: "#FFD700", fontSize: 20, fontWeight: "bold" },
+    headerTitle: { color: "#FFCC3C", fontSize: 20, fontWeight: "bold" },
     ContainerBusca: {
         flexDirection: "row", alignItems: "center", backgroundColor: "#1C1C1C",
         borderRadius: 12, paddingHorizontal: 15, height: 50,

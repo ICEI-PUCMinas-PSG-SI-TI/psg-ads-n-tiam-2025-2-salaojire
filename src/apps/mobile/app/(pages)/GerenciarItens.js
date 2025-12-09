@@ -91,16 +91,19 @@ export default function Itens() {
     };
 
     return (
-        <View>
+        <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
+            <StatusBar backgroundColor="#000000ff" barStyle="light-content" />
             <View style={styles.header}>
-                <Text style={styles.headerTitle}>
-                    <TouchableOpacity onPress={voltar} style={{paddingRight: 10}}>
-                        <Ionicons name="arrow-back" size={24} color="#FFD700" />
+                <View style={styles.headerTop}>
+                <TouchableOpacity onPress={voltar} style={styles.backButton}>
+                        <Ionicons name="arrow-back" size={24} color="#FFCC3C" />
                     </TouchableOpacity>
+                <Text style={styles.headerTitle}>
                     Gerenciar itens
- </Text>
+                </Text>
+                </View>
                 <View style={styles.ContainerBusca}>
-                    <Ionicons name="search" size={20} color="#FFD700" />
+                    <Ionicons name="search" size={20} color="#FFCC3C" />
                     <TextInput
                         placeholder="Pesquisar por nome do item"
                         placeholderTextColor="#ccc"
@@ -138,47 +141,53 @@ export default function Itens() {
                 title="Você tem certeza que deseja excluir este item?"
                 subtitle="Confirme a sua opção"
             ></ModalDelete>
-        </View>
+        </SafeAreaView>    
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#F5F5F5",
+    },
     header: {
         backgroundColor: "#000",
-        padding: 20,
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        marginBottom: 24,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
+        paddingTop: 40,
+        paddingHorizontal: 20,
+        paddingBottom: 24,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
         elevation: 6,
+        zIndex: 10,
     },
-    headerTitle: {
-        color: "#ffd700ff",
-        fontSize: 20,
-        fontWeight: "bold",
-        marginBottom: 10,
-        flexDirection: 'row', 
-        alignItems: 'center', 
+    headerTop: { 
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 15 },
+    backButton: { 
+        marginRight: 10 
+    },
+    headerTitle: { 
+        color: "#FFCC3C", 
+        fontSize: 20, 
+        fontWeight: "bold" 
     },
     ContainerBusca: {
-        flexDirection: "row",
-        alignItems: "center",
+        flexDirection: "row", 
+        alignItems: "center", 
         backgroundColor: "#1C1C1C",
-        borderRadius: 12,
-        paddingHorizontal: 10,
-        height: 45,
+        borderRadius: 12, 
+        paddingHorizontal: 15,
+         height: 50,
     },
-    InputBusca: {
-        color: "#fff",
-        marginLeft: 8,
-        flex: 1,
-        fontSize: 14,
+    InputBusca: { 
+        color: "#fff", 
+        marginLeft: 10, 
+        flex: 1, 
+        fontSize: 16 
     },
     Bottom: {
-        backgroundColor: "#ffd900ff",
+        backgroundColor: "#FFCC3C",
         height: 40,
         width: 150,
         borderRadius: 20,
@@ -186,9 +195,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         alignSelf: "flex-end",
         marginRight: 20,
+        margin: 20,
     },
     BottomText: {
-        fontSize: 16,
+        fontSize: 17,
+        fontWeight: "bold",
+
     },
 
 });

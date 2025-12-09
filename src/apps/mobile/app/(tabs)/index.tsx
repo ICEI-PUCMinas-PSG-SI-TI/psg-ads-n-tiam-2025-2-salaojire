@@ -270,7 +270,7 @@ export default function HomepageScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["bottom"]}>
       <ScrollView
         contentContainerStyle={[
           styles.scrollContent,
