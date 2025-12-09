@@ -1,0 +1,21 @@
+import React from 'react';
+
+import Apresentacao from '../components/homepage/Apresentacao';
+import Galeria from '../components/homepage/Galeria';
+import QuemSomos from '../components/homepage/QuemSomos';
+import Servicos from '../components/homepage/Servicos';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
+
+export default function App() {
+  return (
+    <div className="min-h-screen bg-neutral-950 text-neutral-200 selection:bg-amber-500 selection:text-black">
+      <Navbar />
+      <Apresentacao />
+      <QuemSomos />
+      <Servicos />
+      <Galeria />
+      <Footer />
+    </div>
+  );
+}
