@@ -6,6 +6,7 @@ import QuemSomos from '../components/homepage/QuemSomos';
 import Servicos from '../components/homepage/Servicos';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
+import Catalogo from '../components/CatalogoItens/Catalogo';
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
       <Apresentacao />
       <QuemSomos />
       <Servicos />
+      <Catalogo />
       <Galeria />
       <Footer />
     </div>
