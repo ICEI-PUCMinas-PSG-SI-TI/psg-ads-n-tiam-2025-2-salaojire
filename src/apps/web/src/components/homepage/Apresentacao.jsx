@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
+import ImagemSalao from '../../assets/ImagemSalao.png';
 
 export default function Hero() {
   return (
@@ -7,7 +8,7 @@ export default function Hero() {
       {/* Imagem do fundo */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2098&auto=format&fit=crop" 
+          src={ImagemSalao} 
           alt="Salão de Festas Luxuoso" 
           className="w-full h-full object-cover"
         />
