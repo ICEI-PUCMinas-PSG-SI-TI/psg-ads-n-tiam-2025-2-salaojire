@@ -14,7 +14,7 @@ export default function Footer() {
             <Logo className="h-24" />
           </div>
           <p className="text-neutral-400 mb-6">
-            O lugar onde seus sonhos se tornam realidade. Agende sua visita e venha conhecer nosso espaço.
+            O espaço ideal para sua família. Estrutura completa, preço justo e atendimento feito diretamente pelos proprietários.
           </p>
           <div className="flex gap-4">
             <a href="https://www.instagram.com/jirefestaseeventos/" target="_blank" className="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center text-amber-500 hover:bg-amber-500 hover:text-black transition-all">

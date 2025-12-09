@@ -24,17 +24,18 @@ export default function Hero() {
         </div>
         
         <h1 className="font-serif text-5xl md:text-7xl text-white mb-6 leading-tight">
-          O Cenário Perfeito para <br />
-          <span className="text-amber-500 italic">Sua Celebração</span>
+          O Espaço Ideal para <br />
+          <span className="text-amber-500 italic">Sua Família</span>
         </h1>
         
         <p className="text-neutral-300 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light">
-          Transformamos momentos especiais em memórias inesquecíveis. Profissionalismo, conforto e sofisticação para o seu evento.
+          Um ambiente amplo, arejado e completo para sua festa. 
+          Traga seu buffet, decore do seu jeito e aproveite nossa estrutura com mesas, cadeiras, cozinha e brinquedos.
         </p>
         
         <div className="flex flex-col md:flex-row gap-4 justify-center">
           <a href="#contato" className="btn-primary">
-            Agendar Visita
+            Solicitar Orçamento
           </a>
           <a href="#galeria" className="px-8 py-3 rounded-full border border-white/30 text-white hover:bg-white/10 transition-all uppercase tracking-wider font-bold">
             Ver Galeria

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Star, Users, Heart } from 'lucide-react';
+import { Clock, Star, Users, Heart, Home, Sun, Smile} from 'lucide-react';
 
 export default function QuemSomos() {
   return (
@@ -10,20 +10,20 @@ export default function QuemSomos() {
         <div>
           <h3 className="text-amber-500 font-bold tracking-widest uppercase mb-2">Quem Somos</h3>
           <h2 className="font-serif text-4xl md:text-5xl text-white mb-6">
-            Excelência em cada <span className="italic text-amber-500">detalhe</span>
+            Tudo o que você precisa para <span className="italic text-amber-500">festejar</span>
           </h2>
           <p className="text-neutral-400 mb-6 leading-relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam pulvinar ante diam, ac semper elit auctor eu. Quisque pharetra arcu non dolor egestas eleifend. Mauris posuere suscipit malesuada. Morbi nec placerat lacus. Vivamus nec nunc a erat accumsan fringilla non non cras.
+            O Salão Jiré foi pensado para oferecer praticidade e conforto. Somos um negócio familiar e entendemos o que é importante para o seu evento: um espaço limpo, bem localizado e com estrutura pronta para uso.
           </p>
           <p className="text-neutral-400 mb-8 leading-relaxed">
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam pulvinar ante diam, ac semper elit auctor eu. Quisque pharetra arcu non dolor egestas eleifend. Mauris posuere suscipit malesuada. Morbi nec placerat lacus. Vivamus nec nunc a erat accumsan fringilla non non cras.
+            Com capacidade para até 120 pessoas, nosso salão oferece mesas e cadeiras inclusas no aluguel. Além disso, temos uma cozinha completa para você ou seu buffet trabalharem com tranquilidade, e um espaço ao ar livre com vista para o céu que encanta a todos.
           </p>
 
           <div className="grid grid-cols-2 gap-6">
-            <ItemEspecial icon={<Star />} title="Qualidade Garantida" desc="Excelência total" />
-            <ItemEspecial icon={<Users />} title="Equipe Profissional" desc="Prontos para te Atender" />
-            <ItemEspecial icon={<Clock />} title="Horário Flexível" desc="Adaptamos aos horários" />
-            <ItemEspecial icon={<Heart />} title="Feito com Amor" desc="Cuidado em cada momento" />
+            <ItemEspecial icon={<Users />} title="Capacidade Ideal" desc="Até 120 convidados" />
+            <ItemEspecial icon={<Home />} title="Estrutura Completa" desc="Mesas e cadeiras inclusas" />
+            <ItemEspecial icon={<Sun />} title="Área Externa" desc="Vista para o céu" />
+            <ItemEspecial icon={<Smile />} title="Muita Diversão" desc="Brinquedos para crianças" />
           </div>
         </div>
 

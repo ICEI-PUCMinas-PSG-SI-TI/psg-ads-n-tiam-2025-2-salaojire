@@ -1,28 +1,31 @@
 import React from 'react';
-import { Award, Music, Camera, Utensils, Calendar, Gem } from 'lucide-react';
+import { Utensils, LayoutGrid, Gamepad2, Sun, PartyPopper, CalendarDays } from 'lucide-react';
 
 export default function Servicos() {
   const listaServicos = [
-    { icon: <HeartIcon />, title: "Festa de Casamentos", desc: "Descrição" },
-    { icon: <Award />, title: "Festas X", desc: "Fiquei sem ideia" },
-    { icon: <Gem />, title: "Eventos Corporativos", desc: "Infraestrutura completa para sua empresa." },
-    { icon: <Calendar />, title: "Aniversários", desc: "Celebre mais um ano de vida em grande estilo." },
+    { icon: <LayoutGrid />, title: "O Salão", desc: "Espaço amplo com capacidade para 120 pessoas sentadas confortavelmente." },
+    { icon: <Utensils />, title: "Cozinha Completa", desc: "Freezer, fogão e bancadas prontos para o uso do seu buffet ou família." },
+    { icon: <Gamepad2 />, title: "Diversão Garantida", desc: "Brinquedos disponíveis no local para a alegria da criançada." },
+    { icon: <Sun />, title: "Área Externa", desc: "Um respiro ao ar livre com vista para o céu, perfeito para fotos." },
   ];
 
   const extras = [
-    { icon: <Music />, title: "Som e Iluminação" },
-    { icon: <Camera />, title: "Espaço para Fotos" },
-    { icon: <Utensils />, title: "Cozinha Completa" },
+    { icon: <PartyPopper />, title: "Mesas e Cadeiras Inclusas" },
+    { icon: <LayoutGrid />, title: "Toalhas de Mesa Disponíveis" },
+    { icon: <CalendarDays />, title: "Horários Flexíveis" },
   ];
 
   return (
     <section id="servicos" className="section-padding bg-neutral-900">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h3 className="text-amber-500 font-bold tracking-widest uppercase mb-2">O que oferecemos</h3>
-          <h2 className="font-serif text-4xl md:text-5xl text-white">
-            Nossos <span className="text-amber-500 italic">Serviços</span>
+         
+<h2 className="font-serif text-4xl md:text-5xl text-white">
+            O que <span className="text-amber-500 italic">Oferecemos</span>
           </h2>
+          <p className="text-neutral-400 mt-4 max-w-2xl mx-auto">
+           Alugue o espaço e tenha acesso a toda nossa estrutura fixa.
+          </p>
         </div>
 
         {/* Grid Principal */}
