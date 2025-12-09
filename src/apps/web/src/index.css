@@ -1,1 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Lato", sans-serif;
+}
+
+body {
+  @apply bg-neutral-950 text-neutral-300 antialiased;
+}
+
+.text-gold {
+  @apply text-amber-500;
+}
+
+.btn-primary {
+  @apply bg-amber-600 text-white px-8 py-3 rounded-full font-bold uppercase tracking-wider hover:bg-amber-700 transition-all duration-300 shadow-lg shadow-amber-900/20;
+}
+
+.section-padding {
+  @apply py-20 px-4 md:px-8;
+}
