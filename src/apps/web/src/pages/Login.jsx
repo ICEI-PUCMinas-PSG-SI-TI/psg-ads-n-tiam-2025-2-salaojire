@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react';
+import { Phone, User, Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import FirebaseAPI from "@packages/firebase";
 
@@ -44,7 +44,7 @@ export default function Login() {
             return;
         }
 
-        if (!isLogin && formData.phone.length < 10) {
+        if (!isLogin && formData.telefone.length < 10) {
             setErrorMessage("Por favor, insira um telefone válido com DDD.");
             setIsLoading(false);
             return;
@@ -55,7 +55,7 @@ export default function Login() {
                 await FirebaseAPI.auth.signIn(formData.email, formData.senha)
             } else {
                 await FirebaseAPI.auth.signUpCliente({
-                    emaiL: formData.email,
+                    email: formData.email,
                     senha: formData.senha,
                     nome: formData.nome,
                     telefone: formData.telefone
@@ -64,7 +64,10 @@ export default function Login() {
 
             navigate('/perfil');
         } catch (error) {
-            setErrorMessage(`Ocorreu um erro ao tentar entrar: ${error.message}`);
+            let message = error.message;
+            message = message.replace("auth/email-already-in-use", "Email já está em uso");
+
+            setErrorMessage(`Ocorreu um erro ao tentar entrar: ${message}`);
         } finally {
             setIsLoading(false);
         }

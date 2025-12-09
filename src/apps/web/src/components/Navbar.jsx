@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone, User, ShoppingBag } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../contexts/AuthContext';
-import Logo from '../assets/Logo' 
+import Logo from '../assets/Logo'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -11,9 +11,9 @@ export default function Navbar() {
 
   const location = useLocation();
   const navigate = useNavigate();
-  // Verificação de estar na homepage
+
+  const profileLink = signed ? "/perfil" : "/login";
   const isHomePage = location.pathname === '/';
-  const profileLink = signed ? "/login" : "/login";
 
   // Isso aqui é para dar o efeito na Navbar quando rola para baixo
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function Navbar() {
   // Função para navegar e rolar
   const handleNavClick = (sectionId) => {
     setMobileMenuOpen(false);
-    
+
     if (!isHomePage) {
       // Se estiver na tela de Login/Itens, vai para Home primeiro
       navigate('/');
@@ -51,7 +51,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
 
         {/* Logo Link para Home */}
-        <Link to="/" className="flex items-center" onClick={() => window.scrollTo(0,0)}>
+        <Link to="/" className="flex items-center" onClick={() => window.scrollTo(0, 0)}>
           <Logo
             className={`transition-all duration-300 ${!isHomePage || isScrolled ? 'h-12' : 'h-16'}`}
           />
@@ -61,7 +61,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-8">
           <button onClick={() => handleNavClick('home')} className="text-neutral-300 hover:text-white text-sm uppercase tracking-widest transition-colors cursor-pointer">Início</button>
           <button onClick={() => handleNavClick('sobre')} className="text-neutral-300 hover:text-white text-sm uppercase tracking-widest transition-colors cursor-pointer">Sobre</button>
-          
+
           {/* Link para Itens */}
           <Link to="/itens" className="text-neutral-300 hover:text-white text-sm uppercase tracking-widest transition-colors flex items-center gap-1">
             Nossos Itens
@@ -97,11 +97,11 @@ export default function Navbar() {
         <div className="absolute top-full left-0 w-full bg-neutral-900 border-t border-neutral-800 p-6 flex flex-col gap-4 shadow-2xl md:hidden">
           <button onClick={() => handleNavClick('home')} className="text-left text-neutral-300 hover:text-amber-500">Início</button>
           <button onClick={() => handleNavClick('sobre')} className="text-left text-neutral-300 hover:text-amber-500">Sobre</button>
-          
+
           <Link to="/itens" onClick={() => setMobileMenuOpen(false)} className="text-neutral-300 hover:text-amber-500 flex items-center gap-2">
-            <ShoppingBag size={16}/> Nossos Itens
+            <ShoppingBag size={16} /> Nossos Itens
           </Link>
-          
+
           <button onClick={() => handleNavClick('galeria')} className="text-left text-neutral-300 hover:text-amber-500">Galeria</button>
 
           <Link
