@@ -17,7 +17,8 @@ import {
   verifyBeforeUpdateEmail,
   reauthenticateWithCredential, 
   EmailAuthProvider,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  sendEmailVerification
 } from 'firebase/auth';
 
 
@@ -277,3 +278,4 @@ export async function alterarSenhaAdmin(senhaAtual, novaSenha) {
     return { ok: false, error };
   }
 }
+

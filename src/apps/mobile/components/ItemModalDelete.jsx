@@ -13,7 +13,7 @@ export default function ConfirmDeleteModal({ visible, onConfirm, onCancel, title
         >
             <View style={styles.overlay}>
                 <View style={styles.modalContainer}>
-                    <Ionicons name="trash-outline" size={60} color="#FFD700" style={styles.icon} />
+                    <Ionicons name="trash-outline" size={60} color="#FCE444" style={styles.icon} />
 
                     <Text style={styles.title}>
                         {title || "Você tem certeza?"}
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         padding: 25,
         alignItems: "center",
         borderWidth: 1,
-        borderColor: "#FFD700"
+        borderColor: "#FCE444"
     },
     icon: {
         marginBottom: 15,
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#E53935", 
     },
     cancelButton: {
-        backgroundColor: "#FFD700",
+        backgroundColor: "#FCE444",
     },
     confirmText: {
         color: "#fff",

@@ -16,6 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import FirebaseAPI from "@packages/firebase";
 import { useRouter } from "expo-router";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function GerenciarAgendamentos() {
   const router = useRouter();
@@ -590,7 +591,7 @@ export default function GerenciarAgendamentos() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
       <View style={styles.headerWrapper}>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()}>
@@ -662,7 +663,7 @@ export default function GerenciarAgendamentos() {
           ListEmptyComponent={<Text style={styles.vazio}>Nenhum agendamento.</Text>}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

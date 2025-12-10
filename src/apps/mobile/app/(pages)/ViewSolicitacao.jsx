@@ -7,6 +7,7 @@ import FirebaseAPI from "@packages/firebase";
 import { firestore } from "@packages/firebase/config";
 import ModalEditCreate from "../../components/ItemModalEditCreate";
 import ModalDelete from "../../components/ItemModalDelete";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ViewSolicitacao() {
     const router = useRouter();
@@ -112,23 +113,23 @@ export default function ViewSolicitacao() {
     };
 
     if (loading) {
-        return <ActivityIndicator size="large" color="#FFD700" style={styles.loadingContainer} />;
+        return <ActivityIndicator size="large" color="#FFCC3C" style={styles.loadingContainer} />;
     }
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
             <StatusBar barStyle="light-content" backgroundColor="#000" />
 
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                    <Ionicons name="arrow-back" size={24} color="#FFD700" />
+                    <Ionicons name="arrow-back" size={24} color="#FFCC3C" />
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>Solicitações</Text>
             </View>
 
             <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
                 
-                {/* Dados do Cliente */}
+                
                 <Text style={styles.label}>Nome</Text>
                 <View style={styles.readOnlyInput}><Text style={styles.readOnlyText}>{cliente?.nome}</Text></View>
                 
@@ -203,7 +204,7 @@ export default function ViewSolicitacao() {
                 customSubmit={customSaveFunction} 
                 onSave={() => {}} //vazio, o refresh é feito dentro do custom fieto
             />
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -212,7 +213,7 @@ const styles = StyleSheet.create({
     loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000' },
     header: { backgroundColor: "#000", paddingTop: 45, paddingBottom: 20, paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center', borderBottomLeftRadius: 20, borderBottomRightRadius: 20 },
     backButton: { marginRight: 15 },
-    headerTitle: { color: "#FFD700", fontSize: 20, fontWeight: "bold" },
+    headerTitle: { color: "#FFCC3C", fontSize: 20, fontWeight: "bold" },
     scrollContent: { padding: 20, paddingBottom: 50 },
     label: { fontSize: 16, fontWeight: "bold", marginBottom: 8, color: "#000", marginTop: 10 },
     readOnlyInput: { backgroundColor: "#D9D9D9", borderRadius: 8, padding: 15, borderWidth: 1, borderColor: "#CCC" },
