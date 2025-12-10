@@ -8,8 +8,9 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const unsubscribe = FirebaseAPI.auth.onAuthStateChanged(currentUser => {
-            setUser(currentUser);
+        const unsubscribe = FirebaseAPI.auth.onAuthStateChanged(async currentUser => {
+            let cliente = await FirebaseAPI.firestore.clientes.getClientePorEmail(currentUser.email)
+            setUser(cliente);
             if (loading) {
                 setLoading(false);
             }
