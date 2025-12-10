@@ -6,6 +6,11 @@ O projeto é divido em web e mobile.
 O website está hospedado no Vercel e está disponível através da seguinte URL:
 https://salao-jire.vercel.app/
 
+### APK do aplicativo móvel
+
+O APK está disponível:
+src\Aplicacao_Mobile.apk
+
 ## Instalação do Site
 
 1. Instale a CLI do Expo globalmente:
