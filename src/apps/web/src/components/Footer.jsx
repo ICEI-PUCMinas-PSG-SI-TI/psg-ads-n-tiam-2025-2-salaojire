@@ -1,7 +1,8 @@
 import React from 'react';
-import { Phone, MapPin } from 'lucide-react';
+import { Phone, MapPin, ArrowRight } from 'lucide-react';
 import Logo from '../assets/Logo';
 import { Instagram, WhatsApp} from '../assets/SocialMedia'
+import { Link } from 'react-router';
 
 export default function Footer() {
   return (
@@ -47,22 +48,17 @@ export default function Footer() {
 
         {/* Coluna 3 (Formulário) */}
         <div>
-          <h3 className="text-white font-bold text-lg mb-6 border-b border-amber-500/30 pb-2 inline-block">Fale Conosco</h3>
-          <form className="space-y-3">
-            <input 
-              type="text" 
-              placeholder="Seu Nome" 
-              className="w-full bg-neutral-900 border border-neutral-800 rounded p-3 text-neutral-300 focus:border-amber-500 outline-none"
-            />
-            <input 
-              type="tel" 
-              placeholder="Seu WhatsApp" 
-              className="w-full bg-neutral-900 border border-neutral-800 rounded p-3 text-neutral-300 focus:border-amber-500 outline-none"
-            />
-            <button className="w-full bg-amber-600 text-white font-bold py-3 rounded hover:bg-amber-700 transition-colors">
-              Solicitar Orçamento
-            </button>
-          </form>
+          <h3 className="text-white font-bold text-lg mb-6 border-b border-amber-500/30 pb-2 inline-block">Contate-nos</h3>
+          <p className="text-neutral-400 mb-6 text-sm">
+            Tem alguma dúvida ou quer fazer orçamento? Acesse nosso catálogo, selecione os itens desejados e nos envie uma mensagem!
+          </p>
+          
+          <Link onClick={() => window.scrollTo(0, 0)} to="/itens" className="group w-full bg-neutral-900 border border-neutral-800 hover:border-amber-500 text-white font-bold py-4 px-6 rounded-xl transition-all flex items-center justify-between">
+            <span className="group-hover:text-amber-500 transition-colors">Enviar Solicitação</span>
+            <div className="bg-amber-500 text-black rounded-full p-1 group-hover:rotate-45 transition-transform duration-300">
+                <ArrowRight size={20} />
+            </div>
+          </Link>
         </div>
 
       </div>

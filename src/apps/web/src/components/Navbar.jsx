@@ -8,8 +8,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { signed, user } = useAuth()
-
-  console.log(user);
+  
   const location = useLocation();
   const navigate = useNavigate();
 
