@@ -261,7 +261,8 @@ export default function Galeria() {
                       src={selecionada.url}
                       alt={selecionada.nome || "Foto do evento"}
                       className="max-h-[75vh] max-w-full rounded-lg object-contain"
-                    />
+                    /> 
+                    
                   )}
                 </div>
               </div>
