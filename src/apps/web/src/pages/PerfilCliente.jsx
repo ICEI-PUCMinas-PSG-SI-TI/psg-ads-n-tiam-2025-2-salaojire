@@ -34,21 +34,21 @@ function formatarDataHora(value) {
 
 export default function PerfilCliente() {
     const navigate = useNavigate();
-    const { user, cliente: clienteContext, loading } = useAuth();
+    const { signed, user, loading } = useAuth();
 
     const [agendamentos, setAgendamentos] = useState([]);
 
     // Quando o cliente do contexto mudar, buscamos os agendamentos
     useEffect(() => {
-        if (!clienteContext) return;
+        if (!user) return;
 
         async function carregarAgendamentos() {
-            const historico = await FirebaseAPI.firestore.clientes.getAgendamentosFromCliente(clienteContext.id);
+            const historico = await FirebaseAPI.firestore.clientes.getAgendamentosFromCliente(user.id);
             setAgendamentos(historico);
         }
 
         carregarAgendamentos();
-    }, [clienteContext]);
+    }, [user]);
 
     // Ainda carregando autenticação?
     if (loading) {
@@ -60,21 +60,21 @@ export default function PerfilCliente() {
     }
 
     // Nenhum usuário logado /redirecionar
-    if (!user) {
+    if (!signed) {
         navigate("/login");
         return null;
     }
 
     // Usuário existe, mas cliente do Firestore não carregou
-    if (!clienteContext) {
+    if (!signed) {
         return (
             <div className="flex items-center justify-center min-h-screen text-white">
-                Erro ao carregar dados do cliente.
+                Erro ao carregar dados do cliente. Tente entrar novamente.
             </div>
         );
     }
 
-    const cliente = clienteContext;
+    const cliente = user;
 
     return (
         <div className="min-h-screen bg-black text-white p-6 pt-24">

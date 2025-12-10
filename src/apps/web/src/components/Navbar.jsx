@@ -63,7 +63,7 @@ export default function Navbar() {
           <button onClick={() => handleNavClick('sobre')} className="text-neutral-300 hover:text-white text-sm uppercase tracking-widest transition-colors cursor-pointer">Sobre</button>
 
           {/* Link para Itens */}
-          <Link to="/itens" className="text-neutral-300 hover:text-white text-sm uppercase tracking-widest transition-colors flex items-center gap-1">
+          <Link onClick={() => window.scrollTo(0, 0)} to="/itens" className="text-neutral-300 hover:text-white text-sm uppercase tracking-widest transition-colors flex items-center gap-1">
             Nossos Itens
           </Link>
 
@@ -77,6 +77,7 @@ export default function Navbar() {
 
             {/* Botão de Perfil -> Link para Login ou Perfil*/}
             <Link
+              onClick={() => window.scrollTo(0, 0)}
               to={profileLink}
               className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-300 group 'border-white/20 text-white hover:bg-amber-500 hover:border-amber-500 hover:text-black'`}
               title={signed ? `Olá, ${user?.name}` : "Área do Cliente"}
