@@ -129,7 +129,7 @@ export default function ClientesScreen() {
   const colRef = collection(firestore, "Clientes");
 
   useEffect(() => {
-    const qRef = query(colRef, orderBy("createdAt", "desc"));
+    const qRef = query(colRef);
 
     const unsub = onSnapshot(
       qRef,
@@ -142,9 +142,10 @@ export default function ClientesScreen() {
             nome: data.nome ?? "",
             email: data.email ?? "",
             telefone: data.telefone ?? "",
-            senha: data.senha,
+            senha: data.senha ?? "",
           });
         });
+        console.log(rows);
         setClients(rows);
       },
       (err) => {

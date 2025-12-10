@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut as 
 
 
 //import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
-import { doc, setDoc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, deleteDoc, updateDoc, Timestamp } from 'firebase/firestore';
 
 
 import { auth, firestore } from './config';
@@ -42,6 +42,7 @@ export async function signUpCliente({ email, senha, nome, telefone }) {
 
     // Remove a senha do objeto antes de salvar no Firestore
     const perfilData = {
+      createdAt: Timestamp.now(),
       id: user.uid,
       email,
       nome,
