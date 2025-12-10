@@ -13,6 +13,7 @@ import { useAuth } from "../context/AuthContext";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import FirebaseAPI from "@packages/firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import UpcomingEventsNotification, { EventoNotificacao } from "../../components/UpcomingEventsNotification";
 
 // ---------- TIPOS ----------
 
@@ -40,6 +41,7 @@ type AgendamentoHome = {
   dataInicio: Date | null;
   valorTotal: number;
   status?: string;
+  clienteId?: string; // Para vincular user
 };
 
 type FinanceiroHome = {
@@ -110,6 +112,8 @@ export default function HomepageScreen() {
 
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoHome[]>([]);
   const [agendamentos, setAgendamentos] = useState<AgendamentoHome[]>([]);
+  const [eventosParaNotificar, setEventosParaNotificar] = useState<EventoNotificacao[]>([]);
+
   const [financeiro, setFinanceiro] = useState<FinanceiroHome>({
     total: 0,
     eventos: 0,
@@ -127,12 +131,15 @@ export default function HomepageScreen() {
       try {
         setLoading(true);
 
-        // 1) Carrega todos os clientes para mapear id -> nome
+        // 1) Carrega todos os clientes para mapear id -> nome e email
         const clientes: any[] =
           await FirebaseAPI.firestore.clientes.getClientes();
-        const mapaClientes = new Map<string, string>();
+        const mapaClientes = new Map<string, { nome: string; email: string }>();
         clientes.forEach((c: any) => {
-          mapaClientes.set(c.id, c.nome ?? "Cliente");
+          mapaClientes.set(c.id, {
+            nome: c.nome ?? "Cliente",
+            email: c.email ?? ""
+          });
         });
 
         // 2) Carrega TODAS as solicitações de TODOS os clientes
@@ -145,9 +152,11 @@ export default function HomepageScreen() {
             const dataBruta =
               s.dataSolicitacao ?? s.dataInicio ?? s.dataFim ?? null;
 
+            const clienteInfo = mapaClientes.get(s.clienteId);
+
             return {
               id: s.id,
-              cliente: mapaClientes.get(s.clienteId) ?? s.clienteNome ?? "Cliente", 
+              cliente: clienteInfo?.nome ?? s.clienteNome ?? "Cliente",
               data: parseDate(dataBruta),
               status: s.status,
             };
@@ -156,10 +165,10 @@ export default function HomepageScreen() {
             const ta = a.data ? a.data.getTime() : 0;
             const tb = b.data ? b.data.getTime() : 0;
             return tb - ta; // mais recentes primeiro
-            
+
           });
 
-          
+
         console.log(
           "[HOME] Solicitações carregadas:",
           solicitacoesTratadas.length,
@@ -172,16 +181,16 @@ export default function HomepageScreen() {
         const totalAtualNoBanco = listaPendentes.length;
         setPendentesTotal(totalAtualNoBanco);
 
-        
+
         const ultimoVistoString = await AsyncStorage.getItem('@last_seen_count');
         const ultimoVisto = ultimoVistoString ? parseInt(ultimoVistoString) : 0;
 
         const diferenca = totalAtualNoBanco - ultimoVisto;
-        
+
         if (diferenca > 0) {
-            setNovasNotificacoes(diferenca);
+          setNovasNotificacoes(diferenca);
         } else {
-            setNovasNotificacoes(0);
+          setNovasNotificacoes(0);
         }
 
         // Mostra só as 3 mais recentes
@@ -199,6 +208,7 @@ export default function HomepageScreen() {
             valorTotal:
               typeof a.valorTotal === "number" ? a.valorTotal : 0,
             status: a.status,
+            clienteId: a.clienteId
           })
         );
 
@@ -227,6 +237,24 @@ export default function HomepageScreen() {
             const tb = b.dataInicio!.getTime();
             return ta - tb; // mais perto de hoje primeiro
           });
+
+        // Prepara lista para o widget de notificação (ex: próximos 7 dias)
+        const limiteNotificacao = new Date(hojeTs + 7 * 24 * 60 * 60 * 1000); // 7 dias
+        const notificaveis = agendamentosFuturos.filter(a => {
+          const data = a.dataInicio;
+          return data && data.getTime() <= limiteNotificacao.getTime();
+        }).map(a => {
+          const c = mapaClientes.get(a.clienteId ?? "") ?? { nome: "Cliente", email: "" };
+          return {
+            id: a.id,
+            nomeEvento: a.nome,
+            dataInicio: a.dataInicio,
+            clienteNome: c.nome,
+            clienteEmail: c.email
+          }
+        });
+        setEventosParaNotificar(notificaveis);
+
 
         // Cálculo financeiro (últimos 30 dias)
         const limite = new Date(
@@ -263,10 +291,10 @@ export default function HomepageScreen() {
   }, [user]);
 
   const handleVerSolicitacoes = async () => {
-      await AsyncStorage.setItem('@last_seen_count', pendentesTotal.toString());
-      
-      setNovasNotificacoes(0);
-      router.push("/(pages)/Solicitacoes");
+    await AsyncStorage.setItem('@last_seen_count', pendentesTotal.toString());
+
+    setNovasNotificacoes(0);
+    router.push("/(pages)/Solicitacoes");
   };
 
   return (
@@ -296,7 +324,7 @@ export default function HomepageScreen() {
                 <ShortcutButton
                   icon="cube-outline"
                   label="Itens"
-                  onPress={() => {router.push("/GerenciarItens")}}
+                  onPress={() => { router.push("/GerenciarItens") }}
                 />
                 <ShortcutButton
                   icon="calendar-outline"
@@ -338,10 +366,10 @@ export default function HomepageScreen() {
         {/* CORPO BRANCO / CARDS */}
         <View style={styles.body}>
           <View style={styles.bodyInner}>
-            <TouchableOpacity 
-                activeOpacity={0.9}
-                onPress={handleVerSolicitacoes} // <--- USA A NOVA FUNÇÃO
-                style={styles.card}
+            <TouchableOpacity
+              activeOpacity={0.9}
+              onPress={handleVerSolicitacoes} // <--- USA A NOVA FUNÇÃO
+              style={styles.card}
             >
               <View style={styles.cardRow}>
                 {/* Ícone muda de cor se tiver novidade */}
@@ -352,13 +380,13 @@ export default function HomepageScreen() {
                     color={novasNotificacoes > 0 ? "#FFF" : "#000000ff"}
                   />
                 </View>
-                
+
                 <View style={{ flex: 1, marginLeft: 12 }}>
                   <Text style={styles.cardTitle}>Novas Solicitações</Text>
-         
+
                   <Text style={styles.cardText}>
                     {loading ? "Carregando..." : (
-                        novasNotificacoes > 0 
+                      novasNotificacoes > 0
                         ? `Houve ${novasNotificacoes} ${novasNotificacoes === 1 ? 'nova solicitação desde seu último login!' : 'novas solicitações desde seu último login!'}!`
                         : `Tudo visto. Solicitações pendentes: ${pendentesTotal}`
                     )}
@@ -366,13 +394,13 @@ export default function HomepageScreen() {
                 </View>
 
                 {!loading && novasNotificacoes > 0 && (
-                    <View style={{
-                        backgroundColor: 'red', borderRadius: 12, paddingHorizontal: 6, paddingVertical: 2, marginRight: 10
-                    }}>
-                        <Text style={{color: 'white', fontSize: 10, fontWeight: 'bold'}}>
-                            +{novasNotificacoes}
-                        </Text>
-                    </View>
+                  <View style={{
+                    backgroundColor: 'red', borderRadius: 12, paddingHorizontal: 6, paddingVertical: 2, marginRight: 10
+                  }}>
+                    <Text style={{ color: 'white', fontSize: 10, fontWeight: 'bold' }}>
+                      +{novasNotificacoes}
+                    </Text>
+                  </View>
                 )}
 
                 <View style={styles.cardIconRight}>
@@ -380,6 +408,11 @@ export default function HomepageScreen() {
                 </View>
               </View>
             </TouchableOpacity>
+
+            {/* WIDGET NOVA FUNCIONALIDADE RF-016 */}
+            {!loading && (
+              <UpcomingEventsNotification eventos={eventosParaNotificar} />
+            )}
 
             {/* Card Próximos Agendamentos */}
             <View style={styles.card}>
