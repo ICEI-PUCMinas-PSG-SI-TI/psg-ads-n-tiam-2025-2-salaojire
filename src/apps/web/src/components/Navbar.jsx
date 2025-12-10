@@ -61,14 +61,13 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-8">
           <button onClick={() => handleNavClick('home')} className="text-neutral-300 hover:text-white text-sm uppercase tracking-widest transition-colors cursor-pointer">Início</button>
           <button onClick={() => handleNavClick('sobre')} className="text-neutral-300 hover:text-white text-sm uppercase tracking-widest transition-colors cursor-pointer">Sobre</button>
+          <button onClick={() => handleNavClick('galeria')} className="text-neutral-300 hover:text-white text-sm uppercase tracking-widest transition-colors cursor-pointer">Galeria</button>
 
           {/* Link para Itens */}
           <Link onClick={() => window.scrollTo(0, 0)} to="/itens" className="text-neutral-300 hover:text-white text-sm uppercase tracking-widest transition-colors flex items-center gap-1">
             Nossos Itens
           </Link>
-
-          <button onClick={() => handleNavClick('galeria')} className="text-neutral-300 hover:text-white text-sm uppercase tracking-widest transition-colors cursor-pointer">Galeria</button>
-
+          
           <div className="flex items-center gap-4 pl-4">
             <a href="https://wa.me/5531987722422" target="_blank" className="flex items-center gap-2 border border-amber-500 text-amber-500 px-5 py-2 rounded-full hover:bg-amber-500 hover:text-black transition-all font-bold text-sm">
               <Phone size={16} />
