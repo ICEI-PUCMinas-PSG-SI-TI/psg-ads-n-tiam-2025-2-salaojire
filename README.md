@@ -25,6 +25,13 @@ Além disso, busca-se construir um aplicativo móvel que permite a gestão do sa
 
 ## Instruções de utilização
 
+### Hospedagem Vercel
+
+O projeto é divido em web e mobile. 
+O website está hospedado no Vercel e está disponível através da seguinte URL:
+https://salao-jire.vercel.app/
+
+### Instalação e Execução do Projeto
 Após a realização do clone do projeto:
 
 1. Instale a CLI do Expo globalmente:

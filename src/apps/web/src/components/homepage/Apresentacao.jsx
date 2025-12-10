@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
 import ImagemSalao from '../../assets/ImagemSalao.png';
+import { Link } from 'react-router';
 
 export default function Hero() {
   return (
@@ -34,9 +35,9 @@ export default function Hero() {
         </p>
         
         <div className="flex flex-col md:flex-row gap-4 justify-center">
-          <a href="#contato" className="btn-primary">
+          <Link onClick={() => window.scrollTo(0, 0)} to="/itens" className="btn-primary">
             Solicitar Orçamento
-          </a>
+          </Link>
           <a href="#galeria" className="px-8 py-3 rounded-full border border-white/30 text-white hover:bg-white/10 transition-all uppercase tracking-wider font-bold">
             Ver Galeria
           </a>
