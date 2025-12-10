@@ -200,6 +200,7 @@ const styles = StyleSheet.create({
     BottomText: {
         fontSize: 17,
         fontWeight: "bold",
+        
 
     },
 

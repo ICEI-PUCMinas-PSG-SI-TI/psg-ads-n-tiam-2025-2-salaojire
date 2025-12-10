@@ -1,10 +1,14 @@
 import React, { useState } from "react";
-import {StyleSheet,View,Text,Image,TextInput,TouchableOpacity,KeyboardAvoidingView,Platform,SafeAreaView,ScrollView,ActivityIndicator} from "react-native";
+import {StyleSheet,View,Text,Image,TextInput,TouchableOpacity,KeyboardAvoidingView,Platform,ScrollView,ActivityIndicator} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 
 import { useRouter } from "expo-router";
 import FirebaseAPI from "@packages/firebase"; 
 
 const corDourada = '#F0B100';
+
+
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -134,7 +138,6 @@ export default function LoginPage() {
                 )}
               </TouchableOpacity>
             </View>
-            <Text>Cadastro temporário:</Text>
             <View style={styles.submitButtonContainer}>
               <TouchableOpacity
                 style={styles.submitButton}
@@ -236,6 +239,7 @@ const styles = StyleSheet.create({
   },
   submitButtonContainer: {
     alignItems: 'center',
+    marginBottom: 10,
   },
   submitButton: {
     width: 285,
