@@ -3,7 +3,6 @@ import Apresentacao from '../components/homepage/Apresentacao';
 import Galeria from '../components/homepage/Galeria';
 import QuemSomos from '../components/homepage/QuemSomos';
 import Servicos from '../components/homepage/Servicos';
-import Catalogo from '../components/homepage/Catalogo';
 import Mapa from '../components/homepage/Mapa';
 
 export default function App() {
@@ -12,7 +11,6 @@ export default function App() {
       <Apresentacao />
       <QuemSomos />
       <Servicos />
-      <Catalogo />
       <Galeria />
       <Mapa />
     </div>
