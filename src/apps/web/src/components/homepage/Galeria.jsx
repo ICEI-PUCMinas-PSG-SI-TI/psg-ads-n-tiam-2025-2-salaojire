@@ -93,8 +93,7 @@ export default function Galeria() {
               Nossa <span className="text-amber-500 italic">Galeria</span>
             </h2>
             <p className="text-neutral-400 mt-3 max-w-xl">
-              Aqui você vê as fotos e vídeos enviados pelo salão através
-              do aplicativo mobile, registrando os melhores momentos de
+              Aqui você vê as fotos e vídeos do salão, registrando os melhores momentos de
               eventos anteriores.
             </p>
           </div>
