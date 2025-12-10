@@ -21,6 +21,27 @@ export async function getCliente(clienteId) {
   return docSnap.exists() ? { id: docSnap.id, ...docSnap.data() } : null;
 }
 
+/* Busca um cliente pelo campo 'email'. Exemplo:
+const cliente = await FirebaseAPI.firestore.clientes.getClientePorEmail("joao@email.com");
+*/
+export async function getClientePorEmail(email) {
+  try {
+    const clientesRef = collection(firestore, 'Clientes');
+    const q = query(clientesRef, where('email', '==', email));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return null;
+    }
+    const doc = querySnapshot.docs[0];
+    return { id: doc.id, ...doc.data() };
+
+  } catch (error) {
+    console.error("Erro ao buscar cliente por email:", error);
+    return null;
+  }
+}
+
 /* Atualiza os dados do perfil de um cliente no Firestore. Exemplo:
 await FirebaseAPI.firestore.clientes.updateClienteProfile(clienteId, { nome: "Alterado" });
 const updatedCliente = await FirebaseAPI.firestore.clientes.getCliente(clienteId);
