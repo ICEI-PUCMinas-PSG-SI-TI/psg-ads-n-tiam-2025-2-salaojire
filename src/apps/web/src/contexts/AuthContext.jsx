@@ -5,15 +5,28 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
+    const [cliente, setCliente] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const unsubscribe = FirebaseAPI.auth.onAuthStateChanged(async currentUser => {
-            let cliente = await FirebaseAPI.firestore.clientes.getClientePorEmail(currentUser.email)
-            setUser(cliente);
-            if (loading) {
+            
+            // Se não estiver logado → limpar estados
+            if (!currentUser) {
+                setUser(null);
+                setCliente(null);
                 setLoading(false);
+                return;
             }
+
+            // Salva o usuário do Firebase
+            setUser(currentUser);
+
+            // Busca o cliente no Firestore
+            const clienteFirestore = await FirebaseAPI.firestore.clientes.getCliente(currentUser.uid);
+            setCliente(clienteFirestore);
+
+            setLoading(false);
         });
 
         return unsubscribe;
@@ -21,6 +34,7 @@ export function AuthProvider({ children }) {
 
     const valor = {
         user,
+        cliente,
         signed: !!user,
         loading,
         logout: () => FirebaseAPI.auth.signOut(),

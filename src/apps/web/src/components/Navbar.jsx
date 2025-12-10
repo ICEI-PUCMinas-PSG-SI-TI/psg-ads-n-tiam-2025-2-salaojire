@@ -7,8 +7,8 @@ import Logo from '../assets/Logo'
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { signed, user } = useAuth()
-  
+  const { signed, user, logout } = useAuth();
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -83,6 +83,19 @@ export default function Navbar() {
             >
               <User size={18} />
             </Link>
+            {/* Botão de Sair  */}
+            {signed && (
+              <button
+                onClick={() => {
+                  logout();
+                  navigate("/login");
+                }}
+                className="flex items-center gap-2 px-4 py-2 rounded-full border border-red-500 text-red-500 hover:bg-red-600 hover:text-white transition-all text-sm font-medium"
+              >
+                <X size={16} />
+                Sair
+              </button>
+            )}
           </div>
         </div>
 
