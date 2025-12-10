@@ -138,7 +138,7 @@ A equipe será organizada utilizando o [**Kanban do GitHub**](https://github.com
 
 ### Foto do Kanban atual:
 
-![Kanban Atual](./img/KanbanAtualizado.jpg)
+![Foto Kanban Final](https://github.com/user-attachments/assets/00c1f39b-deec-4468-818d-69f2eeec88c4)
 
 ### Estrutura do quadro
 - **Backlog** → **A Fazer** → **Em Progresso** → **Concluído**  
