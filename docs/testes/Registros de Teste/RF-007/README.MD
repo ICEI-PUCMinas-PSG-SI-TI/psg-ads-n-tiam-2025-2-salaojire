@@ -14,6 +14,9 @@
 
 4. [Caso de Teste 4 — Exclusão de item](#caso-de-teste-4--Exclusão-de-item)
 
+5. [Caso de Teste 5 — Visualização de notificação](#caso-de-teste-5--Visualização-de-notificação)
+
+
 
 ###  Caso de Teste 1 — Carregar solicitações
 
@@ -36,4 +39,8 @@
 ###  Caso de Teste 4 — Exclusão de item
 
 ![Registro de Teste - Exclusão de item](../../../img/Registros%20de%20Testes//SolicitacaoExcluir.jpeg)
+
+###  Caso de Teste 5 — Visualização de notificação
+
+![Registro de Teste - Visualização de notificação](../../../img/Registros%20de%20Testes//Notificacao.jpeg)
 
