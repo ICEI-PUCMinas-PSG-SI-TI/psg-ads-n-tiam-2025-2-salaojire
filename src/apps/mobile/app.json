@@ -1,28 +1,32 @@
 {
   "expo": {
-    "name": "mobile",
+    "name": "Jiré",
     "slug": "mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/LogoJire.png",
     "scheme": "mobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "extra": {
       "CLOUDINARY_CLOUD_NAME": "dlxshyqra",
       "CLOUDINARY_UPLOAD_PRESET": "mobile_uploads",
-      "CLOUDINARY_API_URL": "https://api.cloudinary.com/v1_1"
+      "CLOUDINARY_API_URL": "https://api.cloudinary.com/v1_1",
+      "router": {},
+      "expo-navigation-bar": {
+        "position": "absolute",
+        "visibility": "hidden",
+        "behavior": "overlay-swipe",
+        "backgroundColor": "#00000000"
+      },
+      "eas": {
+        "projectId": "92a3e563-c5b0-45da-9950-f6195673ea56"
+      }
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
-      },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.anonymous.mobile"

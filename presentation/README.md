@@ -1,5 +1,6 @@
 # Apresentação da Solução
 
-A apresentação está disponível no Youtube, seguindo o seguinte LINK:
+Os slides estão disponíveis dentro desta mesma pasta. [Slides Apresentação](../presentation/Apresentação%20Salao%20Jire%20Festas.pdf)
 
-https://youtu.be/xX0vLj2vJI4
+A apresentação está disponível no Youtube, seguindo o seguinte LINK:
+https://youtu.be/8GeX2khfKys

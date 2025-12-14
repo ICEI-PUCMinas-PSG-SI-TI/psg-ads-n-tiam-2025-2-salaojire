@@ -4,12 +4,12 @@ import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: process.env.EXPO_PUBLIC_API_KEY,
-  authDomain: process.env.EXPO_PUBLIC_AUTH_DOMAIN,
-  projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
-  storageBucket: process.env.EXPO_PUBLIC_STORAGE_BUCKET,
-  messagingSenderId: process.env.EXPO_PUBLIC_MESSAGING_SENDER_ID,
-  appId: process.env.EXPO_PUBLIC_APP_ID
+  apiKey: "AIzaSyCLrDUzbKLz4emHo1Y8443IcIYm15u3X1A",
+  authDomain: "primeiroprojeto-65a93.firebaseapp.com",
+  projectId: "primeiroprojeto-65a93",
+  storageBucket: "primeiroprojeto-65a93.firebasestorage.app",
+  messagingSenderId: "813681861529",
+  appId: "1:813681861529:web:4314b672324b3c20fd2908"
 };
 
 console.log(`Conectado ao banco de dados: ${firebaseConfig.projectId}`)
